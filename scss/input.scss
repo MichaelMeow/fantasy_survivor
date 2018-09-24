@@ -1,0 +1,296 @@
+
+
+
+.sortable ul { float:left; width:300px;  border-radius:6px; }
+
+.sortable ul:after {
+  clear:both;
+  content:'';
+  display:table;
+}
+// .sortable li { background:lightblue;display:block; position:relative; padding:12px 6px; z-index:1; margin:5px 20px; overflow:hidden;}
+
+.sortable li { transition:transform .2s; }
+// .marker { opacity:0.0;transition:.2s height }
+.ui-sortable-helper {
+  // transform:scale(.9)
+}
+//
+// .contestantBarMain {
+//   -webkit-transition: all 2s;
+//      -moz-transition: all 2s;
+//           transition: all 2s;
+// }
+//
+// .contestantBarMain.in {
+//     opacity: 1;
+// }
+//
+// .contestantBarMain:active{
+//   opacity: .2;
+//
+// }
+//
+.sortable {
+  list-style-type: none;
+  &:hover{
+    cursor:move;
+    cursor: grab;
+  }
+  &:active{
+    cursor: grabbing;
+  }
+}
+.contestantBarMain{
+  &:active{
+  transition: opacity 200ms ease;
+  opacity: .2;
+}
+}
+// .placeholder {
+//     background-color: yellow;
+//      padding-right:10px;
+//      padding-left:10px;
+//      text-align:center;
+//      width:600px;
+//      height:2px;
+// }
+// .oGPlaceholder {
+//   height: 53px;
+// }
+
+@mixin flexRowCenter {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+@mixin flexColumnCenter {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+body {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 12px;
+    margin-bottom: 150px;
+}
+
+.titleBar {
+  position: relative;
+  @include flexRowCenter;
+  color: white;
+  background-color: black;
+  div {
+    padding: 25px 25px 10px 25px;
+  }
+  .username {
+    position: absolute;
+        top: 25px;
+        left: 50%;
+        transform: translate(-50%, -50%);
+  }
+}
+
+.navBar {
+  max-width: 400px;
+  margin: auto;
+  @include flexRowCenter;
+  div {
+    width: 120px;
+    text-align: center;
+  }
+}
+
+.submitMove {
+  max-width: 300px;
+  margin: auto;
+  margin-top: 35px;
+  @include flexColumnCenter;
+}
+
+.rankWrapper {
+  width: 100%;
+  @include flexRowCenter;
+  justify-content: center;
+  margin-top: 50px;
+}
+
+.rankContents {
+  @include flexColumnCenter;
+}
+.rank{
+  @include flexColumnCenter;
+}
+
+.rankHeader {
+  font-weight: bold;
+  @include flexRowCenter;
+  align-items: flex-end;
+  & > div:nth-child(1) {
+    width: 46px;
+  }
+  & > div:nth-child(2) {
+    width: 46px;
+  }
+  & > div:nth-child(3) {
+    width: 120px;
+  }
+  & > div:nth-child(4) {
+    width: 69px;
+  }
+  & > div:nth-child(5) {
+    width: 70px;
+  }
+  & > div:nth-child(6) {
+    width: 41px;
+  }
+  & > div:nth-child(7) {
+    width: 39px;
+  }
+  & > div:nth-child(8) {
+    width: 48px;
+  }
+  & > div:nth-child(9) {
+    width: 49px;
+  }
+  & > div:nth-child(10) {
+    width: 46px;
+  }
+  & > div:nth-child(11) {
+    width: 46px;
+  }
+  .rankHeaderLines {
+    position: absolute;
+  }
+
+}
+
+.contestantBarMain {
+  margin-top: 10px;
+  margin-right: 85px;
+  @include flexRowCenter;
+  display: none;
+  align-items: center;
+  & > div:nth-child(1) {
+    width:25px;
+  }
+  & > div:nth-child(2) {
+    width:61px;
+  }
+  & > div:nth-child(3) {
+    width:42px;
+    text-align: center;
+    div{
+      width: 20px;
+    }
+  }
+
+
+  & > div:nth-child(4) {
+    width:27px;
+    height: 13px;
+    margin:0px 10px;
+    font-size: 9px;
+    text-align: center;
+  }
+  & > div:nth-child(5) {
+    width:130px;
+  }
+  & > div:nth-child(6) {
+    width:69px;
+  }
+  & > div:nth-child(7) {
+    width:70px;
+  }
+  & > div:nth-child(8) {
+    width:45px;
+    text-align: center;
+    div{
+      width: 20px;
+    }
+  }
+  & > div:nth-child(9) {
+    width:45px;
+    text-align: center;
+    div{
+      width: 20px;
+    }
+  }
+  & > div:nth-child(10) {
+    width:45px;
+    text-align: center;
+    div{
+      width: 20px;
+    }
+  }
+  & > div:nth-child(11) {
+    width:40px;
+    text-align: center;
+    div{
+      width: 20px;
+    }
+  }
+  & > div:nth-child(12) {
+    width:48px;
+  }
+  & > div:nth-child(13) {
+    width:60px;
+  }
+  & > div:nth-child(14) {
+    width:23px;
+  }
+
+  .contestantPhoto {
+    padding: 0px;
+    width: 45px;
+    height: 45px;
+    overflow:hidden;
+    border-radius: 50%;
+    border: 1px solid orange;
+
+    img {
+      width: 53px;
+      margin-left: -5px;
+      margin-top: -1px;
+    }
+  }
+  .grabberRight{
+    transform: rotate(180deg);
+  }
+}
+
+.ui-sortable-placeholder {
+  color: red;
+  background-color: red;
+  padding: 5px;
+}
+
+.previousRankHidden{
+  display: none;
+}
+
+.previousRank{
+  border-radius: 20%;
+}
+
+.admin-inputs {
+  margin-left: 50px;
+}
+
+#episode-message {
+  height: 200px;
+  width: 400px;
+}
+
+.userLogIn {
+  margin-top: 40px;
+  @include flexColumnCenter;
+  align-content: flex-end;
+  & > div{
+    margin: 15px;
+    div{
+      margin:5px;
+    }
+  }
+}

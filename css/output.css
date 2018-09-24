@@ -1,0 +1,272 @@
+.sortable ul {
+  float: left;
+  width: 300px;
+  border-radius: 6px;
+}
+
+.sortable ul:after {
+  clear: both;
+  content: "";
+  display: table;
+}
+
+.sortable li {
+  transition: transform 0.2s;
+}
+
+.sortable {
+  list-style-type: none;
+}
+.sortable:hover {
+  cursor: move;
+  cursor: grab;
+}
+.sortable:active {
+  cursor: grabbing;
+}
+
+.contestantBarMain:active {
+  transition: opacity 200ms ease;
+  opacity: 0.2;
+}
+
+body {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 12px;
+  margin-bottom: 150px;
+}
+
+.titleBar {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  color: white;
+  background-color: black;
+}
+.titleBar div {
+  padding: 25px 25px 10px 25px;
+}
+.titleBar .username {
+  position: absolute;
+  top: 25px;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.navBar {
+  max-width: 400px;
+  margin: auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.navBar div {
+  width: 120px;
+  text-align: center;
+}
+
+.submitMove {
+  max-width: 300px;
+  margin: auto;
+  margin-top: 35px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.rankWrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  justify-content: center;
+  margin-top: 50px;
+}
+
+.rankContents {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.rank {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.rankHeader {
+  font-weight: bold;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+.rankHeader > div:nth-child(1) {
+  width: 46px;
+}
+.rankHeader > div:nth-child(2) {
+  width: 46px;
+}
+.rankHeader > div:nth-child(3) {
+  width: 120px;
+}
+.rankHeader > div:nth-child(4) {
+  width: 69px;
+}
+.rankHeader > div:nth-child(5) {
+  width: 70px;
+}
+.rankHeader > div:nth-child(6) {
+  width: 41px;
+}
+.rankHeader > div:nth-child(7) {
+  width: 39px;
+}
+.rankHeader > div:nth-child(8) {
+  width: 48px;
+}
+.rankHeader > div:nth-child(9) {
+  width: 49px;
+}
+.rankHeader > div:nth-child(10) {
+  width: 46px;
+}
+.rankHeader > div:nth-child(11) {
+  width: 46px;
+}
+.rankHeader .rankHeaderLines {
+  position: absolute;
+}
+
+.contestantBarMain {
+  margin-top: 10px;
+  margin-right: 85px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  display: none;
+  align-items: center;
+}
+.contestantBarMain > div:nth-child(1) {
+  width: 25px;
+}
+.contestantBarMain > div:nth-child(2) {
+  width: 61px;
+}
+.contestantBarMain > div:nth-child(3) {
+  width: 42px;
+  text-align: center;
+}
+.contestantBarMain > div:nth-child(3) div {
+  width: 20px;
+}
+.contestantBarMain > div:nth-child(4) {
+  width: 27px;
+  height: 13px;
+  margin: 0px 10px;
+  font-size: 9px;
+  text-align: center;
+}
+.contestantBarMain > div:nth-child(5) {
+  width: 130px;
+}
+.contestantBarMain > div:nth-child(6) {
+  width: 69px;
+}
+.contestantBarMain > div:nth-child(7) {
+  width: 70px;
+}
+.contestantBarMain > div:nth-child(8) {
+  width: 45px;
+  text-align: center;
+}
+.contestantBarMain > div:nth-child(8) div {
+  width: 20px;
+}
+.contestantBarMain > div:nth-child(9) {
+  width: 45px;
+  text-align: center;
+}
+.contestantBarMain > div:nth-child(9) div {
+  width: 20px;
+}
+.contestantBarMain > div:nth-child(10) {
+  width: 45px;
+  text-align: center;
+}
+.contestantBarMain > div:nth-child(10) div {
+  width: 20px;
+}
+.contestantBarMain > div:nth-child(11) {
+  width: 40px;
+  text-align: center;
+}
+.contestantBarMain > div:nth-child(11) div {
+  width: 20px;
+}
+.contestantBarMain > div:nth-child(12) {
+  width: 48px;
+}
+.contestantBarMain > div:nth-child(13) {
+  width: 60px;
+}
+.contestantBarMain > div:nth-child(14) {
+  width: 23px;
+}
+.contestantBarMain .contestantPhoto {
+  padding: 0px;
+  width: 45px;
+  height: 45px;
+  overflow: hidden;
+  border-radius: 50%;
+  border: 1px solid orange;
+}
+.contestantBarMain .contestantPhoto img {
+  width: 53px;
+  margin-left: -5px;
+  margin-top: -1px;
+}
+.contestantBarMain .grabberRight {
+  transform: rotate(180deg);
+}
+
+.ui-sortable-placeholder {
+  color: red;
+  background-color: red;
+  padding: 5px;
+}
+
+.previousRankHidden {
+  display: none;
+}
+
+.previousRank {
+  border-radius: 20%;
+}
+
+.admin-inputs {
+  margin-left: 50px;
+}
+
+#episode-message {
+  height: 200px;
+  width: 400px;
+}
+
+.userLogIn {
+  margin-top: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  align-content: flex-end;
+}
+.userLogIn > div {
+  margin: 15px;
+}
+.userLogIn > div div {
+  margin: 5px;
+}
+
+/*# sourceMappingURL=output.css.map */
