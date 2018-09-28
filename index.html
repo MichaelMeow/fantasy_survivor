@@ -2,7 +2,7 @@
 <html>
 <head>
   <link href="css/bootstrap.css" rel="stylesheet" type="text/css">
-  <link href="css/output.css" rel="stylesheet" type="text/css">
+  <link href="css/input.css" rel="stylesheet" type="text/css">
   <script
   src="https://code.jquery.com/jquery-3.3.1.js"
   integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
@@ -38,17 +38,54 @@
   </div>
   <div class="navBar">
     <div class="moveTab">
-      Make Your Move
+      <a href="move.html">Make Your Move</a>
     </div>
     <div class="scoreboardTab">
-      Scoreboard
+      <a href="scoreboard.html">Scoreboard</a>
     </div>
     <div class="episodesTab">
-      Episodes
+      <a href="episodes.html">Episodes</a>
+    </div>
+    <div class="adminTab">
+      <a href="admin.html">Admin</a>
+    </div>
+  </div>
+  <div class = "createUserName">
+    First Time Users:
+    <div>
+      Create account:
+    </div>
+    <div>
+      <input  id="createName" type="text" name="" value="" placeholder="Create User Name">
+    </div>
+    <div>
+      Email:
+    </div>
+    <div>
+      <input id="createEmail" type="text" name="" value="" placeholder="Enter Your Email">
+    </div>
+    <div>
+      Do you have rollover money from last season?
+    </div>
+    <form id="paidForm">
+      <div>
+        <input type="radio" name="paid" value="Yes" class="paid"> Yes
+      </div>
+      <div>
+        <input type="radio" name="paid" value="No" class="paid"> No
+      </div>
+      <div>
+        <input type="radio" name="paid" value="Maybe" class="paid"> Maybe
+      </div>
+    </form>
+    <div>
+      <button class="createAccountButton btn btn-outline-dark" type="button" name="button">Create Account</button>
+    </div>
+    <div class="invalidEmail">
+
     </div>
   </div>
 
-  <div class="userLogIn">
     <div class="logIn">
       Log In:
       <div >
@@ -64,32 +101,10 @@
     <input id="logInEmail" type="text" name="" value="" placeholder="Enter Your Email">
   </div>
   <div>
-    <button class="logInButton" type="button" name="button">Log In</button>
-  </div>
-</div>
-  <div class = "createUserName">
-    First Time Users:
-  <div>
-    Create account:
-  </div>
-  <div>
-    <input  id="createName" type="text" name="" value="" placeholder="Create User Name">
-  </div>
-  <div>
-    Email:
-  </div>
-  <div>
-    <input id="createEmail" type="text" name="" value="" placeholder="Enter Your Email">
-  </div>
-  <div>
-    Do you have rollover money from last season?
-    Y/N/Maybe?
-  </div>
-  <div>
-    <button class="createAccountButton" type="button" name="button">Create Account</button>
+    <button class="logInButton btn btn-outline-dark" type="button" name="button">Log In</button>
   </div>
 </div>
 
-  </div>
+
 </body>
 </html>

@@ -1,5 +1,16 @@
 
 
+a {
+  color: black;
+}
+a:hover {
+    text-decoration: none;
+    font-style: italic;
+    color: black;
+}
+.italic {
+  font-style: italic;
+}
 
 .sortable ul { float:left; width:300px;  border-radius:6px; }
 
@@ -247,7 +258,7 @@ body {
     height: 45px;
     overflow:hidden;
     border-radius: 50%;
-    border: 1px solid orange;
+    border: 3px solid orange;
 
     img {
       width: 53px;
@@ -278,19 +289,57 @@ body {
   margin-left: 50px;
 }
 
-#episode-message {
+.messageInput {
   height: 200px;
-  width: 400px;
+  width: 800px;
 }
 
-.userLogIn {
+.logIn, .createUserName {
+  width: 300px;
+  margin: auto;
   margin-top: 40px;
-  @include flexColumnCenter;
-  align-content: flex-end;
-  & > div{
-    margin: 15px;
+
+  button{
+    margin: 10px;
+  }
+
     div{
       margin:5px;
     }
+
+}
+
+.hide {
+  display: none;
+}
+
+.adminTab {
+  color: #912CEE;
+}
+
+.scoringTable {
+  margin-top: 50px;
+  display: grid;
+  grid-template-columns: 200px repeat(17, 50px);
+  grid-template-rows: 100px repeat(20, 20px);
+}
+
+.rotate90 {
+  transform: rotate(270deg);
+  width: 100px;
+}
+
+.special {
+  input{
+    width: 100%;
   }
+}
+
+.clearData, .addContestant{
+  margin-top: 100px;
+}
+
+.addedStock {
+  color: green;
+  font-size: 9px;
 }

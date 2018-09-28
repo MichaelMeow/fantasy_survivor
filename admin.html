@@ -2,8 +2,16 @@
 <html>
 <head>
   <link href="css/bootstrap.css" rel="stylesheet" type="text/css">
-  <link href="css/output.css" rel="stylesheet" type="text/css">
-  <script src="js/jquery-3.3.1.js"></script>
+  <link href="css/input.css" rel="stylesheet" type="text/css">
+  <script
+  src="https://code.jquery.com/jquery-3.3.1.js"
+  integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+  crossorigin="anonymous"></script>
+  <script
+  src="js/jquery-ui-sortable.js"></script>
+
+  <script src="https://www.gstatic.com/firebasejs/5.5.1/firebase.js"></script>
+
   <script src="js/scripts.js"></script>
   <meta charset="utf-8">
   <title></title>
@@ -22,53 +30,1194 @@
   </div>
   <div class="navBar">
     <div class="moveTab">
-      Make Your Move
+      <a href="move.html">Make Your Move</a>
     </div>
     <div class="scoreboardTab">
-      Scoreboard
+      <a href="scoreboard.html">Scoreboard</a>
     </div>
     <div class="episodesTab">
-      Episodes
+      <a href="episodes.html">Episodes</a>
+    </div>
+    <div class="adminTab italic">
+      <a href="admin.html">Admin</a>
     </div>
   </div>
 <div class="admin-inputs">
 
-  For Admin Only:<br>
-Add New Contestant<br>
-First name<br>
-<input type="text" name="firstNameInput" value=""><br>
-Last Name<br>
-<input type="text" name="lastNameInput" value=""><br>
-Tribe<br>
-<input type="text" name="tribeInput" value=""><br>
-Upload photo (photo path for now)<br>
-<input type="text" name="photoPath" value=""><br>
-<br>
-Add new episode:<br>
-<input type="text" name="" value="" placeholder="Episode Number"><br>
-<input type="text" name="" value="" placeholder="Episode Name"><br>
-<input type="text" name="" value="" placeholder="Player voted off"><br>
-<input id="episode-message" type="text" name="" value="" placeholder="Episode Message"><br>
-<br>
+<div class="loadEpisode">
+  Episode number:
+  <input type="text" name="" value="">
+  <button type="button" name="button">Load Episode Information</button>
+</div>
+<div>
+  Enter Episode Info
+</div>
+<div>
+  Episode Number:
+  <input id="epNumberToDatabase" type="text" name="" value="">
+</div>
+<div>
+  Episode Title:
+  <input id="epTitleToDatabase" type="text" name="" value="">
+</div>
+<div>
+  Reward Winner:
+  <input id="rewardWinnerToDatabase" type="text" name="" value="">
+</div>
+<div>
+  Immunity Winner:
+  <input id="immunityWinnerToDatabase" type="text" name="" value="">
+</div>
+<div class="">
+  Contestant Voted Off:
+  <input id="voteOffToDatabase" type="text" name="" value="">
+</div>
+<div>
+  Episode Message:
+</div>
+  <div>
+    <textarea id="messageToDatabase" class="messageInput" name="Text1" cols="40" rows="5"></textarea>
+  </div>
+<div class="scoringTable">
+  <div>
+    Contestant
+  </div>
+  <div class="rotate90">
+    Team Reward
+  </div>
+  <div class="rotate90">
+    Team Immunity
+  </div>
+  <div class="rotate90">
+    Individual Reward
+  </div>
+  <div class="rotate90">
+    Individual Immunity
+  </div>
+  <div class="rotate90">
+    Correct Vote
+  </div>
+  <div class="rotate90">
+    Recieved Vote
+  </div>
+  <div class="rotate90">
+    Voted Off
+  </div>
+  <div class="rotate90">
+    Recieved Clue
+  </div>
+  <div class="rotate90">
+    Found Idol
+  </div>
+  <div class="rotate90">
+    Found Advantage
+  </div>
+  <div class="rotate90">
+    Held Idol
+  </div>
+  <div class="rotate90">
+    Held Advantage
+  </div>
+  <div class="rotate90">
+    Quoted in Episode Title
+  </div>
+  <div class="rotate90">
+    Chosen for Reward
+  </div>
+  <div class="rotate90">
+    Jury Votes
+  </div>
+  <div class="rotate90">
+    Special
+  </div>
+  <div class="rotate90">
+    TOTAL
+  </div>
+  <div class="contestant1">
+  </div>
+  <div class="teamReward 1">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="teamImmunity 1">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="individualReward 1">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="individualImmunity 1">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="correctVote 1">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="recievedVote 1">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="votedOff 1">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="clue 1">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="foundIdol 1">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="foundAdvantage 1">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="heldIdol 1">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="heldAdvantage 1">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="quoted 1">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="chosenReward 1">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="juryVotes 1">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="special 1">
+    <input type="number" name="" value="">
+  </div>
+  <div class="Total 1">
+  </div>
+  <div class="contestant2">
+  </div>
+  <div class="teamReward 2">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="teamImmunity 2">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="individualReward 2">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="individualImmunity 2">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="correctVote 2">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="recievedVote 2">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="votedOff 2">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="clue 2">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="foundIdol 2">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="foundAdvantage 2">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="heldIdol 2">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="heldAdvantage 2">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="quoted 2">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="chosenReward 2">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="juryVotes 2">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="special 2">
+    <input type="number" name="" value="">
+  </div>
+  <div class="Total 2">
+  </div>
+  <div class="contestant3">
+  </div>
+  <div class="teamReward 3">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="teamImmunity 3">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="individualReward 3">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="individualImmunity 3">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="correctVote 3">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="recievedVote 3">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="votedOff 3">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="clue 3">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="foundIdol 3">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="foundAdvantage 3">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="heldIdol 3">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="heldAdvantage 3">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="quoted 3">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="chosenReward 3">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="juryVotes 3">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="special 3">
+    <input type="number" name="" value="">
+  </div>
+  <div class="Total 3">
+  </div>
+  <div class="contestant4">
+  </div>
+  <div class="teamReward 4">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="teamImmunity 4">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="individualReward 4">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="individualImmunity 4">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="correctVote 4">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="recievedVote 4">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="votedOff 4">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="clue 4">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="foundIdol 4">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="foundAdvantage 4">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="heldIdol 4">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="heldAdvantage 4">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="quoted 4">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="chosenReward 4">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="juryVotes 4">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="special 4">
+    <input type="number" name="" value="">
+  </div>
+  <div class="Total 4">
+  </div>
+  <div class="contestant5">
+  </div>
+  <div class="teamReward 5">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="teamImmunity 5">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="individualReward 5">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="individualImmunity 5">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="correctVote 5">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="recievedVote 5">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="votedOff 5">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="clue 5">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="foundIdol 5">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="foundAdvantage 5">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="heldIdol 5">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="heldAdvantage 5">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="quoted 5">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="chosenReward 5">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="juryVotes 5">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="special 5">
+    <input type="number" name="" value="">
+  </div>
+  <div class="Total 5">
+  </div>
+  <div class="contestant6">
+  </div>
+  <div class="teamReward 6">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="teamImmunity 6">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="individualReward 6">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="individualImmunity 6">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="correctVote 6">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="recievedVote 6">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="votedOff 6">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="clue 6">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="foundIdol 6">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="foundAdvantage 6">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="heldIdol 6">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="heldAdvantage 6">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="quoted 6">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="chosenReward 6">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="juryVotes 6">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="special 6">
+    <input type="number" name="" value="">
+  </div>
+  <div class="Total 6">
+  </div>
+  <div class="contestant7">
+  </div>
+  <div class="teamReward 7">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="teamImmunity 7">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="individualReward 7">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="individualImmunity 7">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="correctVote 7">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="recievedVote 7">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="votedOff 7">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="clue 7">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="foundIdol 7">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="foundAdvantage 7">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="heldIdol 7">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="heldAdvantage 7">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="quoted 7">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="chosenReward 7">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="juryVotes 7">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="special 7">
+    <input type="number" name="" value="">
+  </div>
+  <div class="Total 7">
+  </div>
+  <div class="contestant8">
+  </div>
+  <div class="teamReward 8">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="teamImmunity 8">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="individualReward 8">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="individualImmunity 8">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="correctVote 8">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="recievedVote 8">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="votedOff 8">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="clue 8">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="foundIdol 8">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="foundAdvantage 8">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="heldIdol 8">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="heldAdvantage 8">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="quoted 8">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="chosenReward 8">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="juryVotes 8">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="special 8">
+    <input type="number" name="" value="">
+  </div>
+  <div class="Total 8">
+  </div>
+  <div class="contestant9">
+  </div>
+  <div class="teamReward 9">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="teamImmunity 9">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="individualReward 9">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="individualImmunity 9">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="correctVote 9">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="recievedVote 9">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="votedOff 9">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="clue 9">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="foundIdol 9">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="foundAdvantage 9">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="heldIdol 9">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="heldAdvantage 9">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="quoted 9">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="chosenReward 9">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="juryVotes 9">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="special 9">
+    <input type="number" name="" value="">
+  </div>
+  <div class="Total 9">
+  </div>
+  <div class="contestant10">
+  </div>
+  <div class="teamReward 10">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="teamImmunity 10">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="individualReward 10">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="individualImmunity 10">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="correctVote 10">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="recievedVote 10">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="votedOff 10">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="clue 10">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="foundIdol 10">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="foundAdvantage 10">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="heldIdol 10">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="heldAdvantage 10">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="quoted 10">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="chosenReward 10">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="juryVotes 10">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="special 10">
+    <input type="number" name="" value="">
+  </div>
+  <div class="Total 10">
+  </div>
+  <div class="contestant11">
+  </div>
+  <div class="teamReward 11">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="teamImmunity 11">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="individualReward 11">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="individualImmunity 11">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="correctVote 11">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="recievedVote 11">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="votedOff 11">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="clue 11">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="foundIdol 11">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="foundAdvantage 11">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="heldIdol 11">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="heldAdvantage 11">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="quoted 11">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="chosenReward 11">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="juryVotes 11">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="special 11">
+    <input type="number" name="" value="">
+  </div>
+  <div class="Total 11">
+  </div>
+  <div class="contestant12">
+  </div>
+  <div class="teamReward 12">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="teamImmunity 12">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="individualReward 12">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="individualImmunity 12">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="correctVote 12">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="recievedVote 12">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="votedOff 12">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="clue 12">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="foundIdol 12">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="foundAdvantage 12">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="heldIdol 12">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="heldAdvantage 12">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="quoted 12">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="chosenReward 12">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="juryVotes 12">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="special 12">
+    <input type="number" name="" value="">
+  </div>
+  <div class="Total 12">
+  </div>
+  <div class="contestant13">
+  </div>
+  <div class="teamReward 13">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="teamImmunity 13">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="individualReward 13">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="individualImmunity 13">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="correctVote 13">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="recievedVote 13">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="votedOff 13">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="clue 13">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="foundIdol 13">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="foundAdvantage 13">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="heldIdol 13">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="heldAdvantage 13">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="quoted 13">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="chosenReward 13">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="juryVotes 13">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="special 13">
+    <input type="number" name="" value="">
+  </div>
+  <div class="Total 13">
+  </div>
+  <div class="contestant14">
+  </div>
+  <div class="teamReward 14">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="teamImmunity 14">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="individualReward 14">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="individualImmunity 14">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="correctVote 14">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="recievedVote 14">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="votedOff 14">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="clue 14">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="foundIdol 14">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="foundAdvantage 14">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="heldIdol 14">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="heldAdvantage 14">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="quoted 14">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="chosenReward 14">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="juryVotes 14">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="special 14">
+    <input type="number" name="" value="">
+  </div>
+  <div class="Total 14">
+  </div>
+  <div class="contestant15">
+  </div>
+  <div class="teamReward 15">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="teamImmunity 15">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="individualReward 15">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="individualImmunity 15">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="correctVote 15">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="recievedVote 15">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="votedOff 15">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="clue 15">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="foundIdol 15">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="foundAdvantage 15">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="heldIdol 15">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="heldAdvantage 15">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="quoted 15">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="chosenReward 15">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="juryVotes 15">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="special 15">
+    <input type="number" name="" value="">
+  </div>
+  <div class="Total 15">
+  </div>
+  <div class="contestant16">
+  </div>
+  <div class="teamReward 16">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="teamImmunity 16">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="individualReward 16">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="individualImmunity 16">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="correctVote 16">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="recievedVote 16">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="votedOff 16">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="clue 16">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="foundIdol 16">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="foundAdvantage 16">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="heldIdol 16">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="heldAdvantage 16">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="quoted 16">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="chosenReward 16">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="juryVotes 16">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="special 16">
+    <input type="number" name="" value="">
+  </div>
+  <div class="Total 16">
+  </div>
+  <div class="contestant17">
+  </div>
+  <div class="teamReward 17">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="teamImmunity 17">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="individualReward 17">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="individualImmunity 17">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="correctVote 17">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="recievedVote 17">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="votedOff 17">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="clue 17">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="foundIdol 17">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="foundAdvantage 17">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="heldIdol 17">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="heldAdvantage 17">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="quoted 17">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="chosenReward 17">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="juryVotes 17">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="special 17">
+    <input type="number" name="" value="">
+  </div>
+  <div class="Total 17">
+  </div>
+  <div class="contestant18">
+  </div>
+  <div class="teamReward 18">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="teamImmunity 18">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="individualReward 18">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="individualImmunity 18">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="correctVote 18">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="recievedVote 18">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="votedOff 18">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="clue 18">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="foundIdol 18">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="foundAdvantage 18">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="heldIdol 18">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="heldAdvantage 18">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="quoted 18">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="chosenReward 18">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="juryVotes 18">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="special 18">
+    <input type="number" name="" value="">
+  </div>
+  <div class="Total 18">
+  </div>
+  <div class="contestant19">
+  </div>
+  <div class="teamReward 19">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="teamImmunity 19">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="individualReward 19">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="individualImmunity 19">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="correctVote 19">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="recievedVote 19">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="votedOff 19">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="clue 19">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="foundIdol 19">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="foundAdvantage 19">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="heldIdol 19">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="heldAdvantage 19">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="quoted 19">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="chosenReward 19">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="juryVotes 19">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="special 19">
+    <input type="number" name="" value="">
+  </div>
+  <div class="Total 19">
+  </div>
+  <div class="contestant20">
+  </div>
+  <div class="teamReward 20">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="teamImmunity 20">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="individualReward 20">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="individualImmunity 20">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="correctVote 20">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="recievedVote 20">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="votedOff 20">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="clue 20">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="foundIdol 20">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="foundAdvantage 20">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="heldIdol 20">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="heldAdvantage 20">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="quoted 20">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="chosenReward 20">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="juryVotes 20">
+    <input type="checkbox" name="" value="">
+  </div>
+  <div class="special 20">
+    <input type="number" name="" value="">
+  </div>
+  <div class="Total 20">
+  </div>
+</div>
+</div>
+<div>
+  <button id="submitEpisode" type="button" name="button">Submit Episode</button>
+</div>
+<div class="episodeSubmitted">
 
-Add Player Score: <br>
-<input type="text" name="" value="" placeholder="Player Name"><br>
-<input type="text" name="" value="" placeholder="Points Scored"><br>
-<input type="text" name="" value="" placeholder="number of idols"><br>
-<input type="text" name="" value="" placeholder="number of advantages"><br>
-<button type="button" name="button">Add contestant score</button><br>
-<br>
-<button type="button" name="button">Post Episode</button><br>
-<br>
-<br>
-delete episode:<br>
-<input type="text" name="" value="" placeholder="Episode number"><br>
-<button type="button" name="button">delete</button><br>
-<br>
-Change user data<br>
-<input type="text" name="" value="" placeholder = "username"><br>
-<button type="button" name="button">See user</button> <br>
+</div>
+<form class="addContestant">
+  <div class="">
+    Add Contestants: To be used at beginning of the season to add survivor contestants to the game.
+  </div>
+  <div>
+    Contestant First Name
+  </div>
+  <div>
+    <input id="firstNameToDatabase" type="text" name="" value="">
+  </div>
+  <div>
+    Contestant Last Name
+  </div>
+  <div>
+    <input id="lastNameToDatabase" type="text" name="" value="">
+  </div>
+  <div>
+    Contestant Starting Tribe
+  </div>
+  <div>
+    <input id="tribeToDatabase" type="text" name="" value="">
+  </div>
+  <div>
+    Contestant Photo URL (Headshot from CBS.com, example: https://wwwimage-secure.cbsstatic.com/thumbnails/photos/w270/cast/13c7e74872b87a9d_svr37_800x1000_nataliaazoqa.jpg)
+  </div>
+  <div>
+    <input id="photoURLToDatabase" type="text" name="" value="">
+  </div>
+  <div class="">
+    <button id="addContestantSubmit" type="submit" name="button">Submit</button>
+  </div>
+  <div class="contestantSubmitted">
 
+  </div>
+</form>
+<div class="clearData">
+  Instructions to clear database before new season:  I will add this later.
 </div>
 
 </body>

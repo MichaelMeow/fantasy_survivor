@@ -250,23 +250,50 @@ body {
   margin-left: 50px;
 }
 
-#episode-message {
+.messageInput {
   height: 200px;
-  width: 400px;
+  width: 800px;
 }
 
-.userLogIn {
+.logIn, .createUserName {
+  width: 300px;
+  margin: auto;
   margin-top: 40px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  align-content: flex-end;
 }
-.userLogIn > div {
-  margin: 15px;
+.logIn button, .createUserName button {
+  margin: 10px;
 }
-.userLogIn > div div {
+.logIn div, .createUserName div {
   margin: 5px;
+}
+
+.hide {
+  display: none;
+}
+
+.adminTab {
+  color: #912CEE;
+  font-weight: bold;
+}
+
+.scoringTable {
+  margin-top: 50px;
+  display: grid;
+  grid-template-columns: 200px repeat(15, 50px);
+  grid-template-rows: 100px repeat(20, 20px);
+}
+
+.rotate90 {
+  transform: rotate(270deg);
+  width: 100px;
+}
+
+.special input {
+  width: 100%;
+}
+
+.clearData, .addContestant {
+  margin-top: 100px;
 }
 
 /*# sourceMappingURL=output.css.map */

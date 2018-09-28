@@ -1,0 +1,429 @@
+/* line 3, /Users/michaelmeow/Desktop/fantasy_survivor/scss/input.scss */
+a {
+  color: black;
+}
+
+/* line 6, /Users/michaelmeow/Desktop/fantasy_survivor/scss/input.scss */
+a:hover {
+  text-decoration: none;
+  font-style: italic;
+  color: black;
+}
+
+/* line 11, /Users/michaelmeow/Desktop/fantasy_survivor/scss/input.scss */
+.italic {
+  font-style: italic;
+}
+
+/* line 15, /Users/michaelmeow/Desktop/fantasy_survivor/scss/input.scss */
+.sortable ul {
+  float: left;
+  width: 300px;
+  border-radius: 6px;
+}
+
+/* line 17, /Users/michaelmeow/Desktop/fantasy_survivor/scss/input.scss */
+.sortable ul:after {
+  clear: both;
+  content: '';
+  display: table;
+}
+
+/* line 24, /Users/michaelmeow/Desktop/fantasy_survivor/scss/input.scss */
+.sortable li {
+  transition: transform .2s;
+}
+
+/* line 45, /Users/michaelmeow/Desktop/fantasy_survivor/scss/input.scss */
+.sortable {
+  list-style-type: none;
+}
+
+/* line 47, /Users/michaelmeow/Desktop/fantasy_survivor/scss/input.scss */
+.sortable:hover {
+  cursor: move;
+  cursor: grab;
+}
+
+/* line 51, /Users/michaelmeow/Desktop/fantasy_survivor/scss/input.scss */
+.sortable:active {
+  cursor: grabbing;
+}
+
+/* line 56, /Users/michaelmeow/Desktop/fantasy_survivor/scss/input.scss */
+.contestantBarMain:active {
+  transition: opacity 200ms ease;
+  opacity: .2;
+}
+
+/* line 84, /Users/michaelmeow/Desktop/fantasy_survivor/scss/input.scss */
+body {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 12px;
+  margin-bottom: 150px;
+}
+
+/* line 90, /Users/michaelmeow/Desktop/fantasy_survivor/scss/input.scss */
+.titleBar {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  color: white;
+  background-color: black;
+}
+
+/* line 95, /Users/michaelmeow/Desktop/fantasy_survivor/scss/input.scss */
+.titleBar div {
+  padding: 25px 25px 10px 25px;
+}
+
+/* line 98, /Users/michaelmeow/Desktop/fantasy_survivor/scss/input.scss */
+.titleBar .username {
+  position: absolute;
+  top: 25px;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* line 106, /Users/michaelmeow/Desktop/fantasy_survivor/scss/input.scss */
+.navBar {
+  max-width: 400px;
+  margin: auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+/* line 110, /Users/michaelmeow/Desktop/fantasy_survivor/scss/input.scss */
+.navBar div {
+  width: 120px;
+  text-align: center;
+}
+
+/* line 116, /Users/michaelmeow/Desktop/fantasy_survivor/scss/input.scss */
+.submitMove {
+  max-width: 300px;
+  margin: auto;
+  margin-top: 35px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* line 123, /Users/michaelmeow/Desktop/fantasy_survivor/scss/input.scss */
+.rankWrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  justify-content: center;
+  margin-top: 50px;
+}
+
+/* line 130, /Users/michaelmeow/Desktop/fantasy_survivor/scss/input.scss */
+.rankContents {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* line 133, /Users/michaelmeow/Desktop/fantasy_survivor/scss/input.scss */
+.rank {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* line 137, /Users/michaelmeow/Desktop/fantasy_survivor/scss/input.scss */
+.rankHeader {
+  font-weight: bold;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+/* line 141, /Users/michaelmeow/Desktop/fantasy_survivor/scss/input.scss */
+.rankHeader > div:nth-child(1) {
+  width: 46px;
+}
+
+/* line 144, /Users/michaelmeow/Desktop/fantasy_survivor/scss/input.scss */
+.rankHeader > div:nth-child(2) {
+  width: 46px;
+}
+
+/* line 147, /Users/michaelmeow/Desktop/fantasy_survivor/scss/input.scss */
+.rankHeader > div:nth-child(3) {
+  width: 120px;
+}
+
+/* line 150, /Users/michaelmeow/Desktop/fantasy_survivor/scss/input.scss */
+.rankHeader > div:nth-child(4) {
+  width: 69px;
+}
+
+/* line 153, /Users/michaelmeow/Desktop/fantasy_survivor/scss/input.scss */
+.rankHeader > div:nth-child(5) {
+  width: 70px;
+}
+
+/* line 156, /Users/michaelmeow/Desktop/fantasy_survivor/scss/input.scss */
+.rankHeader > div:nth-child(6) {
+  width: 41px;
+}
+
+/* line 159, /Users/michaelmeow/Desktop/fantasy_survivor/scss/input.scss */
+.rankHeader > div:nth-child(7) {
+  width: 39px;
+}
+
+/* line 162, /Users/michaelmeow/Desktop/fantasy_survivor/scss/input.scss */
+.rankHeader > div:nth-child(8) {
+  width: 48px;
+}
+
+/* line 165, /Users/michaelmeow/Desktop/fantasy_survivor/scss/input.scss */
+.rankHeader > div:nth-child(9) {
+  width: 49px;
+}
+
+/* line 168, /Users/michaelmeow/Desktop/fantasy_survivor/scss/input.scss */
+.rankHeader > div:nth-child(10) {
+  width: 46px;
+}
+
+/* line 171, /Users/michaelmeow/Desktop/fantasy_survivor/scss/input.scss */
+.rankHeader > div:nth-child(11) {
+  width: 46px;
+}
+
+/* line 174, /Users/michaelmeow/Desktop/fantasy_survivor/scss/input.scss */
+.rankHeader .rankHeaderLines {
+  position: absolute;
+}
+
+/* line 180, /Users/michaelmeow/Desktop/fantasy_survivor/scss/input.scss */
+.contestantBarMain {
+  margin-top: 10px;
+  margin-right: 85px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  display: none;
+  align-items: center;
+}
+
+/* line 186, /Users/michaelmeow/Desktop/fantasy_survivor/scss/input.scss */
+.contestantBarMain > div:nth-child(1) {
+  width: 25px;
+}
+
+/* line 189, /Users/michaelmeow/Desktop/fantasy_survivor/scss/input.scss */
+.contestantBarMain > div:nth-child(2) {
+  width: 61px;
+}
+
+/* line 192, /Users/michaelmeow/Desktop/fantasy_survivor/scss/input.scss */
+.contestantBarMain > div:nth-child(3) {
+  width: 42px;
+  text-align: center;
+}
+
+/* line 195, /Users/michaelmeow/Desktop/fantasy_survivor/scss/input.scss */
+.contestantBarMain > div:nth-child(3) div {
+  width: 20px;
+}
+
+/* line 201, /Users/michaelmeow/Desktop/fantasy_survivor/scss/input.scss */
+.contestantBarMain > div:nth-child(4) {
+  width: 27px;
+  height: 13px;
+  margin: 0px 10px;
+  font-size: 9px;
+  text-align: center;
+}
+
+/* line 208, /Users/michaelmeow/Desktop/fantasy_survivor/scss/input.scss */
+.contestantBarMain > div:nth-child(5) {
+  width: 130px;
+}
+
+/* line 211, /Users/michaelmeow/Desktop/fantasy_survivor/scss/input.scss */
+.contestantBarMain > div:nth-child(6) {
+  width: 69px;
+}
+
+/* line 214, /Users/michaelmeow/Desktop/fantasy_survivor/scss/input.scss */
+.contestantBarMain > div:nth-child(7) {
+  width: 70px;
+}
+
+/* line 217, /Users/michaelmeow/Desktop/fantasy_survivor/scss/input.scss */
+.contestantBarMain > div:nth-child(8) {
+  width: 45px;
+  text-align: center;
+}
+
+/* line 220, /Users/michaelmeow/Desktop/fantasy_survivor/scss/input.scss */
+.contestantBarMain > div:nth-child(8) div {
+  width: 20px;
+}
+
+/* line 224, /Users/michaelmeow/Desktop/fantasy_survivor/scss/input.scss */
+.contestantBarMain > div:nth-child(9) {
+  width: 45px;
+  text-align: center;
+}
+
+/* line 227, /Users/michaelmeow/Desktop/fantasy_survivor/scss/input.scss */
+.contestantBarMain > div:nth-child(9) div {
+  width: 20px;
+}
+
+/* line 231, /Users/michaelmeow/Desktop/fantasy_survivor/scss/input.scss */
+.contestantBarMain > div:nth-child(10) {
+  width: 45px;
+  text-align: center;
+}
+
+/* line 234, /Users/michaelmeow/Desktop/fantasy_survivor/scss/input.scss */
+.contestantBarMain > div:nth-child(10) div {
+  width: 20px;
+}
+
+/* line 238, /Users/michaelmeow/Desktop/fantasy_survivor/scss/input.scss */
+.contestantBarMain > div:nth-child(11) {
+  width: 40px;
+  text-align: center;
+}
+
+/* line 241, /Users/michaelmeow/Desktop/fantasy_survivor/scss/input.scss */
+.contestantBarMain > div:nth-child(11) div {
+  width: 20px;
+}
+
+/* line 245, /Users/michaelmeow/Desktop/fantasy_survivor/scss/input.scss */
+.contestantBarMain > div:nth-child(12) {
+  width: 48px;
+}
+
+/* line 248, /Users/michaelmeow/Desktop/fantasy_survivor/scss/input.scss */
+.contestantBarMain > div:nth-child(13) {
+  width: 60px;
+}
+
+/* line 251, /Users/michaelmeow/Desktop/fantasy_survivor/scss/input.scss */
+.contestantBarMain > div:nth-child(14) {
+  width: 23px;
+}
+
+/* line 255, /Users/michaelmeow/Desktop/fantasy_survivor/scss/input.scss */
+.contestantBarMain .contestantPhoto {
+  padding: 0px;
+  width: 45px;
+  height: 45px;
+  overflow: hidden;
+  border-radius: 50%;
+  border: 3px solid orange;
+}
+
+/* line 263, /Users/michaelmeow/Desktop/fantasy_survivor/scss/input.scss */
+.contestantBarMain .contestantPhoto img {
+  width: 53px;
+  margin-left: -5px;
+  margin-top: -1px;
+}
+
+/* line 269, /Users/michaelmeow/Desktop/fantasy_survivor/scss/input.scss */
+.contestantBarMain .grabberRight {
+  transform: rotate(180deg);
+}
+
+/* line 274, /Users/michaelmeow/Desktop/fantasy_survivor/scss/input.scss */
+.ui-sortable-placeholder {
+  color: red;
+  background-color: red;
+  padding: 5px;
+}
+
+/* line 280, /Users/michaelmeow/Desktop/fantasy_survivor/scss/input.scss */
+.previousRankHidden {
+  display: none;
+}
+
+/* line 284, /Users/michaelmeow/Desktop/fantasy_survivor/scss/input.scss */
+.previousRank {
+  border-radius: 20%;
+}
+
+/* line 288, /Users/michaelmeow/Desktop/fantasy_survivor/scss/input.scss */
+.admin-inputs {
+  margin-left: 50px;
+}
+
+/* line 292, /Users/michaelmeow/Desktop/fantasy_survivor/scss/input.scss */
+.messageInput {
+  height: 200px;
+  width: 800px;
+}
+
+/* line 297, /Users/michaelmeow/Desktop/fantasy_survivor/scss/input.scss */
+.logIn, .createUserName {
+  width: 300px;
+  margin: auto;
+  margin-top: 40px;
+}
+
+/* line 302, /Users/michaelmeow/Desktop/fantasy_survivor/scss/input.scss */
+.logIn button, .createUserName button {
+  margin: 10px;
+}
+
+/* line 306, /Users/michaelmeow/Desktop/fantasy_survivor/scss/input.scss */
+.logIn div, .createUserName div {
+  margin: 5px;
+}
+
+/* line 312, /Users/michaelmeow/Desktop/fantasy_survivor/scss/input.scss */
+.hide {
+  display: none;
+}
+
+/* line 316, /Users/michaelmeow/Desktop/fantasy_survivor/scss/input.scss */
+.adminTab {
+  color: #912CEE;
+}
+
+/* line 320, /Users/michaelmeow/Desktop/fantasy_survivor/scss/input.scss */
+.scoringTable {
+  margin-top: 50px;
+  display: grid;
+  grid-template-columns: 200px repeat(17, 50px);
+  grid-template-rows: 100px repeat(20, 20px);
+}
+
+/* line 327, /Users/michaelmeow/Desktop/fantasy_survivor/scss/input.scss */
+.rotate90 {
+  transform: rotate(270deg);
+  width: 100px;
+}
+
+/* line 333, /Users/michaelmeow/Desktop/fantasy_survivor/scss/input.scss */
+.special input {
+  width: 100%;
+}
+
+/* line 338, /Users/michaelmeow/Desktop/fantasy_survivor/scss/input.scss */
+.clearData, .addContestant {
+  margin-top: 100px;
+}
+
+/* line 342, /Users/michaelmeow/Desktop/fantasy_survivor/scss/input.scss */
+.addedStock {
+  color: green;
+  font-size: 9px;
+}
+
+/*# sourceMappingURL=../css/input.map */
