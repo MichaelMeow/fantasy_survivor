@@ -53,215 +53,29 @@
       <a href="admin.html">Admin</a>
     </div>
   </div>
-  <!-- <form class="addContestant" action="index.html" method="post">
-  For Admin Only:
-Add New Contestant
-First name
-<input type="text" name="firstNameInput" class="firstNameInput" value="">
-Last Name
-<input type="text" name="lastNameInput" class="lastNameInput" value="">
-Tribe
-<input type="text" name="tribeInput" class="tribeInput" value="">
-Upload photo (photo path for now)
-<input type="text" name="photoPath" class="photoPath" value="">
-<button type="submit" name="button">Add Contestant</button>
-</form> -->
+<div class="cells">
 
-  <div class="submitMove">
-    <!-- <div class="timerText">
-      You have 22:31:04 left to submit.
-    </div> -->
-    <div class="submitButton">
-      <button type="button" name="button" class="moveSubmit">SUBMIT</button>
-    </div>
+</div>
+<div class="episodeCell">
+  <div>
+    Episode <span id="episodeNumber"></span>
   </div>
-  <div class="rankWrapper">
-    <div class="rankContents">
-      <div class="rankHeader">
-        <div>
-          YOUR RANK
-        </div>
-        <div>
-          PRV. RNK.
-        </div>
-        <div>
-          CONTESTANT
-        </div>
-        <div>
-          TRIBE
-        </div>
-        <div>
-          OG TRIBE
-        </div>
-        <div>
-          EP. PTS.
-        </div>
-        <div>
-          AVG.
-        </div>
-        <div>
-          YOUR STOCK
-        </div>
-        <div>
-          OVRL. RANK
-        </div>
-        <div>
-          IDOL
-        </div>
-        <div>
-          ADVTG.
-        </div>
-        <div class="rankHeaderLines">
-          <svg width="618px" height="35px" viewBox="0 0 618 35" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-            <defs></defs>
-            <g id="Desktop" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-linecap="square">
-              <g id="ContestantBarHead" transform="translate(-10.000000, -4.000000)" stroke="#979797">
-                <g id="Group" transform="translate(10.000000, 4.000000)">
-                  <path d="M0.5,34.5 L617.5,34.5" id="Line-2"></path>
-                  <path d="M39.5,0.5 L39.5,34.5" id="Line-3"></path>
-                </g>
-              </g>
-            </g>
-          </svg>
-        </div>
-      </div>
-      <div class="rankPlaceholder">
-
-      </div>
-      <ul class="rank sortable">
-      </ul>
-    </div>
+  <div>
+    <span id="episodeTitle"></span>
   </div>
-  <li id="transitionFix" class="contestantBarMain ui-state-default">
-    <div class="grabberLeft">
-      <svg width="14px" height="29px" viewBox="0 0 14 29" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-        <desc>Created with Sketch.</desc>
-        <defs></defs>
-        <g id="Desktop" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-          <g id="Dragger" transform="translate(-2.000000, -1.000000)">
-            <g id="Group" transform="translate(2.000000, 1.000000)">
-              <path d="M13.5,0.5 L8,0.5 C3.85786438,0.5 0.5,3.85786438 0.5,8 L0.5,21 C0.5,25.1421356 3.85786438,28.5 8,28.5 L13.5,28.5 L13.5,0.5 Z" id="Combined-Shape" stroke="#F1F1F1" fill="#E5E2E2"></path>
-              <circle id="Oval-2" stroke="#979797" fill="#D8D8D8" cx="4.5" cy="10.5" r="1"></circle>
-              <circle id="Oval-2" stroke="#979797" fill="#D8D8D8" cx="8.5" cy="10.5" r="1"></circle>
-              <circle id="Oval-2" stroke="#979797" fill="#D8D8D8" cx="8.5" cy="14.5" r="1"></circle>
-              <circle id="Oval-2" stroke="#979797" fill="#D8D8D8" cx="4.5" cy="14.5" r="1"></circle>
-              <circle id="Oval-2" stroke="#979797" fill="#D8D8D8" cx="8.5" cy="18.5" r="1"></circle>
-              <circle id="Oval-2" stroke="#979797" fill="#D8D8D8" cx="4.5" cy="18.5" r="1"></circle>
-            </g>
-          </g>
-        </g>
-      </svg>
-    </div>
-    <div>
-      <div class="contestantPhoto">
-        <!-- <img src="img/nataliaazoqa.png" alt=""> -->
-      </div>
-    </div>
-    <div class="yourRank">
-      <div>
-        1
-      </div>
-    </div>
-    <div class="previousRank">
-      <div>
-
-      </div>
-    </div>
-    <div class="contestantName">
-      Natalie Azoqa
-    </div>
-    <div class="currentTribe">
-      David
-    </div>
-    <div class="originalTribe">
-      David
-    </div>
-    <div class="epPoints">
-      <div>
-        3
-      </div>
-    </div>
-    <div class="averagePoints">
-      <div>
-        4.2
-      </div>
-    </div>
-    <div class="yourStock">
-      <div>
-        3.2
-      </div>
-    </div>
-    <div class="overallRank">
-      <div>
-        68
-      </div>
-    </div>
-    <div class="idol">
-      <svg width="15px" height="22px" viewBox="0 0 15 22" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-        <!-- Generator: Sketch 51.3 (57544) - http://www.bohemiancoding.com/sketch -->
-        <desc>Created with Sketch.</desc>
-        <defs>
-          <path d="M7.66225524,11.4149441 L11.2018504,13.1847416 L11.2018504,6.10555128 L7.66225524,11.4149441 Z M13.2018504,6.10555128 L13.2018504,13.1847416 L16.7414456,11.4149441 L13.2018504,6.10555128 Z M15.2810408,14.3812144 L13.2018504,15.4208096 L13.2018504,17.5 L15.2810408,14.3812144 Z M11.2018504,17.5 L11.2018504,15.4208096 L9.12266005,14.3812144 L11.2018504,17.5 Z M12.2018504,1 L19.4037009,11.8027756 L12.2018504,22.6055513 L5,11.8027756 L12.2018504,1 Z" id="path-1"></path>
-        </defs>
-        <g id="Desktop" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" opacity="0.803348214">
-          <g id="ContestantBar" transform="translate(-618.000000, -19.000000)">
-            <g id="idol" transform="translate(609.000000, 14.000000)">
-              <g id="Group" transform="translate(4.000000, 4.000000)">
-                <rect id="placeholder" fill-opacity="0" fill="#FFFFFF" x="0" y="0" width="24" height="24"></rect>
-                <mask id="mask-2" fill="white">
-                  <use xlink:href="#path-1"></use>
-                </mask>
-                <g id="Combined-Shape" fill-rule="nonzero"></g>
-                <g id="color-/-01---primary" mask="url(#mask-2)" fill="#000000">
-                  <rect id="color" x="0" y="0" width="24" height="24"></rect>
-                </g>
-              </g>
-            </g>
-          </g>
-        </g>
-      </svg>
-    </div>
-    <div class="advantage">
-      <svg width="21px" height="20px" viewBox="0 0 21 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-        <g id="Desktop" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" opacity="0.803348214">
-          <g id="ContestantBar" transform="translate(-666.000000, -20.000000)" fill="#000000">
-            <g id="Advantage" transform="translate(661.000000, 14.000000)">
-              <g id="Pinnned_map" transform="translate(5.000000, 6.000000)">
-                <path d="M20.9473085,3.93427006 C20.800706,4.87181198 20.3088619,5.7210337 19.5680029,6.31578946 L19.5680029,18.0947844 L14.3180509,17.1421767 L13.3635142,17.1421767 L7.63629383,18.5710883 L6.6817571,18.5710883 L1.43180509,16.6658728 L1.43180509,1.90045249 L6.6817571,3.32936413 L7.60765773,3.32936413 L13.3635142,1.4241486 L13.8885094,1.4241486 C14.1819137,0.925911119 14.5850333,0.50080348 15.0673623,0.180995475 L15.0387262,0.180995475 C14.8256963,0.0624129118 14.5858417,0.00011115066 14.3419143,0 L14.2989602,0 L13.3444235,0.0285782329 C13.2064535,0.0327537166 13.0698136,0.056817915 12.9387454,0.100023815 L7.39765965,1.90045249 L6.87266445,1.90045249 L1.8088471,0.523934269 C1.37862218,0.40673361 0.918243121,0.496285733 0.563615497,0.766154526 C0.208987873,1.03602332 0.000611559508,1.4553887 0,1.90045249 L0,16.6658728 C0.00170115899,17.2699475 0.383853249,17.8076931 0.954536729,18.0090497 L6.20448874,19.9142653 C6.35753629,19.9697178 6.51894022,19.9987118 6.6817571,20 L7.63629383,20 C7.75375137,20.0000267 7.87076592,19.9856294 7.98469973,19.9571326 L13.5401035,18.5710883 L14.1891885,18.5710883 L19.310278,19.5236961 C19.7322412,19.6008138 20.1666203,19.4850535 20.4938876,19.2082688 C20.8211548,18.9314841 21.0068252,18.5228407 20.999808,18.0947844 L20.999808,4.31055012 C20.9991683,4.18335051 20.9815124,4.05680563 20.9473085,3.93427006 L20.9473085,3.93427006 Z" id="Shape"></path>
-                <path d="M15.3039394,5.23387674 C15.575193,5.7727429 16.00861,6.21737991 16.5458724,6.50796002 L15.2488537,11.0897595 C15.1521337,11.4758029 15.3865462,11.8671513 15.7780175,11.9731914 C16.1694889,12.0792315 16.5761898,11.8615451 16.6961063,11.4817851 L18.0031406,6.88038437 C18.4617465,6.87916651 18.913982,6.77523903 19.3251984,6.57656451 C20.5758889,5.97233276 21.2371866,4.60531663 20.9219795,3.27574313 C20.6067723,1.94616963 19.3979521,1.00368374 18.0031406,1 C16.9653706,1.00052043 16.0013386,1.52503036 15.4532459,2.38734513 C14.9051532,3.24965991 14.8505986,4.32769328 15.3089472,5.23877706 L15.3039394,5.23387674 Z M17.337104,2.6171057 C17.8874177,2.34680097 18.5505768,2.43246277 19.0103607,2.83324414 C19.4701445,3.23402551 19.6334542,3.86877464 19.4224171,4.43481774 C19.2113799,5.00086084 18.6687277,5.38358326 18.0532186,5.40048763 C17.8506633,5.18004811 17.5313966,5.10242951 17.2469637,5.20447482 C16.7694886,4.93201293 16.4834685,4.42499849 16.5023007,3.88444534 C16.5211328,3.34389219 16.8417751,2.85711556 17.337104,2.6171057 L17.337104,2.6171057 Z" id="Shape"></path>
-              </g>
-            </g>
-          </g>
-        </g>
-      </svg>
-    </div>
-    <div class="grabberRight">
-      <svg width="14px" height="29px" viewBox="0 0 14 29" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-        <desc>Created with Sketch.</desc>
-        <defs></defs>
-        <g id="Desktop" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-          <g id="Dragger" transform="translate(-2.000000, -1.000000)">
-            <g id="Group" transform="translate(2.000000, 1.000000)">
-              <path d="M13.5,0.5 L8,0.5 C3.85786438,0.5 0.5,3.85786438 0.5,8 L0.5,21 C0.5,25.1421356 3.85786438,28.5 8,28.5 L13.5,28.5 L13.5,0.5 Z" id="Combined-Shape" stroke="#F1F1F1" fill="#E5E2E2"></path>
-              <circle id="Oval-2" stroke="#979797" fill="#D8D8D8" cx="4.5" cy="10.5" r="1"></circle>
-              <circle id="Oval-2" stroke="#979797" fill="#D8D8D8" cx="8.5" cy="10.5" r="1"></circle>
-              <circle id="Oval-2" stroke="#979797" fill="#D8D8D8" cx="8.5" cy="14.5" r="1"></circle>
-              <circle id="Oval-2" stroke="#979797" fill="#D8D8D8" cx="4.5" cy="14.5" r="1"></circle>
-              <circle id="Oval-2" stroke="#979797" fill="#D8D8D8" cx="8.5" cy="18.5" r="1"></circle>
-              <circle id="Oval-2" stroke="#979797" fill="#D8D8D8" cx="4.5" cy="18.5" r="1"></circle>
-            </g>
-          </g>
-        </g>
-      </svg>
-    </div>
-    <div class="previousRankHidden">
-      <div>
-        +2
-      </div>
-    </div>
-  </li>
-  <div id="wrapper"></div>
-
+  <div class="epCellInfo">
+    Reward Winner: <span id="rewardWinner"></span>
+  </div>
+  <div class="epCellInfo">
+    Immunity Winner: <span id="immunityWinner"></span>
+  </div>
+  <div class="epCellInfo">
+    Contestant Going Home: <span id="votedOff"></span>
+  </div>
+  <div>
+    <span id="message"></span>
+  </div>
+</div>
 
 </body>
 </html>

@@ -326,7 +326,6 @@ body {
   height: 45px;
   overflow: hidden;
   border-radius: 50%;
-  border: 3px solid orange;
 }
 
 /* line 263, /Users/michaelmeow/Desktop/fantasy_survivor/scss/input.scss */
@@ -424,6 +423,59 @@ body {
 .addedStock {
   color: green;
   font-size: 9px;
+}
+
+/* line 347, /Users/michaelmeow/Desktop/fantasy_survivor/scss/input.scss */
+.episodeCell {
+  display: none;
+  width: 400px;
+  margin: 50px auto;
+  padding-bottom: 30px;
+  border-bottom: 1px solid orange;
+}
+
+/* line 354, /Users/michaelmeow/Desktop/fantasy_survivor/scss/input.scss */
+.episodeCell > div:first-child {
+  font-size: 2rem;
+}
+
+/* line 357, /Users/michaelmeow/Desktop/fantasy_survivor/scss/input.scss */
+.episodeCell #episodeNumber {
+  font-size: 2rem;
+}
+
+/* line 360, /Users/michaelmeow/Desktop/fantasy_survivor/scss/input.scss */
+.episodeCell #episodeTitle {
+  font-size: 1.8rem;
+}
+
+/* line 363, /Users/michaelmeow/Desktop/fantasy_survivor/scss/input.scss */
+.episodeCell #rewardWinner, .episodeCell #immunityWinner, .episodeCell #votedOff, .episodeCell .epCellInfo {
+  font-size: 1rem;
+}
+
+/* line 368, /Users/michaelmeow/Desktop/fantasy_survivor/scss/input.scss */
+button {
+  padding: 5px 35px;
+  background-color: #8EE7EC;
+  border-radius: 5px;
+  border: none;
+  color: grey;
+}
+
+/* line 377, /Users/michaelmeow/Desktop/fantasy_survivor/scss/input.scss */
+button:hover {
+  cursor: pointer;
+}
+
+/* line 380, /Users/michaelmeow/Desktop/fantasy_survivor/scss/input.scss */
+.logOut:hover {
+  cursor: pointer;
+}
+
+/* line 384, /Users/michaelmeow/Desktop/fantasy_survivor/scss/input.scss */
+.adminTab {
+  display: none;
 }
 
 /*# sourceMappingURL=../css/input.map */

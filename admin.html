@@ -22,7 +22,7 @@
       FANTASY SURVIVOR
     </div>
     <div class="username">
-      AbsoluteStrategy
+      
     </div>
     <div class="logOut">
       Log Out
@@ -32,9 +32,9 @@
     <div class="moveTab">
       <a href="move.html">Make Your Move</a>
     </div>
-    <div class="scoreboardTab">
+    <!-- <div class="scoreboardTab">
       <a href="scoreboard.html">Scoreboard</a>
-    </div>
+    </div> -->
     <div class="episodesTab">
       <a href="episodes.html">Episodes</a>
     </div>
@@ -43,12 +43,6 @@
     </div>
   </div>
 <div class="admin-inputs">
-
-<div class="loadEpisode">
-  Episode number:
-  <input type="text" name="" value="">
-  <button type="button" name="button">Load Episode Information</button>
-</div>
 <div>
   Enter Episode Info
 </div>
@@ -1173,13 +1167,18 @@
   </div>
   <div class="Total 20">
   </div>
+
 </div>
 </div>
 <div>
   <button id="submitEpisode" type="button" name="button">Submit Episode</button>
 </div>
 <div class="episodeSubmitted">
-
+</div>
+<div class="loadEpisode">
+  Edit Episode Information:
+  <input class="numberToLoad" type="text" name="" value="">
+  <button id="loadEpisode" type="button" name="button">Load Episode Information</button> (bug warning: page may freeze if you load and submit too many times, try refreshing the page before making multiple submits)
 </div>
 <form class="addContestant">
   <div class="">

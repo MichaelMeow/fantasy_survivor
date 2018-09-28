@@ -258,7 +258,7 @@ body {
     height: 45px;
     overflow:hidden;
     border-radius: 50%;
-    border: 3px solid orange;
+    // border: 3px solid orange;
 
     img {
       width: 53px;
@@ -342,4 +342,45 @@ body {
 .addedStock {
   color: green;
   font-size: 9px;
+}
+
+.episodeCell {
+  display: none;
+  width: 400px;
+  margin: 50px auto;
+  padding-bottom: 30px;
+  border-bottom: 1px solid orange;
+
+  & >div:first-child{
+    font-size: 2rem;
+  }
+  #episodeNumber{
+    font-size: 2rem;
+  }
+  #episodeTitle{
+    font-size: 1.8rem;
+  }
+  #rewardWinner, #immunityWinner, #votedOff, .epCellInfo{
+    font-size: 1rem;
+  }
+}
+
+button {
+  padding: 5px 35px;
+  background-color: #8EE7EC;
+  border-radius: 5px;
+  border: none;
+  color: grey;
+  // font-weight: lighter;
+}
+
+button:hover {
+  cursor:pointer;
+}
+.logOut:hover {
+  cursor: pointer;
+}
+
+.adminTab {
+  display: none;
 }
