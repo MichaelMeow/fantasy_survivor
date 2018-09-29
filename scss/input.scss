@@ -384,3 +384,22 @@ button:hover {
 .adminTab {
   display: none;
 }
+
+.multiplier{
+  position: absolute;
+  top: 241px;
+  left: calc(50% + 380px);
+}
+.multiLine{
+  position: absolute;
+  top: 432px;
+}
+.multiLineBottom{
+  position: absolute;
+  top: 1045px;
+}
+.voteOff {
+  position: absolute;
+  top:1059px;
+  left: calc(50% + 380px);
+}

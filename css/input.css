@@ -478,4 +478,30 @@ button:hover {
   display: none;
 }
 
+/* line 388, /Users/michaelmeow/Desktop/fantasy_survivor/scss/input.scss */
+.multiplier {
+  position: absolute;
+  top: 241px;
+  left: calc(50% + 380px);
+}
+
+/* line 393, /Users/michaelmeow/Desktop/fantasy_survivor/scss/input.scss */
+.multiLine {
+  position: absolute;
+  top: 432px;
+}
+
+/* line 397, /Users/michaelmeow/Desktop/fantasy_survivor/scss/input.scss */
+.multiLineBottom {
+  position: absolute;
+  top: 1045px;
+}
+
+/* line 401, /Users/michaelmeow/Desktop/fantasy_survivor/scss/input.scss */
+.voteOff {
+  position: absolute;
+  top: 1059px;
+  left: calc(50% + 380px);
+}
+
 /*# sourceMappingURL=../css/input.map */
