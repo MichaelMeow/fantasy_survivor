@@ -178,9 +178,6 @@ database.ref().on("value", function(snapshot) {
         previousRank = snapshot.child("users").child(sessionUser).child(nextEpisode).child(moveSubmitData).val();
       } else if (episodeNumber == 1){
       previousRank = validContestants;
-      database.ref('users/' + sessionUser + '/1/').set({
-        0:0
-      });
       } else {
       previousRank = snapshot.child("users").child(sessionUser).child(episodeNumber).child(moveSubmitData).val();
       }
@@ -261,7 +258,7 @@ database.ref().on("value", function(snapshot) {
     })
 
     if (sessionUser){
-      if (sessionUser == 'UtopianComplex'){
+      if (sessionUser == 'utopiancomplex'){
         $(".adminTab").css("display", "inline-block");
       }
       if (window.location.href.indexOf("index") > -1){
@@ -269,7 +266,7 @@ database.ref().on("value", function(snapshot) {
       }
     }
     if (sessionUser){
-      $(".username").html(sessionUser)
+      $(".username").html(snapshot.child("users").child(sessionUser).child("userName").val());
     }
 
     // adminpage load contestants
@@ -320,9 +317,8 @@ database.ref().on("value", function(snapshot) {
       console.log(userInput);
         if (users.indexOf(userInput) > -1){
           var emailData = snapshot.child("users").child(userInput).child("email").val();
-          var userName = snapshot.child("users").child(userInput).child("userName").val();
           if (emailData == emailInput){
-            sessionStorage.setItem('user', userName);
+            sessionStorage.setItem('user', userInput);
             window.location.href = "move.html";
           } else {
             alert("Your email does not match our database")
@@ -445,8 +441,7 @@ database.ref().on("value", function(snapshot) {
       database.ref('users/' + sessionUser + '/' + moveSubmitEpisode + "/").update({
         moveSubmit
       });
-      $(".rank").empty();
-      populateRank();
+      $(".timerText").html("Your move has been submitted.")
     });
     // admin submit episode
     $('#submitEpisode').click(function(){
