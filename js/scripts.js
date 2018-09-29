@@ -295,15 +295,17 @@ database.ref().on("value", function(snapshot) {
 
 
     $(".createAccountButton").click(function(){
-      var newUser = $("#createName").val();
-      var newEmail = $("#createEmail").val();
+      var actualNewUser = $("#createName").val();
+      var newUserLowerCase = $("#createName").val().toLowerCase();
+      var newEmail = $("#createEmail").val().toLowerCase();
       var paid = $('input[name=paid]:checked', '#paidForm').val();
 
 
-      if (users.indexOf(newUser) != -1){
+      if (users.indexOf(newUserLowerCase) != -1){
         $(".invalidEmail").html("User name already exists.");
       } else if(validateEmail(newEmail)){
-        database.ref('users/' + newUser).set({
+        database.ref('users/' + newUserLowerCase).set({
+          userName: actualNewUser,
           email: newEmail,
           paid: paid
         });
@@ -313,14 +315,14 @@ database.ref().on("value", function(snapshot) {
       }
     });
     $(".logInButton").click(function(){
-      var userInput = $("#logInName").val();
-      var emailInput = $("#logInEmail").val();
-      database.ref('users/' + userInput).on("value", function(snapshot) {
-        if (snapshot.val()){
-          var emailData = snapshot.val();
-
-          if (emailData.email == emailInput){
-            sessionStorage.setItem('user', userInput);
+      var userInput = $("#logInName").val().toLowerCase();
+      var emailInput = $("#logInEmail").val().toLowerCase();
+      console.log(userInput);
+        if (users.indexOf(userInput) > -1){
+          var emailData = snapshot.child("users").child(userInput).child("email").val();
+          var userName = snapshot.child("users").child(userInput).child("userName").val();
+          if (emailData == emailInput){
+            sessionStorage.setItem('user', userName);
             window.location.href = "move.html";
           } else {
             alert("Your email does not match our database")
@@ -328,9 +330,6 @@ database.ref().on("value", function(snapshot) {
         } else {
           alert("Your username does not match our database")
         }
-      }, function (error) {
-        console.log("Error: " + error.code);
-      });
     });
 
 
@@ -457,6 +456,10 @@ database.ref().on("value", function(snapshot) {
       var immunity = $("#immunityWinnerToDatabase").val();
       var voted = $("#voteOffToDatabase").val().replace(/\s+/g, '-').toLowerCase();
       var message = $("#messageToDatabase").val();
+
+      if (number < episodeNumber + 2 && number > 0){
+        if((number < episodeNumber + 1 && confirm('Are you sure you want to edit existing episode number ' + number + '?')) || (number == episodeNumber + 1 && confirm('Are you sure you want to submit a new episode?  Warning: this will rollover all users to next episode'))){
+
       database.ref('episodes/' + number + '/').set({
         name: title,
         rewardWinner: reward,
@@ -571,6 +574,10 @@ database.ref().on("value", function(snapshot) {
       // store all of these in variables and then call ref.set
 
       // use variables to set the data
+    }
+    } else {
+      alert("Please enter a valid episode number")
+    }
     })
 
     $("#loadEpisode").click(function(){
