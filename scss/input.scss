@@ -90,14 +90,17 @@ body {
 .titleBar {
   position: relative;
   @include flexRowCenter;
+  align-items: flex-end;
+
   color: white;
   background-color: black;
+
   div {
     padding: 25px 25px 10px 25px;
   }
   .username {
     position: absolute;
-        top: 25px;
+        top: 28px;
         left: 50%;
         transform: translate(-50%, -50%);
   }
@@ -132,6 +135,7 @@ body {
 }
 .rank{
   @include flexColumnCenter;
+  width: 700px;
 }
 
 .rankHeader {
@@ -175,11 +179,18 @@ body {
     position: absolute;
   }
 
+  #playerRankingText {
+    width: 160px;
+  }
+  #scoreRankingText{
+    width:45px;
+  }
 }
+
 
 .contestantBarMain {
   margin-top: 10px;
-  margin-right: 85px;
+  margin-right: 100px;
   @include flexRowCenter;
   display: none;
   align-items: center;
@@ -212,7 +223,7 @@ body {
     width:69px;
   }
   & > div:nth-child(7) {
-    width:70px;
+    width:55px;
   }
   & > div:nth-child(8) {
     width:45px;
@@ -370,7 +381,7 @@ button {
   background-color: #8EE7EC;
   border-radius: 5px;
   border: none;
-  color: grey;
+  color: darken(grey, 50%);
   // font-weight: lighter;
 }
 
@@ -387,7 +398,7 @@ button:hover {
 
 .multiplier{
   position: absolute;
-  top: 241px;
+  top: 238px;
   left: calc(50% + 380px);
 }
 .multiLine{
@@ -400,6 +411,143 @@ button:hover {
 }
 .voteOff {
   position: absolute;
-  top:1059px;
+  top:1055px;
   left: calc(50% + 380px);
+}
+
+.containerScoreboard {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  & > div{
+  margin-right: 20px;
+  }
+}
+
+.rankingScoreboard{
+  width: 280px;
+  overflow: hidden;
+}
+
+.rankingsPlayers {
+  background-color: black;
+  color: white;
+  padding: 10px 0px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  .playerName {
+    width: 120px;
+  }
+  .pointsScore {
+    width: 50px;
+    text-align: center;
+  }
+  .whiteCircle {
+    width: 35px;
+    text-align: center;
+  }
+}
+
+.whiteRankings {
+  background-color: white;
+  color: black;
+}
+
+.rankDescriptions {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100px;
+  .rankingTitle{
+    font-size: 1rem;
+    font-weight: bold;
+
+  }
+
+}
+
+.multiplierDiv {
+  position: absolute;
+  top: 224px;
+  left: calc(50% + 360px);
+  width: 50px;
+  background-color: #E4F9DD;
+  z-index: -1;
+  border-radius: 6px;
+  color: darken(darkgray, 30%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 9px;
+}
+.barBackground {
+  position: absolute;
+  left: calc(50%);
+  transform: translate(-50%);
+  height: 54px;
+  width: 620px;
+  background-color: #E4F9DD;
+  z-index: -1;
+  border-radius: 6px;
+}
+
+.timesOneBackground {
+  background-color: #EFFBEB;
+}
+.graveyardBackground {
+  background-color: #F9DDDD;
+}
+.timesTwoBackground {
+  background-color: #E4F9DD;
+}
+
+// tooltip
+.tooltipmeow {
+    z-index: 100;
+    position: relative;
+}
+.tooltipmeowalt{
+  z-index: 100;
+  .tooltiptext{
+    font-size: 12px;
+    font-weight: bold;
+    font-family: sans-serif;
+  }
+}
+
+.tooltipmeow .tooltiptext, .tooltipmeowalt .tooltiptext {
+  visibility: hidden;
+    width: 150px;
+    background-color: #555;
+    color: #fff;
+    font-weight: lighter;
+    text-align: center;
+    border-radius: 6px;
+    padding: 10px;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    transform: translate(-50%);
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+
+// .tooltipmeow .tooltiptext::after {
+//     content: "";
+//     position: absolute;
+//     top: 100%;
+//     left: 50%;
+//     margin-left: -5px;
+//     border-width: 5px;
+//     border-style: solid;
+//     border-color: #555 transparent transparent transparent;
+// }
+
+.tooltipmeow:hover .tooltiptext, .tooltipmeowalt:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1;
 }
