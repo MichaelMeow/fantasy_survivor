@@ -860,7 +860,7 @@ database.ref().once("value", function(snapshot) {
           moveSubmit
         });
         $(".timer").html("Your move has been submitted.")
-        $(".submitMove").css("margin-top","17px")
+        
       });
 }
 
