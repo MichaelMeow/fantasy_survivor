@@ -16,7 +16,7 @@ var sessionUser = sessionStorage.getItem('user');
 
 // FIREBASE REFERENCE CALL
 
-database.ref().on("value", function(snapshot) {
+database.ref().once("value", function(snapshot) {
 
 // declaring useful variables
 
