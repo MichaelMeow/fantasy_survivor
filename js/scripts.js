@@ -16,9 +16,9 @@ var sessionUser = sessionStorage.getItem('user');
 
 // FIREBASE REFERENCE CALL
 
-database.ref().on("value", function(snapshot) {
+database.ref().once("value", function(snapshot) {
 
-// declaring useful variables
+  // declaring useful variables
 
   var userData = snapshot.child("users").val();
   var users = Object.keys(snapshot.child("users").val());
@@ -27,6 +27,7 @@ database.ref().on("value", function(snapshot) {
   var contestants = Object.keys(snapshot.child("contestants").val());
   var validContestants = []
   var votedOffContestants = [];
+  var tribes = Object.keys(snapshot.child("tribes").val())
   var episodeNumber = Object.keys(snapshot.child("episodes").val()).length - 1;
   for (var i = 1; i < (episodeNumber+1); i++) {
     votedOffContestants.push(snapshot.child("episodes").child(i).child("votedOff").val());
@@ -57,10 +58,11 @@ database.ref().on("value", function(snapshot) {
     multiplierTwoPool = 1
     multiplierOnePool = 1
   }
-  console.log(multiplierTwoPool);
+
 
 
   // Object Constructors
+
   function contestant (first, last, photo, averagePoints, collectiveStock, idol, advantage, currentTribe, originalTribe) {
     this.firstName = first;
     this.lastName = last;
@@ -86,6 +88,8 @@ database.ref().on("value", function(snapshot) {
     this.name = username;
     this.ranks = [];
   }
+
+  // Functions
 
   function calculateAveragePoints(contestant){
     var totalForAverage = 0;
@@ -115,8 +119,8 @@ database.ref().on("value", function(snapshot) {
         }
 
         if (rank < (totalValid + 1 - graveyard)){
-        yourStock = yourStock + (1 - ((rank-1) * (1/(totalValid-graveyard))))
-      }
+          yourStock = yourStock + (1 - ((rank-1) * (1/(totalValid-graveyard))))
+        }
       }
       return yourStock;
     } else {
@@ -129,9 +133,9 @@ database.ref().on("value", function(snapshot) {
     var addedStock = 0
     if (currentRank < (validContestants.length + 1 - voteOffPool)){
 
-    addedStock = 1 - ((currentRank-1) * (1/(totalValid-voteOffPool)));
-    return addedStock.toFixed(1);
-  } else {return 0.0}
+      addedStock = 1 - ((currentRank-1) * (1/(totalValid-voteOffPool)));
+      return addedStock.toFixed(1);
+    } else {return 0.0}
   }
 
   function calculateOverallRank(){
@@ -231,12 +235,12 @@ database.ref().on("value", function(snapshot) {
     }
     $(".rank").empty();
     var j = 0
-    console.log(validContestants);
+
     populateArray.forEach(function(contestant){
       var contestantObject = snapshot.child("contestants").child(contestant).val();
       var first = contestantObject.firstName;
       var last = contestantObject.lastName;
-      var tribe = contestantObject.originalTribe;
+      var tribe = contestantObject.currentTribe;
       var photo = contestantObject.photoURL;
       var epPoints = snapshot.child("episodes").child(episodeNumber).child(contestant).child('0').val();
       var average = calculateAveragePoints(contestant);
@@ -260,9 +264,9 @@ database.ref().on("value", function(snapshot) {
       newContestantBar.find(".averagePoints").html(average);
       newContestantBar.find(".yourStock").html(yourStock + ' <span class="addedStock">(+' + addedStock + ')</span>');
       newContestantBar.find(".overallRank").html(ovrlRank);
-      newContestantBar.find(".idol").css("visibility", "hidden");
-      if (idol){
-        newContestantBar.find(".idol").css("visibility", "visible");
+      newContestantBar.find(".idol>svg").hide();
+      if (idol == 1){
+        newContestantBar.find(".idol>svg").show();
         if (idol > 1){
           newContestantBar.find(".idol").html("x" + idol);
         }
@@ -274,11 +278,9 @@ database.ref().on("value", function(snapshot) {
           newContestantBar.find(".advantage").html("x" + advantage);
         }
       }
-      if (tribe == "David"){
-        newContestantBar.find(".contestantPhoto").css('box-shadow', '0px 0px 1px 3px orange')
-      } else if (tribe == "Goliath"){
-        newContestantBar.find(".contestantPhoto").css('box-shadow', '0px 0px 1px 3px #912CEE')
-      }
+      var color = snapshot.child("tribes").child(tribe).child("color").val();
+      newContestantBar.find(".contestantPhoto").css('box-shadow', '0px 0px 1px 3px ' + color)
+
       $(".rank").append(newContestantBar);
       newContestantBar.css('display', 'flex');
       j++;
@@ -287,14 +289,14 @@ database.ref().on("value", function(snapshot) {
 
   function multiplierGraveyardStyling(){
     // timestwo
-    var barPosition = 170;
+    var barPosition = 189;
     $(".multiplierContainer").html('<div class="timesTwo"></div>');
     for (var i = 1; i <= multiplierTwoPool; i++) {
       barPosition += 55;
       $(".timesTwo").append('<div class="barBackground timesTwoBackground" style="top:' + barPosition + 'px;"></div>');
     }
     var twoMultiplierHeight = multiplierTwoPool*55
-    $(".timesTwo").append('<div class="multiplierDiv tooltipmeowalt" style="height:' + twoMultiplierHeight + 'px;"><strong>x2 </strong> PTS.<span class="tooltiptext">Score double points for these contestants</span></div>');
+    $(".timesTwo").append('<div class="multiplierDiv tooltipmeowalt" style="height:' + twoMultiplierHeight + 'px; top:' + 243 + 'px;"><strong>x2 </strong> PTS.<span class="tooltiptext">Score double points for these contestants</span></div>');
 
     // timesOne
     $(".multiplierContainer").append('<div class="timesOne"></div>');
@@ -307,7 +309,7 @@ database.ref().on("value", function(snapshot) {
     $(".timesOne").append('<div class="multiplierDiv timesOneBackground tooltipmeowalt" style="height:' + oneMultiplierHeight + 'px; top:' + oneMultiplierPosition + 'px;"><strong>x1 </strong> PTS.<span class="tooltiptext">Score x 1 points for these contestants</span></div>');
 
     //graveyard
-    barPosition = (validContestants.length * 55) - (voteOffPool*55) + 170
+    barPosition = (validContestants.length * 55) - (voteOffPool*55) + 189
     $(".multiplierContainer").append('<div class="graveyard"></div>');
     for (var i = 1; i <= voteOffPool; i++) {
       var graveyardOpacity = i/voteOffPool;
@@ -315,60 +317,69 @@ database.ref().on("value", function(snapshot) {
       $(".graveyard").append('<div class="barBackground graveyardBackground" style="top:' + barPosition + 'px; opacity:' + graveyardOpacity + ';"></div>');
     }
     var voteOffHeight = voteOffPool*55
-    var voteOffPosition = (validContestants.length * 55) - voteOffHeight + 225;
+    var voteOffPosition = (validContestants.length * 55) - voteOffHeight + 244;
     $(".graveyard").append('<div class="multiplierDiv graveyardBackground tooltipmeowalt" style="height:' + voteOffHeight + 'px; top:' + voteOffPosition + 'px;"><strong>PREDICT<br>GOING<br>HOME</strong><span class="tooltiptext">If one of these contestants goes home you score points in the Out Prediction category equal to 1 or less depending on their rank in this field</span></div>');
   }
 
-  // function populateScoreboards(){
-  //   // points ranking
-  //
-  //   for (var i = 0; i < users.length; i++) {
-  //     // users[i]
-  //     for (var j = 1; j < episodeNumber+1; j++) {
-  //       for (var k = 0; k < contestants.length; k++) {
-  //         // contestants[k]
-  //         var episodeUserRankArray = snapshot.child("users").child(users[i]).child(j).child("moveSubmit").val();
-  //         if 1-4{
-  //           top 4
-  //         }
-  //         5-8{
-  //
-  //         }
-  //       }
-  //     }
-  //   }
-  //   for each user
-  //   for each episode
-  //   for each contestant
-  //   grab the player rank multiplier
-  //   grab the contestant score
-  //   multiply and add to player score for the episode
-  //   after all contestants and all episodes add to array next to user name.
-  //   sort array and ouput users array
-  //   populate rank with that and score array
-  //
-  //
-  //   vote off ranking
-  //   for each user
-  //   for each episode
-  //   for each contestant
-  //   grab players voteoff predictions
-  //   if voted off add to score
-  //   after all episodes add to array next to userName
-  //   sort array and output users array
-  //   populate rank with that and score array
-  //
-  //   bracket ranking
-  //
-  //   overall ranking
-  //   for each user
-  //   cycle through ranking and grab rank
-  //   add up and put next to name in array
-  //   sort array and output user array
-  //   populate rank with that and score array
-  //
-  //   perhaps we need a small function that just separates the score from the player name and we loop through the array with that to populate.
-  // }
+
+
+  function populateScoreboards(){
+    // points ranking
+    // var userTotalScore = 0;
+    // for (var i = 0; i < users.length; i++) {
+    //   for (var j = 1; j < episodeNumber+1; j++) {
+    //       var episodeUserRankArray = snapshot.child("users").child(users[i]).child(j).child("moveSubmit").val();
+    //       if (episodeUserRankArray){
+    //         for (var l = 0; l < multiplierTwoPool; l++) {
+    //           userTotalScore += 2 * snapshot.child("episodes").child(j).child(episodeUserRankArray[l]).child("0");
+    //         }
+    //         for (var m = 0; m < multiplieronePool; m++) {
+    //
+    //           userTotalScore += 2 * snapshot.child("episodes").child(j).child(episodeUserRankArray[l]).child("0");
+    //         }
+    //
+    //
+    //       }
+    //
+    //
+    //
+    //
+    //
+    //     }
+    //   }
+    // }
+    // for each user
+    // for each episode
+    // for each contestant
+    // grab the player rank multiplier
+    // grab the contestant score
+    // multiply and add to player score for the episode
+    // after all contestants and all episodes add to array next to user name.
+    // sort array and ouput users array
+    // populate rank with that and score array
+    //
+    //
+    // vote off ranking
+    // for each user
+    // for each episode
+    // for each contestant
+    // grab players voteoff predictions
+    // if voted off add to score
+    // after all episodes add to array next to userName
+    // sort array and output users array
+    // populate rank with that and score array
+    //
+    // bracket ranking
+    //
+    // overall ranking
+    // for each user
+    // cycle through ranking and grab rank
+    // add up and put next to name in array
+    // sort array and output user array
+    // populate rank with that and score array
+    //
+    // perhaps we need a small function that just separates the score from the player name and we loop through the array with that to populate.
+  }
 
 
   // DOCUMENT READY
@@ -380,10 +391,306 @@ database.ref().on("value", function(snapshot) {
   // DOCUMENT READY
 
   $(document).ready(function(){
+
+    // admin page load
+
+    if (window.location.href.indexOf("admin") > -1 && $(".contestant1").val() == ""){
+
+      // load contestants
+
+      var contestantNumber = 0;
+      var contestanTribes = [];
+      var j = 0;
+      for (var i = 0; i < contestants.length; i++) {
+        var tribe = snapshot.child("contestants").child(contestants[i]).child("currentTribe").val();
+        if (contestanTribes.indexOf(tribe) == -1){
+          contestanTribes.push(tribe)
+        }
+      }
+      var m = 1;
+      for (var l = 0; l < contestanTribes.length; l++) {
+        for (var k = 0; k < contestants.length; k++) {
+          var tribe = snapshot.child("contestants").child(contestants[k]).child("currentTribe").val();
+          if(votedOffContestants.indexOf(contestants[k])== -1){
+            if(contestanTribes[l] == tribe){
+              contestantNumber = m;
+              var className = ".contestant" + contestantNumber;
+              $(className).html(contestants[k] + "(" + tribe + ")");
+              m++
+            }
+          } else if ($('.scoringTable div').text().indexOf(contestants[k]) == -1){
+            var votedOffContestantNumber = 20 - j;
+            var votedOffClassName = ".contestant" + votedOffContestantNumber;
+            $(votedOffClassName).html(contestants[k] + "(Out)");
+            j ++;
+
+          }
+        }
+      }
+
+      // admin page load tribes select
+
+      for (var i = 0; i < tribes.length; i++) {
+        var tribe = tribes[i]
+        $(".selectTribe").append('<option value="' + tribe + '">' + tribe + '</option>')
+      }
+
+      // admin submit episode
+
+      $('#submitEpisode').click(function(event){
+        event.stopImmediatePropagation();
+        var ev = $._data(this, 'events');
+        console.log(ev.click.length);
+
+        var number = $("#epNumberToDatabase").val();
+        var title = $("#epTitleToDatabase").val();
+        var reward = $("#rewardWinnerToDatabase").val();
+        var immunity = $("#immunityWinnerToDatabase").val();
+        var voted = $("#voteOffToDatabase").val().replace(/\s+/g, '-').toLowerCase();
+        var message = $("#messageToDatabase").val();
+        if (number < episodeNumber + 2 && number > 0){
+          if((number < episodeNumber + 1 && confirm('Are you sure you want to edit existing episode number ' + number + '?')) || (number == episodeNumber + 1 && confirm('Are you sure you want to submit a new episode?  Warning: this will rollover all users to next episode'))){
+            database.ref('episodes/' + number + '/').set({
+              name: title,
+              rewardWinner: reward,
+              immunityWinner: immunity,
+              votedOff: voted,
+              message: message
+            });
+            $(".episodeSubmitted").html("Episode " + number + " submitted.")
+
+            // PLAYER SCORE Submit
+
+            for (var i = 1; i < 21; i++) {
+              var contestant = ""
+              for (var p = 0; p < contestants.length; p++) {
+                if ($(".contestant" + i).text().indexOf(contestants[p]) > -1){
+                  contestant = contestants[p];
+                }
+              }
+              var teamReward = 0;
+              if ($(".teamReward." + i + " :input").prop('checked')){
+                teamReward = 2;
+              }
+              var teamImmunity = 0;
+              if ($(".teamImmunity." + i + " :input").prop('checked')){
+                teamImmunity = 4;
+              }
+              var individualReward = 0;
+              if ($(".individualReward." + i + " :input").prop('checked')){
+                individualReward = 3;
+              }
+              var individualImmunity = 0;
+              if ($(".individualImmunity." + i + " :input").prop('checked')){
+                individualImmunity = 6;
+              }
+              var correctVote = 0;
+              if ($(".correctVote." + i + " :input").prop('checked')){
+                correctVote = 2;
+              }
+              var recievedVote = 0;
+              if ($(".recievedVote." + i + " :input").prop('checked')){
+                recievedVote = -1;
+              }
+              var votedOff = 0;
+              if ($(".votedOff." + i + " :input").prop('checked')){
+                votedOff = -2;
+              }
+              var clue = 0;
+              if ($(".clue." + i + " :input").prop('checked')){
+                clue = 1;
+              }
+              var foundIdol = 0;
+              if ($(".foundIdol." + i + " :input").prop('checked')){
+                foundIdol = 1;
+              }
+              var foundAdvantage = 0;
+              if ($(".foundAdvantage." + i + " :input").prop('checked')){
+                foundAdvantage = 1;
+              }
+              var heldIdol = 0;
+              if ($(".heldIdol." + i + " :input").prop('checked')){
+                heldIdol = 1;
+              }
+              var heldAdvantage = 0;
+              if ($(".heldAdvantage." + i + " :input").prop('checked')){
+                heldAdvantage = 1;
+              }
+              var quoted = 0;
+              if ($(".quoted." + i + " :input").prop('checked')){
+                quoted = 1;
+              }
+              var chosenReward = 0;
+              if ($(".chosenReward." + i + " :input").prop('checked')){
+                chosenReward = 1;
+              }
+              var juryVotes = 0;
+              if ($(".juryVotes." + i + " :input").val()){
+                juryVotes = parseInt($(".juryVotes." + i + " :input").val());
+              }
+              var special = 0;
+              if ($(".special." + i + " :input").val()){
+                special = parseInt($(".special." + i + " :input").val());
+              }
+              var newTribe = snapshot.child("contestants").child(contestant).child("currentTribe").val();
+              if ($(".selectTribe." + i + " option:selected").val()){
+                newTribe = $(".selectTribe." + i + " option:selected").val()
+              }
+
+              var total = teamReward + teamImmunity + individualReward + individualImmunity + correctVote + recievedVote + votedOff + clue + foundIdol + foundAdvantage + heldIdol + heldAdvantage + quoted + chosenReward + juryVotes + special
+
+              database.ref('episodes/' + number + '/' + contestant + '/').set({
+                0: total,
+                1: teamReward,
+                2: teamImmunity,
+                3: individualReward,
+                4: individualImmunity,
+                5: correctVote,
+                6: recievedVote,
+                7: votedOff,
+                8: clue,
+                9: foundIdol,
+                10: foundAdvantage,
+                11: heldIdol,
+                12: heldAdvantage,
+                13: quoted,
+                14: chosenReward,
+                15: juryVotes,
+                16: special
+              });
+              database.ref('contestants/' + contestant + '/').update({
+                currentTribe: newTribe
+              });
+            }
+          }
+        } else {
+          alert("Please enter a valid episode number")
+        }
+      })
+
+      // admin load episode
+
+      $("#loadEpisode").click(function(){
+        for (var i = 1; i < (episodeNumber+1); i++) {
+          if ($(".numberToLoad").val() == i){
+            var immunityWinner = snapshot.child("episodes").child(i).child("immunityWinner").val();
+            var votedOff = snapshot.child("episodes").child(i).child("votedOff").val();
+            var rewardWinner = snapshot.child("episodes").child(i).child("rewardWinner").val();
+            var episodeName = snapshot.child("episodes").child(i).child("name").val();
+            var message = snapshot.child("episodes").child(i).child("message").val();
+            $("#epNumberToDatabase").val(i);
+            $("#epTitleToDatabase").val(episodeName);
+            $("#rewardWinnerToDatabase").val(rewardWinner);
+            $("#immunityWinnerToDatabase").val(immunityWinner);
+            $("#voteOffToDatabase").val(votedOff);
+            $("#messageToDatabase").val(message);
+            for (var j = 1; j < 21; j++) {
+              var contestant = ""
+              for (var p = 0; p < contestants.length; p++) {
+                if ($(".contestant" + j).text().indexOf(contestants[p]) > -1){
+                  contestant = contestants[p];
+                }
+              }
+              $(".Total." + j).text(snapshot.child("episodes").child(i).child(contestant).child(0).val())
+              if (snapshot.child("episodes").child(i).child(contestant).child(1).val()>0){
+                $(".teamReward." + j +" :input").prop('checked', true);
+              }
+              if (snapshot.child("episodes").child(i).child(contestant).child(2).val()>0){
+                $(".teamImmunity." + j +" :input").prop('checked', true);
+              }
+              if (snapshot.child("episodes").child(i).child(contestant).child(3).val()>0){
+                $(".individualReward." + j +" :input").prop('checked', true);
+              }
+              if (snapshot.child("episodes").child(i).child(contestant).child(4).val()>0){
+                $(".individualImmunity." + j +" :input").prop('checked', true);
+              }
+              if (snapshot.child("episodes").child(i).child(contestant).child(5).val()>0){
+                $(".correctVote." + j +" :input").prop('checked', true);
+              }
+              if (snapshot.child("episodes").child(i).child(contestant).child(6).val()>0){
+                $(".recievedVote." + j +" :input").prop('checked', true);
+              }
+              if (snapshot.child("episodes").child(i).child(contestant).child(7).val()>0){
+                $(".votedOff." + j +" :input").prop('checked', true);
+              }
+              if (snapshot.child("episodes").child(i).child(contestant).child(8).val()>0){
+                $(".clue." + j +" :input").prop('checked', true);
+              }
+              if (snapshot.child("episodes").child(i).child(contestant).child(9).val()>0){
+                $(".foundIdol." + j +" :input").prop('checked', true);
+              }
+              if (snapshot.child("episodes").child(i).child(contestant).child(10).val()>0){
+                $(".foundAdvantage." + j +" :input").prop('checked', true);
+              }
+              if (snapshot.child("episodes").child(i).child(contestant).child(11).val()>0){
+                $(".heldIdol." + j +" :input").prop('checked', true);
+              }
+              if (snapshot.child("episodes").child(i).child(contestant).child(12).val()>0){
+                $(".heldAdvantage." + j +" :input").prop('checked', true);
+              }
+              if (snapshot.child("episodes").child(i).child(contestant).child(13).val()>0){
+                $(".quoted." + j +" :input").prop('checked', true);
+              }
+              if (snapshot.child("episodes").child(i).child(contestant).child(14).val()>0){
+                $(".chosenReward." + j +" :input").prop('checked', true);
+              }
+              if (snapshot.child("episodes").child(i).child(contestant).child(15).val()>0){
+                $(".juryVotes." + j +" :input").prop('checked', true);
+              }
+              if (snapshot.child("episodes").child(i).child(contestant).child(16).val()>0){
+                $(".special." + j +" :input").val(snapshot.child("episodes").child(i).child(contestant).child(16).val());
+              }
+            }
+          }
+        }
+      })
+
+      // admin add tribe
+
+      $("#newTribeSubmit").click(function(){
+        var tribe = $("#newTribeName").val();
+        var color = $("#newTribeColor").val();
+        database.ref('tribes/' + tribe + "/").set({
+          name: tribe,
+          color: color
+        });
+      })
+
+      // admin add contestant
+
+      $("#addContestantSubmit").click(function(event){
+        event.preventDefault();
+        var first = $("#firstNameToDatabase").val();
+        var last = $("#lastNameToDatabase").val();
+        var tribe = $("#tribeToDatabase").val();
+        var photo = $("#photoURLToDatabase").val();
+        var str = first + " " + last;
+        str = str.replace(/\s+/g, '-').toLowerCase();
+        database.ref('contestants/' + str + '/').set({
+          firstName: first,
+          lastName: last,
+          originalTribe: tribe,
+          currentTribe: tribe,
+          photoURL: photo
+        });
+        $(".contestantSubmitted").html(first + " " + last + " submitted.")
+      })
+    }
+
+    // populate scoreboard
+
+    if (window.location.href.indexOf("scoreboard") > -1){
+      populateScoreboards();
+    }
+
+    // log out click function
+
     $(".logOut").click(function(){
       sessionStorage.setItem('user', "");
       window.location.href = "index.html";
     })
+
+    // session user display
 
     if (sessionUser){
       if (sessionUser == 'utopiancomplex'){
@@ -397,35 +704,13 @@ database.ref().on("value", function(snapshot) {
       $(".username").html(snapshot.child("users").child(sessionUser).child("userName").val());
     }
 
-    // adminpage load contestants
-    if (window.location.href.indexOf("admin") > -1 && $(".contestant1").val() == ""){
-
-      var contestantNumber = 0
-      var j = 0
-      for (var i = 0; i < contestants.length; i++) {
-        if(votedOffContestants.indexOf(contestants[i])== -1){
-          contestantNumber = i + 1 - j;
-          var className = ".contestant" + contestantNumber;
-          $(className).html(contestants[i]);
-        } else {
-          var votedOffContestantNumber = 20 - j;
-          var votedOffClassName = ".contestant" + votedOffContestantNumber;
-          $(votedOffClassName).html(contestants[i] + "(Voted Off)");
-          j ++;
-
-        }
-
-      }
-    }
-
+    // create account
 
     $(".createAccountButton").click(function(){
       var actualNewUser = $("#createName").val();
       var newUserLowerCase = $("#createName").val().toLowerCase();
       var newEmail = $("#createEmail").val().toLowerCase();
       var paid = $('input[name=paid]:checked', '#paidForm').val();
-
-
       if (users.indexOf(newUserLowerCase) != -1){
         $(".invalidEmail").html("User name already exists.");
       } else if(validateEmail(newEmail)){
@@ -434,15 +719,18 @@ database.ref().on("value", function(snapshot) {
           email: newEmail,
           paid: paid
         });
-        $(".createUserName").html("Thank you, your user name and email have been created.  Please Log in.");
+        alert("Thank you, your user name and email have been created.  Please Log in.");
+        location.reload();
       } else {
         $(".invalidEmail").html("Please enter a valid Email address.");
       }
     });
+
+    // log in
+
     $(".logInButton").click(function(){
       var userInput = $("#logInName").val().toLowerCase();
       var emailInput = $("#logInEmail").val().toLowerCase();
-      console.log(userInput);
       if (users.indexOf(userInput) > -1){
         var emailData = snapshot.child("users").child(userInput).child("email").val();
         if (emailData == emailInput){
@@ -451,375 +739,136 @@ database.ref().on("value", function(snapshot) {
         } else {
           alert("Your email does not match our database")
         }
-      } else {
+      } else if(users.indexOf(userInput) == -1){
         alert("Your username does not match our database")
       }
     });
 
-// move page load
-if (window.location.href.indexOf("move") > -1){
-    populateRank();
-    multiplierGraveyardStyling();
-    var startIndex, changeIndex, uiHeight;
+    // move page load
 
-    $('.sortable').sortable({
-      'placeholder': 'marker',
-      start: function(e, ui) {
-        clickIndex = ui.item.index();
-        startIndex = ui.placeholder.index();
-        uiHeight = ui.item.outerHeight(true);//get offset incl margin
-        ui.item.nextAll('#transitionFix:not(.marker)').css({
-          transition: 'transform 0s',
-          transform: 'translateY(' +uiHeight+ 'px)'
-        });
-        $('#transitionFix:not(.marker)').delay(50)
-        .queue(function (next) {
-          $(this).css({
-            transition: 'transform .2s',
+    if (window.location.href.indexOf("move") > -1){
+
+      var timeOut = 0;
+      // Set the date we're counting down to
+      var countDownDate = new Date("Oct 3, 2018 17:10:00").getTime();
+      // Update the count down every 1 second
+      var x = setInterval(function() {
+        // Get todays date and time
+        var now = new Date().getTime();
+        // Find the distance between now and the count down date
+        var distance = countDownDate - now;
+        // Time calculations for days, hours, minutes and seconds
+        var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+        // Display the result in the element with id="demo"
+        $(".timer").html("You have " + days + "d " + hours + "h "
+        + minutes + "m " + seconds + "s left to submit.");
+        // If the count down is finished, write some text
+        if (distance < 0) {
+          $(".timer").html("Time has run out this week.  Please wait patiently while scores are processed.")
+          $(".submitButton>button").hide();
+        } else if (snapshot.child("users").child(sessionUser).child(episodeNumber+1).child("moveSubmit").val()){
+          $(".timer").html("Your move has been submitted, feel free to change it until" + days + "d " + hours + "h "
+          + minutes + "m " + seconds + "s.");
+      } else {
+        ""
+      }
+      }, 1000);
+
+
+
+      populateRank();
+      multiplierGraveyardStyling();
+      var startIndex, changeIndex, uiHeight;
+
+      $('.sortable').sortable({
+        'placeholder': 'marker',
+        start: function(e, ui) {
+          clickIndex = ui.item.index();
+          startIndex = ui.placeholder.index();
+          uiHeight = ui.item.outerHeight(true);
+          ui.item.nextAll('#transitionFix:not(.marker)').css({
+            transition: 'transform 0s',
+            transform: 'translateY(' +uiHeight+ 'px)'
           });
-          next();
-        });
-        ui.placeholder.css({
-          height: 0,
-          padding: 0
-        });
-      },
-      change: function(e, ui) {
-        changeIndex = ui.placeholder.index();
-        changeRed = changeIndex+2;
-        changeGreen = changeIndex;
-        if (startIndex > changeIndex) {
-          var slice = $('ul li').slice(changeIndex, $('ul li').length);
-          slice.not('.ui-sortable-helper').each(function() {
-            var item = $(this);
-            //   if (changeIndex<clickIndex){$(".rank li:nth-child(" + changeRed+ ")").css({
-            //     background:'lightcoral'
+          $('#transitionFix:not(.marker)').delay(50)
+          .queue(function (next) {
+            $(this).css({
+              transition: 'transform .2s',
+            });
+            next();
+          });
+          ui.placeholder.css({
+            height: 0,
+            padding: 0
+          });
+        },
+        change: function(e, ui) {
+          changeIndex = ui.placeholder.index();
+          changeRed = changeIndex+2;
+          changeGreen = changeIndex;
+          if (startIndex > changeIndex) {
+            var slice = $('ul li').slice(changeIndex, $('ul li').length);
+            slice.not('.ui-sortable-helper').each(function() {
+              var item = $(this);
+              //   if (changeIndex<clickIndex){$(".rank li:nth-child(" + changeRed+ ")").css({
+              //     background:'lightcoral'
+              //   });
+              // }
+              item.css({
+                transform: 'translateY(' +uiHeight+ 'px)'
+              });
+            });
+          } else if (startIndex < changeIndex) {
+            var slice = $('ul li').slice(startIndex, changeIndex);
+            //   if (changeIndex>clickIndex){$(".rank li:nth-child(" + changeGreen+ ")").css({
+            //     background:'lightgreen'
             //   });
             // }
-            item.css({
-
-              transform: 'translateY(' +uiHeight+ 'px)'
+            slice.not('.ui-sortable-helper').each(function() {
+              var item = $(this);
+              item.css({
+                transform: 'translateY(0px)'
+              });
             });
-          });
-        } else if (startIndex < changeIndex) {
-          var slice = $('ul li').slice(startIndex, changeIndex);
-          //   if (changeIndex>clickIndex){$(".rank li:nth-child(" + changeGreen+ ")").css({
-          //     background:'lightgreen'
-          //   });
-          // }
-          slice.not('.ui-sortable-helper').each(function() {
-            var item = $(this);
-            item.css({
-              transform: 'translateY(0px)'
-            });
-          });
+          }
+          startIndex = changeIndex
+        },
+        stop: function(e, ui) {
+          updateRank();
+          $('.contestantBarMain').css({
+            transition: 'transform 0s',
+            transition: 'background-color .2s',
+            background: 'none',
+            transform: 'translateY(0)'
+          })
         }
-        startIndex = changeIndex
-      },
-      stop: function(e, ui) {
-        updateRank();
-        $('.contestantBarMain').css({
-          transition: 'transform 0s',
-          transition: 'background-color .2s',
-          background: 'none',
-          transform: 'translateY(0)'
+      });
+
+      // submit Move
+
+      $(".moveSubmit").click(function(){
+        var moveSubmit = []
+        var i = 0
+        $('.rank').children().each(function () {
+          moveSubmit.push($(this).find(".contestantName").text().replace(/\s+/g, '-').toLowerCase());
         })
-      }
-    });
-    //   $('.sortable').sortable( {
-    //     scroll:true,
-    //     placeholder: "placeholder",
-    //     stop: function( event, ui ) {
-    //       $(".oGPlaceholder").remove();
-    //       updateRank();
-    //       $(".rankPlaceholder").html("")
-    //       setTimeout(function() {
-    //           $('.contestantBarMain').addClass('in');
-    //       },0);
-    //     }
-    //   });
-    // $('.sortable').sortable( {
-    //   start: function (e, ui) {
-    //     $(".contestantBarMain").each(function(index){
-    //       if ($(this).is(":hover")){
-    //     $("<div class='oGPlaceholder'> </div>").insertAfter($(this));
-    //   }
-    //     })
-    //     $('.contestantBarMain').removeClass('in');
-    // }
-    //   });
-    //   $( ".sortable" ).disableSelection();
-
-    // $(".addContestant").submit(function(event) {
-    //   event.preventDefault();
-    //   var firstNameInput = $("input.firstNameInput").val();
-    //   var lastNameInput = $("input.lastNameInput").val();
-    //   var tribeInput = $("input.tribeInput").val();
-    //   var photoPath = $("input.photoPath").val();
-    //   var addedContestant = new contestant(firstNameInput, lastNameInput, photoPath, "0.0", "00", "0", "0", tribeInput, tribeInput);
-    //   contestants.push(addedContestant);
-    //   populateRank();
-    // })
-
-    $(".moveSubmit").click(function(){
-      var moveSubmit = []
-      var i = 0
-      $('.rank').children().each(function () {
-        moveSubmit.push($(this).find(".contestantName").text().replace(/\s+/g, '-').toLowerCase());
-      })
-      var moveSubmitEpisode = episodeNumber + 1;
-      database.ref('users/' + sessionUser + '/' + moveSubmitEpisode + "/").update({
-        moveSubmit
+        var moveSubmitEpisode = episodeNumber + 1;
+        database.ref('users/' + sessionUser + '/' + moveSubmitEpisode + "/").update({
+          moveSubmit
+        });
+        $(".timer").html("Your move has been submitted.")
+        $(".submitMove").css("margin-top","17px")
       });
-      $(".timerText").html("Your move has been submitted.")
-      $(".submitMove").css("margin-top","17px")
-    });
-  }
-    // admin submit episode
-    $('#submitEpisode').click(function(){
-      var number = $("#epNumberToDatabase").val();
-      var title = $("#epTitleToDatabase").val();
-      var reward = $("#rewardWinnerToDatabase").val();
-      var immunity = $("#immunityWinnerToDatabase").val();
-      var voted = $("#voteOffToDatabase").val().replace(/\s+/g, '-').toLowerCase();
-      var message = $("#messageToDatabase").val();
-
-      if (number < episodeNumber + 2 && number > 0){
-        if((number < episodeNumber + 1 && confirm('Are you sure you want to edit existing episode number ' + number + '?')) || (number == episodeNumber + 1 && confirm('Are you sure you want to submit a new episode?  Warning: this will rollover all users to next episode'))){
-
-          database.ref('episodes/' + number + '/').set({
-            name: title,
-            rewardWinner: reward,
-            immunityWinner: immunity,
-            votedOff: voted,
-            message: message
-          });
-          $(".episodeSubmitted").html("Episode " + number + " submitted.")
-
-          // PLAYER SCORE Submit
-
-          // for each input in a contestant row:
-          for (var i = 1; i < 21; i++) {
-            var jqClass = ".contestant" + i
-            var contestant = $(jqClass).text();
-            var teamReward = 0;
-            if ($(".teamReward." + i + " :input").prop('checked')){
-              teamReward = 1;
-            }
-            var teamImmunity = 0;
-            if ($(".teamImmunity." + i + " :input").prop('checked')){
-              teamImmunity = 1;
-            }
-            var individualReward = 0;
-            if ($(".individualReward." + i + " :input").prop('checked')){
-              individualReward = 1;
-            }
-            var individualImmunity = 0;
-            if ($(".individualImmunity." + i + " :input").prop('checked')){
-              individualImmunity = 1;
-            }
-            var correctVote = 0;
-            if ($(".correctVote." + i + " :input").prop('checked')){
-              correctVote = 1;
-            }
-            var recievedVote = 0;
-            if ($(".recievedVote." + i + " :input").prop('checked')){
-              recievedVote = 1;
-            }
-            var votedOff = 0;
-            if ($(".votedOff." + i + " :input").prop('checked')){
-              votedOff = 1;
-            }
-            var clue = 0;
-            if ($(".clue." + i + " :input").prop('checked')){
-              clue = 1;
-            }
-            var foundIdol = 0;
-            if ($(".foundIdol." + i + " :input").prop('checked')){
-              foundIdol = 1;
-            }
-            var foundAdvantage = 0;
-            if ($(".foundAdvantage." + i + " :input").prop('checked')){
-              foundAdvantage = 1;
-            }
-            var heldIdol = 0;
-            if ($(".heldIdol." + i + " :input").prop('checked')){
-              heldIdol = 1;
-            }
-            var heldAdvantage = 0;
-            if ($(".heldAdvantage." + i + " :input").prop('checked')){
-              heldAdvantage = 1;
-            }
-            var quoted = 0;
-            if ($(".quoted." + i + " :input").prop('checked')){
-              quoted = 1;
-            }
-            var chosenReward = 0;
-            if ($(".chosenReward." + i + " :input").prop('checked')){
-              chosenReward = 1;
-            }
-            var juryVotes = 0;
-            if ($(".juryVotes." + i + " :input").prop('checked')){
-              juryVotes = 1;
-            }
-            var special = 0;
-            if ($(".special." + i + " :input").val()){
-              special = parseInt($(".special." + i + " :input").val());
-            }
-
-            var total = teamReward + teamImmunity + individualReward + individualImmunity + correctVote + recievedVote + votedOff + clue + foundIdol + foundAdvantage + heldIdol + heldAdvantage + quoted + chosenReward + juryVotes + special
-
-            database.ref('episodes/' + number + '/' + contestant + '/').set({
-              0: total,
-              1: teamReward,
-              2: teamImmunity,
-              3: individualReward,
-              4: individualImmunity,
-              5: correctVote,
-              6: recievedVote,
-              7: votedOff,
-              8: clue,
-              9: foundIdol,
-              10: foundAdvantage,
-              11: heldIdol,
-              12: heldAdvantage,
-              13: quoted,
-              14: chosenReward,
-              15: juryVotes,
-              16: special
-            });
+}
 
 
 
-          }
 
-
-          // check score type
-          // put index of score type in a variable
-          // add 1 if checked and 0 if not checked
-          //
-          // store all of these in variables and then call ref.set
-
-          // use variables to set the data
-        }
-      } else {
-        alert("Please enter a valid episode number")
-      }
-    })
-
-    $("#loadEpisode").click(function(){
-      for (var i = 1; i < (episodeNumber+1); i++) {
-        if ($(".numberToLoad").val() == i){
-          var immunityWinner = snapshot.child("episodes").child(i).child("immunityWinner").val();
-          var votedOff = snapshot.child("episodes").child(i).child("votedOff").val();
-          var rewardWinner = snapshot.child("episodes").child(i).child("rewardWinner").val();
-          var episodeName = snapshot.child("episodes").child(i).child("name").val();
-          var message = snapshot.child("episodes").child(i).child("message").val();
-
-          $("#epNumberToDatabase").val(i);
-          $("#epTitleToDatabase").val(episodeName);
-          $("#rewardWinnerToDatabase").val(rewardWinner);
-          $("#immunityWinnerToDatabase").val(immunityWinner);
-          $("#voteOffToDatabase").val(votedOff);
-          $("#messageToDatabase").val(message);
-
-          for (var j = 1; j < 21; j++) {
-            var contestant = $(".contestant" + j).text();
-
-            $(".Total." + j).text(snapshot.child("episodes").child(i).child(contestant).child(0).val())
-            if (snapshot.child("episodes").child(i).child(contestant).child(1).val()>0){
-              $(".teamReward." + j +" :input").prop('checked', true);
-            }
-            if (snapshot.child("episodes").child(i).child(contestant).child(2).val()>0){
-              $(".teamImmunity." + j +" :input").prop('checked', true);
-            }
-            if (snapshot.child("episodes").child(i).child(contestant).child(3).val()>0){
-              $(".individualReward." + j +" :input").prop('checked', true);
-            }
-            if (snapshot.child("episodes").child(i).child(contestant).child(4).val()>0){
-              $(".individualImmunity." + j +" :input").prop('checked', true);
-            }
-            if (snapshot.child("episodes").child(i).child(contestant).child(5).val()>0){
-              $(".correctVote." + j +" :input").prop('checked', true);
-            }
-            if (snapshot.child("episodes").child(i).child(contestant).child(6).val()>0){
-              $(".recievedVote." + j +" :input").prop('checked', true);
-            }
-            if (snapshot.child("episodes").child(i).child(contestant).child(7).val()>0){
-              $(".votedOff." + j +" :input").prop('checked', true);
-            }
-            if (snapshot.child("episodes").child(i).child(contestant).child(8).val()>0){
-              $(".clue." + j +" :input").prop('checked', true);
-            }
-            if (snapshot.child("episodes").child(i).child(contestant).child(9).val()>0){
-              $(".foundIdol." + j +" :input").prop('checked', true);
-            }
-            if (snapshot.child("episodes").child(i).child(contestant).child(10).val()>0){
-              $(".foundAdvantage." + j +" :input").prop('checked', true);
-            }
-            if (snapshot.child("episodes").child(i).child(contestant).child(11).val()>0){
-              $(".heldIdol." + j +" :input").prop('checked', true);
-            }
-            if (snapshot.child("episodes").child(i).child(contestant).child(12).val()>0){
-              $(".heldAdvantage." + j +" :input").prop('checked', true);
-            }
-            if (snapshot.child("episodes").child(i).child(contestant).child(13).val()>0){
-              $(".quoted." + j +" :input").prop('checked', true);
-            }
-            if (snapshot.child("episodes").child(i).child(contestant).child(14).val()>0){
-              $(".chosenReward." + j +" :input").prop('checked', true);
-            }
-            if (snapshot.child("episodes").child(i).child(contestant).child(15).val()>0){
-              $(".juryVotes." + j +" :input").prop('checked', true);
-            }
-            if (snapshot.child("episodes").child(i).child(contestant).child(16).val()>0){
-              $(".special." + j +" :input").val(snapshot.child("episodes").child(i).child(contestant).child(16).val());
-            }
-
-
-            // $(".teamReward." + j).val(snapshot.child("episodes").child(i).child(contestant).child(1).val())
-            // $(".teamImmunity." + j).val(snapshot.child("episodes").child(i).child(contestant).child(2).val())
-            // $(".individualReward." + j).val(snapshot.child("episodes").child(i).child(contestant).child(3).val())
-            // $(".individualImmunity." + j).val(snapshot.child("episodes").child(i).child(contestant).child(4).val())
-            // $(".correctVote." + j).val(snapshot.child("episodes").child(i).child(contestant).child(5).val())
-            // $(".recievedVote." + j).val(snapshot.child("episodes").child(i).child(contestant).child(6).val())
-            // $(".votedOff." + j).val(snapshot.child("episodes").child(i).child(contestant).child(7).val())
-            // $(".clue." + j).val(snapshot.child("episodes").child(i).child(contestant).child(8).val())
-            // $(".foundIdol." + j).val(snapshot.child("episodes").child(i).child(contestant).child(9).val())
-            // $(".foundAdvantage." + j).val(snapshot.child("episodes").child(i).child(contestant).child(10).val())
-            // $(".heldIdol." + j).val(snapshot.child("episodes").child(i).child(contestant).child(11).val())
-            // $(".heldAdvantage." + j).val(snapshot.child("episodes").child(i).child(contestant).child(12).val())
-            // $(".quoted." + j).val(snapshot.child("episodes").child(i).child(contestant).child(13).val())
-            // $(".chosenReward." + j).val(snapshot.child("episodes").child(i).child(contestant).child(14).val())
-            // $(".juryVotes." + j).val(snapshot.child("episodes").child(i).child(contestant).child(15).val())
-            // $(".special." + j).val(snapshot.child("episodes").child(i).child(contestant).child(16).val())
-            // }
-
-
-          }
-        }
-      }
-
-    })
-
-    // admin add contestant
-    $("#addContestantSubmit").click(function(event){
-      event.preventDefault();
-      var first = $("#firstNameToDatabase").val();
-      var last = $("#lastNameToDatabase").val();
-      var tribe = $("#tribeToDatabase").val();
-      var photo = $("#photoURLToDatabase").val();
-      var str = first + " " + last;
-      str = str.replace(/\s+/g, '-').toLowerCase();
-      database.ref('contestants/' + str + '/').set({
-        firstName: first,
-        lastName: last,
-        originalTribe: tribe,
-        photoURL: photo
-      });
-      $(".contestantSubmitted").html(first + " " + last + " submitted.")
-    })
     // episode page
+
     if (window.location.href.indexOf("episodes") > -1){
       for (var i = 1; i < episodeNumber+1; i++) {
         var newEpisodeCell = $(".episodeCell").clone().appendTo($(".cells"));
@@ -832,6 +881,5 @@ if (window.location.href.indexOf("move") > -1){
         newEpisodeCell.css('display', 'block')
       }
     }
-
   });
 })
