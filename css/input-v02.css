@@ -1,0 +1,591 @@
+a {
+  color: black;
+}
+
+a:hover {
+  text-decoration: none;
+  font-style: italic;
+  color: black;
+}
+
+.italic {
+  font-style: italic;
+}
+
+.sortable ul {
+  float: left;
+  width: 300px;
+  border-radius: 6px;
+}
+
+.sortable ul:after {
+  clear: both;
+  content: '';
+  display: table;
+}
+
+.sortable li {
+  transition: transform .2s;
+}
+
+.sortable {
+  list-style-type: none;
+}
+
+.sortable:hover {
+  cursor: move;
+  cursor: grab;
+}
+
+.sortable:active {
+  cursor: grabbing;
+}
+
+.contestantBarMain:active {
+  transition: opacity 200ms ease;
+  opacity: .2;
+}
+
+body {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 12px;
+  margin-bottom: 150px;
+}
+
+.titleBar {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-end;
+  color: white;
+  background-color: black;
+}
+
+.titleBar div {
+  padding: 25px 25px 10px 25px;
+}
+
+.titleBar .username {
+  position: absolute;
+  top: 28px;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.navBar {
+  max-width: 400px;
+  margin: auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.navBar div {
+  width: 120px;
+  text-align: center;
+}
+
+.submitMove {
+  max-width: 300px;
+  margin: auto;
+  margin-top: 35px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.rankWrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  justify-content: center;
+  margin-top: 50px;
+}
+
+.rankContents {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.rank {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 700px;
+}
+
+.rankHeader {
+  font-weight: bold;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.rankHeader > div:nth-child(1) {
+  width: 46px;
+}
+
+.rankHeader > div:nth-child(2) {
+  width: 46px;
+}
+
+.rankHeader > div:nth-child(3) {
+  width: 120px;
+}
+
+.rankHeader > div:nth-child(4) {
+  width: 69px;
+}
+
+.rankHeader > div:nth-child(5) {
+  width: 70px;
+}
+
+.rankHeader > div:nth-child(6) {
+  width: 41px;
+}
+
+.rankHeader > div:nth-child(7) {
+  width: 39px;
+}
+
+.rankHeader > div:nth-child(8) {
+  width: 48px;
+}
+
+.rankHeader > div:nth-child(9) {
+  width: 49px;
+}
+
+.rankHeader > div:nth-child(10) {
+  width: 46px;
+}
+
+.rankHeader > div:nth-child(11) {
+  width: 46px;
+}
+
+.rankHeader .rankHeaderLines {
+  position: absolute;
+}
+
+.rankHeader #playerRankingText {
+  width: 160px;
+}
+
+.rankHeader #scoreRankingText {
+  width: 45px;
+}
+
+.contestantBarMain {
+  margin-top: 10px;
+  margin-right: 100px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  display: none;
+  align-items: center;
+}
+
+.contestantBarMain > div:nth-child(1) {
+  width: 25px;
+}
+
+.contestantBarMain > div:nth-child(2) {
+  width: 61px;
+}
+
+.contestantBarMain > div:nth-child(3) {
+  width: 42px;
+  text-align: center;
+}
+
+.contestantBarMain > div:nth-child(3) div {
+  width: 20px;
+}
+
+.contestantBarMain > div:nth-child(4) {
+  width: 27px;
+  height: 13px;
+  margin: 0px 10px;
+  font-size: 9px;
+  text-align: center;
+}
+
+.contestantBarMain > div:nth-child(5) {
+  width: 130px;
+}
+
+.contestantBarMain > div:nth-child(6) {
+  width: 69px;
+}
+
+.contestantBarMain > div:nth-child(7) {
+  width: 55px;
+}
+
+.contestantBarMain > div:nth-child(8) {
+  width: 45px;
+  text-align: center;
+}
+
+.contestantBarMain > div:nth-child(8) div {
+  width: 20px;
+}
+
+.contestantBarMain > div:nth-child(9) {
+  width: 45px;
+  text-align: center;
+}
+
+.contestantBarMain > div:nth-child(9) div {
+  width: 20px;
+}
+
+.contestantBarMain > div:nth-child(10) {
+  width: 45px;
+  text-align: center;
+}
+
+.contestantBarMain > div:nth-child(10) div {
+  width: 20px;
+}
+
+.contestantBarMain > div:nth-child(11) {
+  width: 40px;
+  text-align: center;
+}
+
+.contestantBarMain > div:nth-child(11) div {
+  width: 20px;
+}
+
+.contestantBarMain > div:nth-child(12) {
+  width: 48px;
+}
+
+.contestantBarMain > div:nth-child(13) {
+  width: 60px;
+}
+
+.contestantBarMain > div:nth-child(14) {
+  width: 23px;
+}
+
+.contestantBarMain .contestantPhoto {
+  padding: 0px;
+  width: 45px;
+  height: 45px;
+  overflow: hidden;
+  border-radius: 50%;
+}
+
+.contestantBarMain .contestantPhoto img {
+  width: 53px;
+  margin-left: -5px;
+  margin-top: -1px;
+}
+
+.contestantBarMain .grabberRight {
+  transform: rotate(180deg);
+}
+
+.ui-sortable-placeholder {
+  color: red;
+  background-color: red;
+  padding: 5px;
+}
+
+.previousRankHidden {
+  display: none;
+}
+
+.previousRank {
+  border-radius: 20%;
+}
+
+.admin-inputs {
+  margin-left: 50px;
+}
+
+.messageInput {
+  height: 200px;
+  width: 800px;
+}
+
+.logIn, .createUserName {
+  width: 300px;
+  margin: auto;
+  margin-top: 100px;
+}
+
+.logIn button, .createUserName button {
+  margin: 10px;
+}
+
+.logIn div, .createUserName div {
+  margin: 5px;
+}
+
+.hide {
+  display: none;
+}
+
+.adminTab {
+  color: #912CEE;
+}
+
+.scoringTable {
+  margin-top: 50px;
+  display: grid;
+  grid-template-columns: 200px repeat(16, 40px) 80px 40px;
+  grid-template-rows: 100px repeat(20, 25px);
+}
+
+.scoringTable > div {
+  border: 1px solid lightgray;
+}
+
+.rotate90 {
+  transform: rotate(270deg);
+  width: 100px;
+}
+
+.assignTribe {
+  padding-left: 9px;
+}
+
+.special input, .juryVotes input {
+  width: 100%;
+}
+
+.clearData, .addContestant {
+  margin-top: 100px;
+}
+
+.addedStock {
+  color: #37d4dd;
+  font-size: 9px;
+}
+
+.episodeCell {
+  display: none;
+  width: 400px;
+  margin: 50px auto;
+  padding-bottom: 30px;
+  border-bottom: 1px solid orange;
+}
+
+.episodeCell > div:first-child {
+  font-size: 2rem;
+}
+
+.episodeCell #episodeNumber {
+  font-size: 2rem;
+}
+
+.episodeCell #episodeTitle {
+  font-size: 1.8rem;
+}
+
+.episodeCell #rewardWinner, .episodeCell #immunityWinner, .episodeCell #votedOff, .episodeCell .epCellInfo {
+  font-size: 1rem;
+}
+
+button {
+  padding: 5px 35px;
+  background-color: #8EE7EC;
+  border-radius: 5px;
+  border: none;
+  color: #010101;
+}
+
+button:hover {
+  cursor: pointer;
+}
+
+.logOut:hover {
+  cursor: pointer;
+}
+
+.adminTab {
+  display: none;
+}
+
+.multiplier {
+  position: absolute;
+  top: 238px;
+  left: calc(50% + 380px);
+}
+
+.multiLine {
+  position: absolute;
+  top: 432px;
+}
+
+.multiLineBottom {
+  position: absolute;
+  top: 1045px;
+}
+
+.voteOff {
+  position: absolute;
+  top: 1055px;
+  left: calc(50% + 380px);
+}
+
+.containerScoreboard {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.containerScoreboard > div {
+  margin-right: 20px;
+}
+
+.rankingScoreboard {
+  width: 280px;
+  overflow: hidden;
+}
+
+.rankingsPlayers {
+  background-color: black;
+  color: white;
+  padding: 10px 0px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.rankingsPlayers .playerName {
+  width: 120px;
+}
+
+.rankingsPlayers .pointsScore {
+  width: 50px;
+  text-align: center;
+}
+
+.rankingsPlayers .whiteCircle {
+  width: 35px;
+  text-align: center;
+}
+
+.whiteRankings {
+  background-color: white;
+  color: black;
+}
+
+.rankDescriptions {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100px;
+}
+
+.rankDescriptions .rankingTitle {
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+.multiplierDiv {
+  position: absolute;
+  top: 224px;
+  left: calc(50% + 360px);
+  width: 50px;
+  background-color: #E4F9DD;
+  z-index: -1;
+  border-radius: 6px;
+  color: #5d5d5d;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 9px;
+}
+
+.barBackground {
+  position: absolute;
+  left: calc(50%);
+  transform: translate(-50%);
+  height: 54px;
+  width: 620px;
+  background-color: #E4F9DD;
+  z-index: -1;
+  border-radius: 6px;
+}
+
+.timesOneBackground {
+  background-color: #EFFBEB;
+}
+
+.graveyardBackground {
+  background-color: #F9DDDD;
+}
+
+.timesTwoBackground {
+  background-color: #E4F9DD;
+}
+
+.tooltipmeow {
+  z-index: 100;
+  position: relative;
+}
+
+.tooltipmeowalt {
+  z-index: 100;
+}
+
+.tooltipmeowalt .tooltiptext {
+  font-size: 12px;
+  font-weight: bold;
+  font-family: sans-serif;
+}
+
+.tooltipmeow .tooltiptext, .tooltipmeowalt .tooltiptext {
+  visibility: hidden;
+  width: 150px;
+  background-color: #555;
+  color: #fff;
+  font-weight: lighter;
+  text-align: center;
+  border-radius: 6px;
+  padding: 10px;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  transform: translate(-50%);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.tooltipmeow:hover .tooltiptext, .tooltipmeowalt:hover .tooltiptext {
+  visibility: visible;
+  opacity: 1;
+}
+
+.hidden {
+  display: none;
+}
+
+h3 {
+  margin: 20px;
+  margin-top: 60px;
+}
+
+.timer {
+  width: 500px;
+  text-align: center;
+  height: 18px;
+}
+
+.submitMove {
+  vertical-align: top;
+  height: 46px;
+}
