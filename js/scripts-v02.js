@@ -37,7 +37,6 @@ database.ref().once("value", function(snapshot) {
       validContestants.push(contestants[i]);
     }
   }
-  var overallRank = calculateOverallRank();
   var voteOffPool = 0
   var multiplierTwoPool = 0
   var multiplierOnePool = 0
@@ -58,6 +57,7 @@ database.ref().once("value", function(snapshot) {
     multiplierTwoPool = 1
     multiplierOnePool = 1
   }
+  var overallRank = calculateOverallRank();
 
 
 
@@ -101,28 +101,21 @@ database.ref().once("value", function(snapshot) {
   }
 
   function calculateYourStock(contestant, user){
-    if (snapshot.child("users").child(user).child(i+1).child("moveSubmit").val()){
+
+    if (snapshot.child("users").child(user).child(2).child("moveSubmit").val()){
       var yourStock = 0;
       for (var i = 0; i < episodeNumber; i++) {
         var rankArray = snapshot.child("users").child(user).child(i+1).child("moveSubmit").val();
+        if (rankArray){
         var rank = rankArray.indexOf(contestant) + 1;
         var totalValid = rankArray.length;
-        var graveyard = 0;
-        if (totalValid > 15){
-          graveyard = 4
-        }else if (totalValid > 11 && validContestants < 16){
-          graveyard = 3
-        }else if (totalValid > 7  && validContestants < 12){
-          graveyard = 2
-        }else {
-          graveyard = 3
-        }
-
-        if (rank < (totalValid + 1 - graveyard)){
-          yourStock = yourStock + (1 - ((rank-1) * (1/(totalValid-graveyard))))
+        if (rank < (totalValid + 1 - voteOffPool)){
+          yourStock = yourStock + (1 - ((rank-1) * (1/(totalValid-voteOffPool))))
         }
       }
+    }
       return yourStock;
+
     } else {
       return 0.0
     }
@@ -141,15 +134,15 @@ database.ref().once("value", function(snapshot) {
   function calculateOverallRank(){
     if (episodeNumber > 1){
       var stockRank = [];
-      var stockArray = []
+      var stockArray = [];
       for (var i = 0; i < contestants.length; i++) {
         var contestantTotalStock = 0
         for (var j = 0; j < users.length; j++) {
           var stock = parseFloat(calculateYourStock(contestants[i], users[j]));
-          if (stock == 0){
-            stock = ".0000"
-          }
           contestantTotalStock += stock;
+          if (contestantTotalStock == 0){
+            contestantTotalStock = ".0000"
+          }
         }
         stockArray.push(contestantTotalStock+contestants[i])
       }
@@ -185,32 +178,32 @@ database.ref().once("value", function(snapshot) {
     var i = 1;
     $('.rank').children().each(function () {
       var newRank = i;
+      var previousRank = $(this).find(".previousRankHidden").text();
       $(this).find(".yourRank").html(newRank);
       var newStock = calculateThisWeekStock(newRank)
       $(this).find(".addedStock").html('(+' + newStock + ')');
       var rankChange = previousRank - newRank;
 
-      // moved this down for first episode... move back up to below var newrank
-      var previousRank = $(this).find(".previousRankHidden").text();
 
-      // comment out for first episode
-      // if (rankChange > 0){
-      //   rankChange = "+" + rankChange
-      //   $(this).find(".previousRank").css({
-      //     background: 'lightgreen'
-      //   });
-      // }
-      // else if (rankChange < 0){
-      //   $(this).find(".previousRank").css({
-      //     background: 'lightcoral'
-      //   });
-      // }
-      // else if (rankChange == 0){
-      //   rankChange = " "
-      //   $(this).find(".previousRank").css({
-      //     background: 'none'
-      //   });
-      // }
+
+
+      if (rankChange > 0){
+        rankChange = "+" + rankChange
+        $(this).find(".previousRank").css({
+          background: 'lightgreen'
+        });
+      }
+      else if (rankChange < 0){
+        $(this).find(".previousRank").css({
+          background: 'lightcoral'
+        });
+      }
+      else if (rankChange == 0){
+        rankChange = " "
+        $(this).find(".previousRank").css({
+          background: 'none'
+        });
+      }
       $(this).find(".previousRank").html(rankChange);
       i++;
     });
@@ -244,6 +237,7 @@ database.ref().once("value", function(snapshot) {
       var photo = contestantObject.photoURL;
       var epPoints = snapshot.child("episodes").child(episodeNumber).child(contestant).child('0').val();
       var average = calculateAveragePoints(contestant);
+
       var yourStock = calculateYourStock(contestant, sessionUser).toFixed(1);
       var addedStock = calculateThisWeekStock(j+1);
       var idol = idolCount(contestant);
@@ -324,63 +318,220 @@ database.ref().once("value", function(snapshot) {
 
 
   function populateScoreboards(){
-    // points ranking
-    // var userTotalScore = 0;
-    // for (var i = 0; i < users.length; i++) {
-    //   for (var j = 1; j < episodeNumber+1; j++) {
-    //       var episodeUserRankArray = snapshot.child("users").child(users[i]).child(j).child("moveSubmit").val();
-    //       if (episodeUserRankArray){
-    //         for (var l = 0; l < multiplierTwoPool; l++) {
-    //           userTotalScore += 2 * snapshot.child("episodes").child(j).child(episodeUserRankArray[l]).child("0");
-    //         }
-    //         for (var m = 0; m < multiplieronePool; m++) {
-    //
-    //           userTotalScore += 2 * snapshot.child("episodes").child(j).child(episodeUserRankArray[l]).child("0");
-    //         }
-    //
-    //
-    //       }
-    //
-    //
-    //
-    //
-    //
-    //     }
-    //   }
-    // }
-    // for each user
-    // for each episode
-    // for each contestant
-    // grab the player rank multiplier
-    // grab the contestant score
-    // multiply and add to player score for the episode
-    // after all contestants and all episodes add to array next to user name.
-    // sort array and ouput users array
-    // populate rank with that and score array
-    //
-    //
-    // vote off ranking
-    // for each user
-    // for each episode
-    // for each contestant
-    // grab players voteoff predictions
-    // if voted off add to score
-    // after all episodes add to array next to userName
-    // sort array and output users array
-    // populate rank with that and score array
-    //
-    // bracket ranking
-    //
-    // overall ranking
-    // for each user
-    // cycle through ranking and grab rank
-    // add up and put next to name in array
-    // sort array and output user array
-    // populate rank with that and score array
-    //
-    // perhaps we need a small function that just separates the score from the player name and we loop through the array with that to populate.
+    var pointScoreArray = []
+    var outScoreArray = []
+    var bracketScoreArray = []
+    for (var i = 0; i < users.length; i++) {
+      var numberName = []
+      var userTotalScore = 0;
+      var userOutScore = 0;
+      var userBracketScore = 0;
+      for (var j = 1; j < episodeNumber+1; j++) {
+          var episodeUserRankArray = snapshot.child("users").child(users[i]).child(j).child("moveSubmit").val();
+          if (episodeUserRankArray){
+            // points ranking
+            for (var l = 0; l < multiplierTwoPool; l++) {
+              userTotalScore += 2 * snapshot.child("episodes").child(j).child(episodeUserRankArray[l]).child("0").val();
+            }
+            for (var m = 0; m < multiplierOnePool; m++) {
+
+              userTotalScore += 2 * snapshot.child("episodes").child(j).child(episodeUserRankArray[multiplierTwoPool + m]).child("0").val();
+            }
+            numberName.push(userTotalScore)
+            numberName.push(users[i])
+            pointScoreArray.push(numberName);
+            numberName = [];
+            // Out ranking
+            for (var n = 1; n < voteOffPool+1; n++) {
+              var endPosition = episodeUserRankArray.length - n;
+              if (votedOffContestants.indexOf(episodeUserRankArray[endPosition]) > -1){
+                userOutScore += ((voteOffPool-n + 1)/voteOffPool) * 100;
+              }
+            }
+            numberName.push(userOutScore)
+            numberName.push(users[i])
+            outScoreArray.push(numberName);
+            numberName = [];
+            // Bracket Ranking
+            for (var p = 0; p < episodeUserRankArray.length; p++) {
+              var outIndex = votedOffContestants.indexOf(episodeUserRankArray[p]);
+              var userStockMultiplier = calculateYourStock(episodeUserRankArray[p], users[i])
+              if (outIndex > -1){
+                userBracketScore += (outIndex/20)* userStockMultiplier
+              } else {
+                userBracketScore += ((validContestants.length/20)/2)* userStockMultiplier
+              }
+            }
+            numberName.push(userBracketScore)
+            numberName.push(users[i])
+            bracketScoreArray.push(numberName);
+            numberName = [];
+          }
+        }
+      }
+      pointScoreArray.sort(function(a, b){return b[0] - a[0]});
+      outScoreArray.sort(function(a, b){return b[0] - a[0]});
+      bracketScoreArray.sort(function(a, b){return b[0] - a[0]});
+      var rank = 1;
+      var tie = 0;
+      var pointLeaderboardArray = []
+      var bracketLeaderboardArray = []
+      var outLeaderboardArray = []
+      for (var q = 0; q < pointScoreArray.length; q++) {
+        // points populate
+        var scoreUserName = snapshot.child("users").child(pointScoreArray[q][1]).child("userName").val();
+        var newScoreboardCell = $(".hidden > .rankingsPlayers").clone().appendTo($(".pointsRanking > .rankingScoreboard"));
+        newScoreboardCell.find(".playerName").html(scoreUserName);
+        newScoreboardCell.find(".pointsScore").html(pointScoreArray[q][0]);
+        if(q+1 == 1){
+      } else if (pointScoreArray[q-1][0] > pointScoreArray[q][0]) {
+        rank = rank + 1 + tie;
+        tie = 0;
+      } else if (pointScoreArray[q-1][0] == pointScoreArray[q][0]) {
+        tie ++;
+      }
+      pointLeaderboardArray.push([rank, scoreUserName]);
+      newScoreboardCell.find(".whiteCircle").html(rank);
+      if (pointScoreArray[q][1] == sessionUser){
+        newScoreboardCell.css("border", "2px solid #8EE7EC")
+      }
+      }
+      var highestPointRank = rank
+      rank = 1;
+      for (var q = 0; q < pointScoreArray.length; q++) {
+        // bracket Populate
+        scoreUserName = snapshot.child("users").child(bracketScoreArray[q][1]).child("userName").val();
+        newScoreboardCell = $(".hidden > .rankingsPlayers").clone().appendTo($(".stockRanking > .rankingScoreboard"));
+        newScoreboardCell.find(".playerName").html(scoreUserName);
+        newScoreboardCell.find(".pointsScore").html(bracketScoreArray[q][0].toFixed(2));
+        if(q+1 == 1){
+      } else if (bracketScoreArray[q-1][0] > bracketScoreArray[q][0]) {
+        rank = rank + 1 + tie;
+        tie = 0;
+      } else if (bracketScoreArray[q-1][0] == bracketScoreArray[q][0]) {
+        tie ++;
+      }
+      bracketLeaderboardArray.push([rank, scoreUserName]);
+      newScoreboardCell.find(".whiteCircle").html(rank);
+      if (bracketScoreArray[q][1] == sessionUser){
+        newScoreboardCell.css("border", "2px solid #8EE7EC")
+      }
+      }
+      var highestBracketRank = rank
+      rank = 1;
+      for (var q = 0; q < pointScoreArray.length; q++) {
+        // outPopulate
+        scoreUserName = snapshot.child("users").child(outScoreArray[q][1]).child("userName").val();
+        newScoreboardCell = $(".hidden > .rankingsPlayers").clone().appendTo($(".OutPredictionRanking > .rankingScoreboard"));
+        newScoreboardCell.find(".playerName").html(scoreUserName);
+        newScoreboardCell.find(".pointsScore").html(outScoreArray[q][0]);
+        if(q+1 == 1){
+      } else if (outScoreArray[q-1][0] > outScoreArray[q][0]) {
+        rank = rank + 1 + tie;
+        tie = 0;
+      } else if (outScoreArray[q-1][0] == outScoreArray[q][0]) {
+        tie ++;
+      }
+      outLeaderboardArray.push([rank, scoreUserName])
+      newScoreboardCell.find(".whiteCircle").html(rank);
+      if (outScoreArray[q][1] == sessionUser){
+        newScoreboardCell.css("border", "2px solid #8EE7EC")
+      }
+      }
+      var highestOutRank = rank
+
+
+      // overall ranking
+      var overallRankArray = []
+      for (var r = 0; r < pointScoreArray.length; r++) {
+        var outRank = 0
+        var bracketRank = 0
+        scoreUserName = snapshot.child("users").child(pointScoreArray[r][1]).child("userName").val();
+        var pointRank = pointLeaderboardArray[r][0];
+        console.log(outLeaderboardArray.indexOf(scoreUserName));
+        for (var s = 0; s < outLeaderboardArray.length; s++) {
+          if (outLeaderboardArray[s][1] == scoreUserName){
+            outRank = outLeaderboardArray[s][0]
+          }
+        }
+        for (var t = 0; t < bracketLeaderboardArray.length; t++) {
+          if (bracketLeaderboardArray[t][1] == scoreUserName){
+            bracketRank = bracketLeaderboardArray[t][0]
+          }
+        }
+
+        overallRankTotal = (pointRank/highestPointRank) + (outRank/highestOutRank) + (bracketRank/highestBracketRank)
+        overallRankArray.push([overallRankTotal, scoreUserName])
+        overallRankArray.sort(function(a, b){return a[0] - b[0]});
+      }
+      console.log(overallRankArray);
+      // overall Populate
+      rank = 1;
+      tie = 0
+      for (var u = 0; u < overallRankArray.length; u++) {
+        scoreUserName = overallRankArray[u][1];
+        newScoreboardCell = $(".hidden > .rankingsPlayers").clone().appendTo($(".overallRanking > .rankingScoreboard"));
+        newScoreboardCell.find(".playerName").html(scoreUserName);
+        // newScoreboardCell.find(".pointsScore").html(overallRankArray[u][0].toFixed(2));
+        if(u+1 == 1){
+      } else if (overallRankArray[u-1][0] < overallRankArray[u][0]) {
+        rank = rank + 1 + tie;
+        tie = 0;
+      } else if (overallRankArray[u-1][0] == overallRankArray[u][0]) {
+        tie ++;
+      }
+      newScoreboardCell.find(".whiteCircle").html(rank);
+      if (overallRankArray[u][1] == snapshot.child("users").child(sessionUser).child("userName").val()){
+        newScoreboardCell.css("border", "2px solid #8EE7EC")
+      }
+    }
   }
 
+  function randomMove(episode){
+    var randomInvalid = [];
+    for (var i = 1; i < (episode); i++) {
+      randomInvalid.push(snapshot.child("episodes").child(i).child("votedOff").val());
+    }
+    var randomArray = shuffle(contestants);
+    var randomMoveArray = [];
+    for (var j = 0; j < randomArray.length; j++) {
+      if (randomInvalid.indexOf(randomArray[j]) == -1){
+        randomMoveArray.push(randomArray[j]);
+      }
+    }
+    return randomMoveArray;
+  }
+
+  function shuffle(array) {
+  var currentIndex = array.length, temporaryValue, randomIndex;
+
+  // While there remain elements to shuffle...
+  while (0 !== currentIndex) {
+
+    // Pick a remaining element...
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex -= 1;
+
+    // And swap it with the current element.
+    temporaryValue = array[currentIndex];
+    array[currentIndex] = array[randomIndex];
+    array[randomIndex] = temporaryValue;
+  }
+
+  return array;
+}
+
+  function movesNotTaken(user){
+      for (var j = 1; j < episodeNumber+1; j++) {
+
+      if(j>1 && snapshot.child("users").child(user).child(j).val() == null){
+        var moveSubmit = randomMove(j);
+        database.ref('users/' + user + '/' + j + "/").update({
+          moveSubmit
+        });
+      }
+    }
+  }
 
   // DOCUMENT READY
   // DOCUMENT READY
@@ -391,6 +542,8 @@ database.ref().once("value", function(snapshot) {
   // DOCUMENT READY
 
   $(document).ready(function(){
+
+
 
     // admin page load
 
@@ -440,7 +593,6 @@ database.ref().once("value", function(snapshot) {
       $('#submitEpisode').click(function(event){
         event.stopImmediatePropagation();
         var ev = $._data(this, 'events');
-        console.log(ev.click.length);
 
         var number = $("#epNumberToDatabase").val();
         var title = $("#epTitleToDatabase").val();
@@ -719,6 +871,7 @@ database.ref().once("value", function(snapshot) {
           email: newEmail,
           paid: paid
         });
+        movesNotTaken(newUserLowerCase);
         alert("Thank you, your user name and email have been created.  Please Log in.");
         location.reload();
       } else {
@@ -750,7 +903,7 @@ database.ref().once("value", function(snapshot) {
 
       var timeOut = 0;
       // Set the date we're counting down to
-      var countDownDate = new Date("Oct 3, 2018 17:10:00").getTime();
+      var countDownDate = new Date("Oct 10, 2018 17:10:00").getTime();
       // Update the count down every 1 second
       var x = setInterval(function() {
         // Get todays date and time
@@ -848,7 +1001,6 @@ database.ref().once("value", function(snapshot) {
       });
 
       // submit Move
-
       $(".moveSubmit").click(function(){
         var moveSubmit = []
         var i = 0
@@ -859,8 +1011,9 @@ database.ref().once("value", function(snapshot) {
         database.ref('users/' + sessionUser + '/' + moveSubmitEpisode + "/").update({
           moveSubmit
         });
+
         $(".timer").html("Your move has been submitted.")
-        
+
       });
 }
 
@@ -871,7 +1024,7 @@ database.ref().once("value", function(snapshot) {
 
     if (window.location.href.indexOf("episodes") > -1){
       for (var i = 1; i < episodeNumber+1; i++) {
-        var newEpisodeCell = $(".episodeCell").clone().appendTo($(".cells"));
+        var newEpisodeCell = $(".hiddenEpisodeCell > .episodeCell").clone().appendTo($(".cells"));
         newEpisodeCell.find("#episodeNumber").text(i);
         newEpisodeCell.find("#episodeTitle").text(snapshot.child("episodes").child(i).child("name").val());
         newEpisodeCell.find("#rewardWinner").text(snapshot.child("episodes").child(i).child("rewardWinner").val());

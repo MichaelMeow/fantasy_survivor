@@ -2,7 +2,7 @@
 <html>
 <head>
   <link href="css/bootstrap.css" rel="stylesheet" type="text/css">
-  <link href="css/input-v01.css" rel="stylesheet" type="text/css">
+  <link href="css/input-v02.css" rel="stylesheet" type="text/css">
   <script
   src="https://code.jquery.com/jquery-3.3.1.js"
   integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
@@ -12,7 +12,7 @@
 
   <script src="https://www.gstatic.com/firebasejs/5.5.1/firebase.js"></script>
 
-  <script src="js/scripts-v01.js"></script>
+  <script src="js/scripts-v02.js"></script>
   <meta charset="utf-8">
   <title></title>
 </head>
@@ -43,9 +43,9 @@
     <div class="moveTab">
       <a href="move.html">Make Your Move</a>
     </div>
-    <!-- <div class="scoreboardTab">
+    <div class="scoreboardTab">
       <a href="scoreboard.html">Scoreboard</a>
-    </div> -->
+    </div>
     <div class="episodesTab italic">
       <a href="episodes.html">Episodes</a>
     </div>
@@ -56,7 +56,8 @@
 <div class="cells">
 
 </div>
-<div class="episodeCell">
+<div class="hiddenEpisodeCell">
+  <div class="episodeCell">
   <div>
     Episode <span id="episodeNumber"></span>
   </div>
@@ -75,6 +76,7 @@
   <div>
     <span id="message"></span>
   </div>
+</div>
 </div>
 
 </body>
