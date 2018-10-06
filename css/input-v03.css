@@ -589,3 +589,177 @@ h3 {
   vertical-align: top;
   height: 46px;
 }
+
+.deadZone {
+  margin-top: 30px;
+  height: 54px;
+  width: 620px;
+  z-index: -1;
+  border-radius: 6px;
+}
+
+.contestantBarDead {
+  background-color: #f2f2f2;
+  border-radius: 6px;
+  width: 618px;
+  height: 54px;
+  margin-top: 1px;
+  margin-right: 100px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  justify-content: flex-start;
+  display: none;
+  align-items: center;
+}
+
+.contestantBarDead > div:nth-child(1) {
+  position: relative;
+  left: -63px;
+}
+
+.contestantBarDead > div:nth-child(2) {
+  width: 27px;
+  height: 13px;
+  margin: 0px 10px;
+  font-size: 9px;
+  text-align: center;
+  position: relative;
+}
+
+.contestantBarDead > div:nth-child(3) {
+  width: 130px;
+}
+
+.contestantBarDead > div:nth-child(4) {
+  width: 69px;
+}
+
+.contestantBarDead > div:nth-child(5) {
+  width: 55px;
+}
+
+.contestantBarDead > div:nth-child(6) {
+  width: 69px;
+}
+
+.contestantBarDead > div:nth-child(7) {
+  width: 55px;
+}
+
+.contestantBarDead .contestantPhoto {
+  padding: 0px;
+  width: 45px;
+  height: 45px;
+  overflow: hidden;
+  border-radius: 50%;
+}
+
+.contestantBarDead .contestantPhoto img {
+  width: 53px;
+  margin-left: -5px;
+  margin-top: -1px;
+  filter: grayscale(100%);
+}
+
+.episodeRowComparison {
+  position: relative;
+  margin-top: 5px;
+  display: flex;
+  flex-direction: row;
+  margin-right: 15px;
+}
+
+.episodeRowComparison .comparativeEpisode {
+  cursor: pointer;
+}
+
+.episodeRowComparison .invalidEpisode {
+  color: gray;
+  cursor: default;
+}
+
+.episodeRowComparison div {
+  padding-left: 5px;
+  padding-right: 6px;
+  font-weight: bold;
+  margin-left: -5px;
+  margin-right: 5px;
+}
+
+.comparisonTitle {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.comparisonTableContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.comparisonTable {
+  margin-top: 11px;
+  width: 135px;
+}
+
+.comparisonTable .comparisonTitle {
+  font-weight: bold;
+}
+
+.comparisonTable .comparisonMoves {
+  font-size: 10px;
+  line-height: 17px;
+}
+
+.comparisonTable .comparisonMoves .comparisonMovesDiv {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.linesSvg {
+  position: relative;
+  top: -374px;
+}
+
+.linesSvg svg {
+  stroke: gray;
+}
+
+.linesSvgOne {
+  position: absolute;
+  top: 0px;
+}
+
+.linesSvgTwo {
+  position: absolute;
+  top: 20px;
+  left: 140px;
+}
+
+.activeEpisode {
+  background-color: #8EE7EC;
+  border-radius: 50%;
+}
+
+.comparison {
+  margin-bottom: 10px;
+}
+
+.rankingsPlayers {
+  cursor: pointer;
+}
+
+.green {
+  color: #46b720;
+}
+
+.lightgreen {
+  color: #89e26c;
+}
+
+.red {
+  color: lightcoral;
+}

@@ -48,7 +48,7 @@ database.ref().once("value", function(snapshot) {
     voteOffPool = 3
     multiplierTwoPool = 3
     multiplierOnePool = 3
-  }else if (validContestants.length > 7  && validContestants < 12){
+  }else if (validContestants.length > 6  && validContestants < 12){
     voteOffPool = 2
     multiplierTwoPool = 2
     multiplierOnePool = 2
@@ -107,13 +107,15 @@ database.ref().once("value", function(snapshot) {
       for (var i = 0; i < episodeNumber; i++) {
         var rankArray = snapshot.child("users").child(user).child(i+1).child("moveSubmit").val();
         if (rankArray){
-        var rank = rankArray.indexOf(contestant) + 1;
-        var totalValid = rankArray.length;
-        if (rank < (totalValid + 1 - voteOffPool)){
-          yourStock = yourStock + (1 - ((rank-1) * (1/(totalValid-voteOffPool))))
+          var rank = rankArray.indexOf(contestant) + 1;
+          if (rank != 0){
+            var totalValid = rankArray.length;
+            if (rank < (totalValid + 1 - voteOffPool)){
+              yourStock = yourStock + (1 - ((rank-1) * (1/(totalValid-voteOffPool))))
+            }
+          }
         }
       }
-    }
       return yourStock;
 
     } else {
@@ -184,9 +186,6 @@ database.ref().once("value", function(snapshot) {
       $(this).find(".addedStock").html('(+' + newStock + ')');
       var rankChange = previousRank - newRank;
 
-
-
-
       if (rankChange > 0){
         rankChange = "+" + rankChange
         $(this).find(".previousRank").css({
@@ -207,7 +206,22 @@ database.ref().once("value", function(snapshot) {
       $(this).find(".previousRank").html(rankChange);
       i++;
     });
+    $('.deadZone').children().each(function () {
+      var newRank = i;
+      var previousRank = $(this).find(".previousRankHidden").text();
+      if (previousRank != " "){
+        var rankChange = previousRank - newRank;
+        $(this).find(".previousRank").css({
+          background: 'lightcoral'
+        });
+        $(this).find(".previousRank").html(rankChange);
+      }
+      i++;
+    });
   }
+
+
+
 
   function populateRank() {
     var previousRank = []
@@ -253,7 +267,9 @@ database.ref().once("value", function(snapshot) {
       newContestantBar.find(".currentTribe").html(tribe);
       newContestantBar.find(".originalTribe").html(tribe);
       newContestantBar.find(".yourRank").html(j+1);
-      newContestantBar.find(".previousRankHidden").html(j+1);
+      var prvRankArray = snapshot.child("users").child(sessionUser).child(episodeNumber).child("moveSubmit").val();
+      var prvRank = prvRankArray.indexOf(contestant) + 1
+      newContestantBar.find(".previousRankHidden").html(prvRank);
       newContestantBar.find(".epPoints").html(epPoints);
       newContestantBar.find(".averagePoints").html(average);
       newContestantBar.find(".yourStock").html(yourStock + ' <span class="addedStock">(+' + addedStock + ')</span>');
@@ -278,7 +294,46 @@ database.ref().once("value", function(snapshot) {
       $(".rank").append(newContestantBar);
       newContestantBar.css('display', 'flex');
       j++;
+      // populateDeadZone
     })
+    for (var k = 0; k < votedOffContestants.length; k++) {
+      outContestant = votedOffContestants[k]
+      var contestantObject = snapshot.child("contestants").child(outContestant).val();
+      var first = contestantObject.firstName;
+      var last = contestantObject.lastName;
+      var tribe = contestantObject.currentTribe;
+      var photo = contestantObject.photoURL;
+      var epPoints = snapshot.child("episodes").child(episodeNumber).child(outContestant).child('0').val();
+      var average = calculateAveragePoints(outContestant);
+
+      var yourStock = calculateYourStock(outContestant, sessionUser).toFixed(1);
+      // var addedStock = calculateThisWeekStock(k+1);
+      var idol = idolCount(outContestant);
+      var advantage = advantageCount(outContestant);
+
+      var ovrlRank = parseInt(overallRank.indexOf(outContestant)) + 1;
+
+
+      newContestantBar = $(".contestantBarDead:first").clone();
+      // newContestantBar.addClass(first)
+      newContestantBar.find(".contestantPhoto").html('<img src="' + photo + '" >');
+      newContestantBar.find(".contestantName").html(first + " " + last);
+      newContestantBar.find(".currentTribe").html(tribe);
+      newContestantBar.find(".originalTribe").html(tribe);
+      var prvRankArray = snapshot.child("users").child(sessionUser).child(episodeNumber).child("moveSubmit").val();
+      var prvRank = prvRankArray.indexOf(outContestant) + 1
+      if (prvRank != 0){
+        newContestantBar.find(".previousRankHidden").html(prvRank);
+      } else{
+        newContestantBar.find(".previousRankHidden").html(" ");
+      }
+
+      newContestantBar.find(".contestantPhoto").css('box-shadow', '0px 0px 1px 3px ' + 'gray')
+
+      $(".deadZone").prepend(newContestantBar);
+      newContestantBar.css('display', 'flex');
+    }
+    updateRank();
   }
 
   function multiplierGraveyardStyling(){
@@ -327,63 +382,63 @@ database.ref().once("value", function(snapshot) {
       var userOutScore = 0;
       var userBracketScore = 0;
       for (var j = 1; j < episodeNumber+1; j++) {
-          var episodeUserRankArray = snapshot.child("users").child(users[i]).child(j).child("moveSubmit").val();
-          if (episodeUserRankArray){
-            // points ranking
-            for (var l = 0; l < multiplierTwoPool; l++) {
-              userTotalScore += 2 * snapshot.child("episodes").child(j).child(episodeUserRankArray[l]).child("0").val();
-            }
-            for (var m = 0; m < multiplierOnePool; m++) {
-
-              userTotalScore += 2 * snapshot.child("episodes").child(j).child(episodeUserRankArray[multiplierTwoPool + m]).child("0").val();
-            }
-            numberName.push(userTotalScore)
-            numberName.push(users[i])
-            pointScoreArray.push(numberName);
-            numberName = [];
-            // Out ranking
-            for (var n = 1; n < voteOffPool+1; n++) {
-              var endPosition = episodeUserRankArray.length - n;
-              if (votedOffContestants.indexOf(episodeUserRankArray[endPosition]) > -1){
-                userOutScore += ((voteOffPool-n + 1)/voteOffPool) * 100;
-              }
-            }
-            numberName.push(userOutScore)
-            numberName.push(users[i])
-            outScoreArray.push(numberName);
-            numberName = [];
-            // Bracket Ranking
-            for (var p = 0; p < episodeUserRankArray.length; p++) {
-              var outIndex = votedOffContestants.indexOf(episodeUserRankArray[p]);
-              var userStockMultiplier = calculateYourStock(episodeUserRankArray[p], users[i])
-              if (outIndex > -1){
-                userBracketScore += (outIndex/20)* userStockMultiplier
-              } else {
-                userBracketScore += ((validContestants.length/20)/2)* userStockMultiplier
-              }
-            }
-            numberName.push(userBracketScore)
-            numberName.push(users[i])
-            bracketScoreArray.push(numberName);
-            numberName = [];
+        var episodeUserRankArray = snapshot.child("users").child(users[i]).child(j).child("moveSubmit").val();
+        if (episodeUserRankArray){
+          // points ranking
+          for (var l = 0; l < multiplierTwoPool; l++) {
+            userTotalScore += 2 * snapshot.child("episodes").child(j).child(episodeUserRankArray[l]).child("0").val();
           }
+          for (var m = 0; m < multiplierOnePool; m++) {
+
+            userTotalScore += 2 * snapshot.child("episodes").child(j).child(episodeUserRankArray[multiplierTwoPool + m]).child("0").val();
+          }
+          numberName.push(userTotalScore)
+          numberName.push(users[i])
+          pointScoreArray.push(numberName);
+          numberName = [];
+          // Out ranking
+          for (var n = 1; n < voteOffPool+1; n++) {
+            var endPosition = episodeUserRankArray.length - n;
+            if (votedOffContestants.indexOf(episodeUserRankArray[endPosition]) > -1){
+              userOutScore += ((voteOffPool-n + 1)/voteOffPool) * 100;
+            }
+          }
+          numberName.push(userOutScore)
+          numberName.push(users[i])
+          outScoreArray.push(numberName);
+          numberName = [];
+          // Bracket Ranking
+          for (var p = 0; p < episodeUserRankArray.length; p++) {
+            var outIndex = votedOffContestants.indexOf(episodeUserRankArray[p]);
+            var userStockMultiplier = calculateYourStock(episodeUserRankArray[p], users[i])
+            if (outIndex > -1){
+              userBracketScore += (outIndex/20)* userStockMultiplier
+            } else {
+              userBracketScore += ((validContestants.length/20)/2)* userStockMultiplier
+            }
+          }
+          numberName.push(userBracketScore)
+          numberName.push(users[i])
+          bracketScoreArray.push(numberName);
+          numberName = [];
         }
       }
-      pointScoreArray.sort(function(a, b){return b[0] - a[0]});
-      outScoreArray.sort(function(a, b){return b[0] - a[0]});
-      bracketScoreArray.sort(function(a, b){return b[0] - a[0]});
-      var rank = 1;
-      var tie = 0;
-      var pointLeaderboardArray = []
-      var bracketLeaderboardArray = []
-      var outLeaderboardArray = []
-      for (var q = 0; q < pointScoreArray.length; q++) {
-        // points populate
-        var scoreUserName = snapshot.child("users").child(pointScoreArray[q][1]).child("userName").val();
-        var newScoreboardCell = $(".hidden > .rankingsPlayers").clone().appendTo($(".pointsRanking > .rankingScoreboard"));
-        newScoreboardCell.find(".playerName").html(scoreUserName);
-        newScoreboardCell.find(".pointsScore").html(pointScoreArray[q][0]);
-        if(q+1 == 1){
+    }
+    pointScoreArray.sort(function(a, b){return b[0] - a[0]});
+    outScoreArray.sort(function(a, b){return b[0] - a[0]});
+    bracketScoreArray.sort(function(a, b){return b[0] - a[0]});
+    var rank = 1;
+    var tie = 0;
+    var pointLeaderboardArray = []
+    var bracketLeaderboardArray = []
+    var outLeaderboardArray = []
+    for (var q = 0; q < pointScoreArray.length; q++) {
+      // points populate
+      var scoreUserName = snapshot.child("users").child(pointScoreArray[q][1]).child("userName").val();
+      var newScoreboardCell = $(".hidden > .rankingsPlayers").clone().appendTo($(".pointsRanking > .rankingScoreboard"));
+      newScoreboardCell.find(".playerName").html(scoreUserName);
+      newScoreboardCell.find(".pointsScore").html(pointScoreArray[q][0]);
+      if(q+1 == 1){
       } else if (pointScoreArray[q-1][0] > pointScoreArray[q][0]) {
         rank = rank + 1 + tie;
         tie = 0;
@@ -395,16 +450,16 @@ database.ref().once("value", function(snapshot) {
       if (pointScoreArray[q][1] == sessionUser){
         newScoreboardCell.css("border", "2px solid #8EE7EC")
       }
-      }
-      var highestPointRank = rank
-      rank = 1;
-      for (var q = 0; q < pointScoreArray.length; q++) {
-        // bracket Populate
-        scoreUserName = snapshot.child("users").child(bracketScoreArray[q][1]).child("userName").val();
-        newScoreboardCell = $(".hidden > .rankingsPlayers").clone().appendTo($(".stockRanking > .rankingScoreboard"));
-        newScoreboardCell.find(".playerName").html(scoreUserName);
-        newScoreboardCell.find(".pointsScore").html(bracketScoreArray[q][0].toFixed(2));
-        if(q+1 == 1){
+    }
+    var highestPointRank = rank
+    rank = 1;
+    for (var q = 0; q < pointScoreArray.length; q++) {
+      // bracket Populate
+      scoreUserName = snapshot.child("users").child(bracketScoreArray[q][1]).child("userName").val();
+      newScoreboardCell = $(".hidden > .rankingsPlayers").clone().appendTo($(".stockRanking > .rankingScoreboard"));
+      newScoreboardCell.find(".playerName").html(scoreUserName);
+      newScoreboardCell.find(".pointsScore").html(bracketScoreArray[q][0].toFixed(2));
+      if(q+1 == 1){
       } else if (bracketScoreArray[q-1][0] > bracketScoreArray[q][0]) {
         rank = rank + 1 + tie;
         tie = 0;
@@ -416,16 +471,16 @@ database.ref().once("value", function(snapshot) {
       if (bracketScoreArray[q][1] == sessionUser){
         newScoreboardCell.css("border", "2px solid #8EE7EC")
       }
-      }
-      var highestBracketRank = rank
-      rank = 1;
-      for (var q = 0; q < pointScoreArray.length; q++) {
-        // outPopulate
-        scoreUserName = snapshot.child("users").child(outScoreArray[q][1]).child("userName").val();
-        newScoreboardCell = $(".hidden > .rankingsPlayers").clone().appendTo($(".OutPredictionRanking > .rankingScoreboard"));
-        newScoreboardCell.find(".playerName").html(scoreUserName);
-        newScoreboardCell.find(".pointsScore").html(outScoreArray[q][0]);
-        if(q+1 == 1){
+    }
+    var highestBracketRank = rank
+    rank = 1;
+    for (var q = 0; q < pointScoreArray.length; q++) {
+      // outPopulate
+      scoreUserName = snapshot.child("users").child(outScoreArray[q][1]).child("userName").val();
+      newScoreboardCell = $(".hidden > .rankingsPlayers").clone().appendTo($(".OutPredictionRanking > .rankingScoreboard"));
+      newScoreboardCell.find(".playerName").html(scoreUserName);
+      newScoreboardCell.find(".pointsScore").html(outScoreArray[q][0]);
+      if(q+1 == 1){
       } else if (outScoreArray[q-1][0] > outScoreArray[q][0]) {
         rank = rank + 1 + tie;
         tie = 0;
@@ -437,43 +492,43 @@ database.ref().once("value", function(snapshot) {
       if (outScoreArray[q][1] == sessionUser){
         newScoreboardCell.css("border", "2px solid #8EE7EC")
       }
-      }
-      var highestOutRank = rank
+    }
+    var highestOutRank = rank
 
 
-      // overall ranking
-      var overallRankArray = []
-      for (var r = 0; r < pointScoreArray.length; r++) {
-        var outRank = 0
-        var bracketRank = 0
-        scoreUserName = snapshot.child("users").child(pointScoreArray[r][1]).child("userName").val();
-        var pointRank = pointLeaderboardArray[r][0];
-        console.log(outLeaderboardArray.indexOf(scoreUserName));
-        for (var s = 0; s < outLeaderboardArray.length; s++) {
-          if (outLeaderboardArray[s][1] == scoreUserName){
-            outRank = outLeaderboardArray[s][0]
-          }
+    // overall ranking
+    var overallRankArray = []
+    for (var r = 0; r < pointScoreArray.length; r++) {
+      var outRank = 0
+      var bracketRank = 0
+      scoreUserName = snapshot.child("users").child(pointScoreArray[r][1]).child("userName").val();
+      var pointRank = pointLeaderboardArray[r][0];
+      console.log(outLeaderboardArray.indexOf(scoreUserName));
+      for (var s = 0; s < outLeaderboardArray.length; s++) {
+        if (outLeaderboardArray[s][1] == scoreUserName){
+          outRank = outLeaderboardArray[s][0]
         }
-        for (var t = 0; t < bracketLeaderboardArray.length; t++) {
-          if (bracketLeaderboardArray[t][1] == scoreUserName){
-            bracketRank = bracketLeaderboardArray[t][0]
-          }
-        }
-
-        overallRankTotal = (pointRank/highestPointRank) + (outRank/highestOutRank) + (bracketRank/highestBracketRank)
-        overallRankArray.push([overallRankTotal, scoreUserName])
-        overallRankArray.sort(function(a, b){return a[0] - b[0]});
       }
-      console.log(overallRankArray);
-      // overall Populate
-      rank = 1;
-      tie = 0
-      for (var u = 0; u < overallRankArray.length; u++) {
-        scoreUserName = overallRankArray[u][1];
-        newScoreboardCell = $(".hidden > .rankingsPlayers").clone().appendTo($(".overallRanking > .rankingScoreboard"));
-        newScoreboardCell.find(".playerName").html(scoreUserName);
-        // newScoreboardCell.find(".pointsScore").html(overallRankArray[u][0].toFixed(2));
-        if(u+1 == 1){
+      for (var t = 0; t < bracketLeaderboardArray.length; t++) {
+        if (bracketLeaderboardArray[t][1] == scoreUserName){
+          bracketRank = bracketLeaderboardArray[t][0]
+        }
+      }
+
+      overallRankTotal = (pointRank/highestPointRank) + (outRank/highestOutRank) + (bracketRank/highestBracketRank)
+      overallRankArray.push([overallRankTotal, scoreUserName])
+      overallRankArray.sort(function(a, b){return a[0] - b[0]});
+    }
+    console.log(overallRankArray);
+    // overall Populate
+    rank = 1;
+    tie = 0
+    for (var u = 0; u < overallRankArray.length; u++) {
+      scoreUserName = overallRankArray[u][1];
+      newScoreboardCell = $(".hidden > .rankingsPlayers").clone().appendTo($(".overallRanking > .rankingScoreboard"));
+      newScoreboardCell.find(".playerName").html(scoreUserName);
+      // newScoreboardCell.find(".pointsScore").html(overallRankArray[u][0].toFixed(2));
+      if(u+1 == 1){
       } else if (overallRankArray[u-1][0] < overallRankArray[u][0]) {
         rank = rank + 1 + tie;
         tie = 0;
@@ -503,26 +558,26 @@ database.ref().once("value", function(snapshot) {
   }
 
   function shuffle(array) {
-  var currentIndex = array.length, temporaryValue, randomIndex;
+    var currentIndex = array.length, temporaryValue, randomIndex;
 
-  // While there remain elements to shuffle...
-  while (0 !== currentIndex) {
+    // While there remain elements to shuffle...
+    while (0 !== currentIndex) {
 
-    // Pick a remaining element...
-    randomIndex = Math.floor(Math.random() * currentIndex);
-    currentIndex -= 1;
+      // Pick a remaining element...
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex -= 1;
 
-    // And swap it with the current element.
-    temporaryValue = array[currentIndex];
-    array[currentIndex] = array[randomIndex];
-    array[randomIndex] = temporaryValue;
+      // And swap it with the current element.
+      temporaryValue = array[currentIndex];
+      array[currentIndex] = array[randomIndex];
+      array[randomIndex] = temporaryValue;
+    }
+
+    return array;
   }
 
-  return array;
-}
-
   function movesNotTaken(user){
-      for (var j = 1; j < episodeNumber+1; j++) {
+    for (var j = 1; j < episodeNumber+1; j++) {
 
       if(j>1 && snapshot.child("users").child(user).child(j).val() == null){
         var moveSubmit = randomMove(j);
@@ -532,6 +587,7 @@ database.ref().once("value", function(snapshot) {
       }
     }
   }
+
 
   // DOCUMENT READY
   // DOCUMENT READY
@@ -833,6 +889,94 @@ database.ref().once("value", function(snapshot) {
 
     if (window.location.href.indexOf("scoreboard") > -1){
       populateScoreboards();
+      $(".rankingsPlayers").on( "click", function(event) {
+        var comparativeEpisode = episodeNumber + 1;
+
+        var comparisonUser = $(this).find(".playerName").text()
+        var comparisonUserLower = $(this).find(".playerName").text().toLowerCase();
+        var newComparisonTable = $(".comparison").append().insertAfter(this);
+        $(".episodeRowComparison > div").not(".episodeRowComparison > div:first").remove();
+        for (var i = 1; i <= episodeNumber; i++) {
+          if (snapshot.child("users").child(comparisonUserLower).child(i).val()){
+            $(".episodeRowComparison").append('<div class="comparativeEpisode">' + i + "</div>")
+          } else {
+            $(".episodeRowComparison").append('<div class="comparativeEpisode invalidEpisode">' + i + "</div>")
+          }
+        }
+
+        $(".comparativeEpisode").not(".invalidEpisode").on( "click", function() {
+            $(this).addClass("activeEpisode");
+            $(".comparativeEpisode").not(this).removeClass("activeEpisode");
+            $(".comparisonMoves").empty();
+            $(".comparisonTitle >div:first").remove();
+            $(".comparisonMoves:eq(1)").empty();
+            $(".comparisonTitle:eq(1) >div:first").remove();
+            comparativeEpisode = $(this).text();
+            var comparisonUserDisplay = comparisonUser
+            if (comparisonUser.length > 11){
+              comparisonUserDisplay = comparisonUser.substring(0,11)+ "...";
+            }
+            $(".comparisonTitle:first").prepend('<div>' + comparisonUserDisplay + '</div>');
+            $(".comparisonTitle:eq(1)").prepend('<div>Your Moves</div>');
+            comparisonMoves = snapshot.child("users").child(comparisonUserLower).child(comparativeEpisode).child("moveSubmit").val();
+            if (comparisonMoves != null){
+              for (var i = 0; i < comparisonMoves.length; i++) {
+                var rankDisplay = i + 1
+                var compareStock = calculateYourStock(comparisonMoves[i], comparisonUserLower).toFixed(1);
+                $(".comparisonMoves:eq(0)").append('<div class="comparisonMovesDiv"><div><strong>' + rankDisplay + ': </strong>' + comparisonMoves[i] + '</div><div>' + compareStock + '</div></div>');
+              }
+              for (var i = comparativeEpisode-2; i >= 0; i--) {
+                var compareStock = calculateYourStock(votedOffContestants[i], comparisonUserLower).toFixed(1);
+                $(".comparisonMoves:eq(0)").append('<div class="comparisonMovesDiv"><div><strong>Out: </strong>' + votedOffContestants[i] + '</div><div>' + compareStock + '</div></div>');
+              }
+              // for session user
+              comparisonMoves = snapshot.child("users").child(sessionUser).child(comparativeEpisode).child("moveSubmit").val();
+              for (var i = 0; i < comparisonMoves.length; i++) {
+                var rankDisplay = i + 1
+                var compareStock = calculateYourStock(comparisonMoves[i], sessionUser).toFixed(1);
+                $(".comparisonMoves:eq(1)").append('<div class="comparisonMovesDiv"><div><strong>' + rankDisplay + ': </strong>' + comparisonMoves[i] + '</div><div>' + compareStock + '</div></div>');
+              }
+              for (var i = comparativeEpisode-2; i >= 0; i--) {
+                var compareStock = calculateYourStock(votedOffContestants[i], sessionUser).toFixed(1);
+                $(".comparisonMoves:eq(1)").append('<div class="comparisonMovesDiv"><div><strong>Out: </strong>' + votedOffContestants[i] + '</div><div>' + compareStock + '</div></div>');
+              }
+
+              if(comparativeEpisode < 5){
+                pool1 = 4
+                pool2 = 4
+                deadPool = 4
+              }else if(comparativeEpisode < 9){
+                pool1 = 3
+                pool2 = 3
+                deadPool = 3
+              } else if(comparativeEpisode < 14){
+                pool1 = 2
+                pool2 = 2
+                deadPool = 2
+              } else if(comparativeEpisode < 5){
+                pool1 = 1
+                pool2 = 1
+                deadPool = 3
+              }
+              for (var j = 1; j <= pool2; j++) {
+                $(".comparisonMoves > div:nth-child("+ j +") > * > strong").addClass("green");
+              }
+              for (var k = pool2+1; k <= pool2+pool1; k++) {
+                $(".comparisonMoves > div:nth-child("+ k +") > * > strong").addClass("lightgreen");
+              }
+
+              var plusOuts = comparativeEpisode - 1
+              for (var l = plusOuts+1; l <= plusOuts + deadPool; l++) {
+                $(".comparisonMoves > div:nth-last-child("+ l +") > * > strong").addClass("red");
+              }
+            }else {
+              $(".comparisonMoves:eq(0)").append('<div>No Episode Data</div>');
+            }
+        })
+        console.log("test");
+        $('.comparativeEpisode:nth-child(' + comparativeEpisode + ')').triggerHandler('click');
+
+      })
     }
 
     // log out click function
@@ -923,11 +1067,11 @@ database.ref().once("value", function(snapshot) {
           $(".timer").html("Time has run out this week.  Please wait patiently while scores are processed.")
           $(".submitButton>button").hide();
         } else if (snapshot.child("users").child(sessionUser).child(episodeNumber+1).child("moveSubmit").val()){
-          $(".timer").html("Your move has been submitted, feel free to change it until" + days + "d " + hours + "h "
+          $(".timer").html("Your move has been submitted, feel free to change it until " + days + "d " + hours + "h "
           + minutes + "m " + seconds + "s.");
-      } else {
-        ""
-      }
+        } else {
+          ""
+        }
       }, 1000);
 
 
@@ -1015,7 +1159,7 @@ database.ref().once("value", function(snapshot) {
         $(".timer").html("Your move has been submitted.")
 
       });
-}
+    }
 
 
 
@@ -1024,7 +1168,7 @@ database.ref().once("value", function(snapshot) {
 
     if (window.location.href.indexOf("episodes") > -1){
       for (var i = 1; i < episodeNumber+1; i++) {
-        var newEpisodeCell = $(".hiddenEpisodeCell > .episodeCell").clone().appendTo($(".cells"));
+        var newEpisodeCell = $(".hiddenEpisodeCell > .episodeCell").clone().prependTo($(".cells"));
         newEpisodeCell.find("#episodeNumber").text(i);
         newEpisodeCell.find("#episodeTitle").text(snapshot.child("episodes").child(i).child("name").val());
         newEpisodeCell.find("#rewardWinner").text(snapshot.child("episodes").child(i).child("rewardWinner").val());
