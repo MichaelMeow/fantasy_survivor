@@ -768,7 +768,34 @@ h3 {
   display: none;
 }
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 830px) {
+  .rankHeader {
+    visibility: hidden;
+    width: 300px;
+    overflow: hidden;
+  }
+  .grabberLeft, .grabberRight, .previousRank, .originalTribe, .epPoints, .averagePoints, .overallRank, .idol, .advantage, .multiplierDiv, .deadZone, .rankHeaderLines {
+    display: none;
+  }
+  .rankContents {
+    width: 400px;
+  }
+  .multiplierContainer {
+    width: 380px;
+  }
+  .rank {
+    width: 400px;
+  }
+  .barBackground {
+    width: 300px;
+    margin-left: 6px;
+  }
+  .titleBar {
+    width: 100%;
+  }
+}
+
+@media only screen and (max-width: 650px) {
   .title {
     display: none;
   }
