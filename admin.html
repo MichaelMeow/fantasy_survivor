@@ -2,7 +2,7 @@
 <html>
 <head>
   <link href="css/bootstrap.css" rel="stylesheet" type="text/css">
-  <link href="css/input-v03.css" rel="stylesheet" type="text/css">
+  <link href="css/input-v04.css" rel="stylesheet" type="text/css">
   <script
   src="https://code.jquery.com/jquery-3.3.1.js"
   integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
@@ -12,7 +12,7 @@
 
   <script src="https://www.gstatic.com/firebasejs/5.5.1/firebase.js"></script>
 
-  <script src="js/scripts-v02.js"></script>
+  <script src="js/scripts-v04.js"></script>
   <meta charset="utf-8">
   <title></title>
 </head>
@@ -84,6 +84,10 @@
 </div>
   <div>
     <textarea id="messageToDatabase" class="messageInput" name="Text1" cols="40" rows="5"></textarea>
+  </div>
+  <div class="nextEpisodeDate">
+    Enter air date of next episode:
+    <input id="airdateToDatabase" type="date" name="" value="">
   </div>
 <div class="scoringTable">
   <div>
@@ -1311,7 +1315,7 @@
     Pick a tribe color:
   </div>
   <div>
-    <input id="newTribeColor" type="color" name="" value="">
+    <input id="newTribeColor" type="color" name="" value="#ffffff">
   </div>
   <div>
     <button id="newTribeSubmit" type="button" name="button">Submit</button>
@@ -1356,6 +1360,12 @@
 
   </div>
 </form>
+<div class="deleteUser">
+  <h3>Delete User</h3>
+  Enter User Name:
+  <input id="deleteUser" type="text" name="" value="">
+  <button id="deleteUserButton" type="button" name="button">Delete User</button>
+</div>
 <div class="clearData">
   Instructions to clear database before new season:  I will add this later.
 </div>

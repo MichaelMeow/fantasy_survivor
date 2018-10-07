@@ -367,7 +367,20 @@ database.ref().once("value", function(snapshot) {
     }
     var voteOffHeight = voteOffPool*55
     var voteOffPosition = (validContestants.length * 55) - voteOffHeight + 244;
-    $(".graveyard").append('<div class="multiplierDiv graveyardBackground tooltipmeowalt" style="height:' + voteOffHeight + 'px; top:' + voteOffPosition + 'px;"><strong>PREDICT<br>GOING<br>HOME</strong><span class="tooltiptext">If one of these contestants goes home you score points in the Out Prediction category equal to 1 or less depending on their rank in this field</span></div>');
+    var outBonus = "";
+    if (voteOffPool == 4){
+      outBonus = "+25<br>+50<br>+75<br>+100"
+    }
+    if (voteOffPool == 3){
+      outBonus = "+33<br>+67<br>+100"
+    }
+    if (voteOffPool == 2){
+      outBonus = "+50<br>+100"
+    }
+    if (voteOffPool == 1){
+      outBonus = "+100"
+    }
+    $(".graveyard").append('<div class="multiplierDiv graveyardBackground tooltipmeowalt" style="height:' + voteOffHeight + 'px; top:' + voteOffPosition + 'px;"><strong>PREDICT<br>OUT<br>' + outBonus + '</strong><span class="tooltiptext">If one of these contestants goes home you score points in the Out Prediction category equal to 1 or less depending on their rank in this field</span></div>');
   }
 
 
@@ -600,6 +613,9 @@ database.ref().once("value", function(snapshot) {
   $(document).ready(function(){
 
 
+    if (sessionUser && snapshot.child("users").child(sessionUser).child(episodeNumber+1).child("moveSubmit").val() == null){
+      $(".moveAlert").css("display", "inline-block")
+    }
 
     // admin page load
 
@@ -654,8 +670,27 @@ database.ref().once("value", function(snapshot) {
         var title = $("#epTitleToDatabase").val();
         var reward = $("#rewardWinnerToDatabase").val();
         var immunity = $("#immunityWinnerToDatabase").val();
+        var airdate = $("#airdateToDatabase").val();
         var voted = $("#voteOffToDatabase").val().replace(/\s+/g, '-').toLowerCase();
         var message = $("#messageToDatabase").val();
+
+        if (number == episodeNumber + 1){
+          for (var i = 0; i < users.length; i++) {
+            if(snapshot.child("users").child(users[i]).child(number).val() == null){
+              var prevMoveSubmit = snapshot.child("users").child(users[i]).child(number-1).child("moveSubmit").val();
+              var outToSubtract = snapshot.child("episodes").child(number-1).child("votedOff").val();
+              var index = prevMoveSubmit.indexOf(outToSubtract);
+              if (index !== -1) {
+                prevMoveSubmit.splice(index, 1);
+              }
+              var moveSubmit = prevMoveSubmit
+              database.ref('users/' + users[i] + '/' + number + '/').set({
+                moveSubmit
+              });
+            }
+          }
+        }
+
         if (number < episodeNumber + 2 && number > 0){
           if((number < episodeNumber + 1 && confirm('Are you sure you want to edit existing episode number ' + number + '?')) || (number == episodeNumber + 1 && confirm('Are you sure you want to submit a new episode?  Warning: this will rollover all users to next episode'))){
             database.ref('episodes/' + number + '/').set({
@@ -663,7 +698,8 @@ database.ref().once("value", function(snapshot) {
               rewardWinner: reward,
               immunityWinner: immunity,
               votedOff: voted,
-              message: message
+              message: message,
+              airdate: airdate
             });
             $(".episodeSubmitted").html("Episode " + number + " submitted.")
 
@@ -786,12 +822,14 @@ database.ref().once("value", function(snapshot) {
             var rewardWinner = snapshot.child("episodes").child(i).child("rewardWinner").val();
             var episodeName = snapshot.child("episodes").child(i).child("name").val();
             var message = snapshot.child("episodes").child(i).child("message").val();
+            var airdate = snapshot.child("episodes").child(i).child("airdate").val();
             $("#epNumberToDatabase").val(i);
             $("#epTitleToDatabase").val(episodeName);
             $("#rewardWinnerToDatabase").val(rewardWinner);
             $("#immunityWinnerToDatabase").val(immunityWinner);
             $("#voteOffToDatabase").val(votedOff);
-            $("#messageToDatabase").val(message);
+            $("#airdateToDatabase").val(airdate);
+
             for (var j = 1; j < 21; j++) {
               var contestant = ""
               for (var p = 0; p < contestants.length; p++) {
@@ -883,7 +921,17 @@ database.ref().once("value", function(snapshot) {
         });
         $(".contestantSubmitted").html(first + " " + last + " submitted.")
       })
+      // admin delete user
+      $("#deleteUserButton").click(function(){
+        var userToBeDeleted = $("#deleteUser").val();
+        if (userToBeDeleted && confirm('Are you sure you want to delete user ' + userToBeDeleted + "? (Cannot be undone)")){
+          database.ref('users/' + userToBeDeleted + "/").set({})
+        }
+        });
+
     }
+
+
 
     // populate scoreboard
 
@@ -1047,7 +1095,46 @@ database.ref().once("value", function(snapshot) {
 
       var timeOut = 0;
       // Set the date we're counting down to
-      var countDownDate = new Date("Oct 10, 2018 17:10:00").getTime();
+      var nextAirdate = snapshot.child("episodes").child(episodeNumber).child("airdate").val().split("-");
+      if (nextAirdate[1] == "1"){
+        nextAirdate[1] = "Jan";
+      }
+      if (nextAirdate[1] == "2"){
+        nextAirdate[1] = "Feb";
+      }
+      if (nextAirdate[1] == "3"){
+        nextAirdate[1] = "Mar";
+      }
+      if (nextAirdate[1] == "4"){
+        nextAirdate[1] = "Apr";
+      }
+      if (nextAirdate[1] == "5"){
+        nextAirdate[1] = "May";
+      }
+      if (nextAirdate[1] == "6"){
+        nextAirdate[1] = "Jun";
+      }
+      if (nextAirdate[1] == "7"){
+        nextAirdate[1] = "Jul";
+      }
+      if (nextAirdate[1] == "8"){
+        nextAirdate[1] = "Aug";
+      }
+      if (nextAirdate[1] == "9"){
+        nextAirdate[1] = "Sep";
+      }
+      if (nextAirdate[1] == "10"){
+        nextAirdate[1] = "Oct";
+      }
+      if (nextAirdate[1] == "11"){
+        nextAirdate[1] = "Nov";
+      }
+      if (nextAirdate[1] == "12"){
+        nextAirdate[1] = "Dec";
+      }
+      var nextAirdateString = nextAirdate[1] + nextAirdate[2] + "," + nextAirdate[0];
+
+      var countDownDate = new Date(nextAirdateString + " 17:10:00").getTime();
       // Update the count down every 1 second
       var x = setInterval(function() {
         // Get todays date and time
@@ -1067,8 +1154,9 @@ database.ref().once("value", function(snapshot) {
           $(".timer").html("Time has run out this week.  Please wait patiently while scores are processed.")
           $(".submitButton>button").hide();
         } else if (snapshot.child("users").child(sessionUser).child(episodeNumber+1).child("moveSubmit").val()){
-          $(".timer").html("Your move has been submitted, feel free to change it until " + days + "d " + hours + "h "
+          $(".timer").html("Your move has been submitted, time to resubmit: " + days + "d " + hours + "h "
           + minutes + "m " + seconds + "s.");
+
         } else {
           ""
         }
@@ -1157,7 +1245,7 @@ database.ref().once("value", function(snapshot) {
         });
 
         $(".timer").html("Your move has been submitted.")
-
+        $(".moveAlert").css("display", "none")
       });
     }
 

@@ -107,8 +107,9 @@ body {
 }
 
 .navBar {
-  max-width: 400px;
+  max-width: 415px;
   margin: auto;
+  margin-top: 3px;
   @include flexRowCenter;
   div {
     width: 120px;
@@ -119,7 +120,7 @@ body {
 .submitMove {
   max-width: 300px;
   margin: auto;
-  margin-top: 35px;
+  margin-top: 32px;
   @include flexColumnCenter;
 }
 
@@ -486,6 +487,7 @@ button:hover {
   align-items: center;
   justify-content: center;
   font-size: 9px;
+  text-align: center;
 }
 .barBackground {
   position: absolute;
@@ -766,6 +768,22 @@ h3 {
   .titleBar{
     width: 100%;
   }
+}
+
+.moveTab {
+  display: flex;
+  flex-direction: row;
+}
+.moveAlert{
+  display:none;
+  background-color: lightcoral;
+  width: 10px;
+  border-radius: 30%;
+  font-style: normal;
+  margin-left: 3px;
+  // font-size: 10px;
+  font-weight: bold;
+
 }
 
 @media only screen and (max-width: 650px) {
