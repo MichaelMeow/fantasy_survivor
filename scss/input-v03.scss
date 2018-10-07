@@ -734,3 +734,15 @@ h3 {
 .red {
   color: lightcoral;
 }
+
+.titlePhone{
+  display: none;
+}
+@media only screen and (max-width: 600px) {
+  .title{
+    display: none;
+  }
+  .titlePhone {
+    display: inline-block;
+  }
+}
