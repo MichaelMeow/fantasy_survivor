@@ -612,6 +612,10 @@ database.ref().once("value", function(snapshot) {
 
   $(document).ready(function(){
 
+    if(sessionUser == null && window.location.href.indexOf("index") == -1){
+      window.location.href = "index.html";
+    }
+
 
     if (sessionUser && snapshot.child("users").child(sessionUser).child(episodeNumber+1).child("moveSubmit").val() == null){
       $(".moveAlert").css("display", "inline-block")
