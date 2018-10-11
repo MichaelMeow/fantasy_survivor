@@ -170,16 +170,29 @@ body {
   width: 46px;
 }
 
-.rankHeader .rankHeaderLines {
-  position: absolute;
-}
-
 .rankHeader #playerRankingText {
   width: 160px;
 }
 
 .rankHeader #scoreRankingText {
   width: 45px;
+}
+
+.rankHeaderLines {
+  position: absolute;
+  top: 203px;
+  left: 50%;
+  -webkit-transform: translate(-50%);
+  transform: translate(-50%);
+}
+
+.rankingScoreboard {
+  position: relative;
+}
+
+.scoreboardRankHeaderLines {
+  position: absolute;
+  top: 101px;
 }
 
 .contestantBarMain {

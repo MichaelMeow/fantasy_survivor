@@ -96,7 +96,7 @@ database.ref().once("value", function(snapshot) {
     for (var i = 0; i < episodeNumber; i++) {
       totalForAverage = totalForAverage + parseInt(snapshot.child("episodes").child(i+1).child(contestant).child('0').val());
     }
-    var average = totalForAverage/episodeNumber;
+    var average = (totalForAverage/episodeNumber).toFixed(1);
     return average;
   }
 
@@ -405,22 +405,35 @@ database.ref().once("value", function(snapshot) {
 
             userTotalScore += 2 * snapshot.child("episodes").child(j).child(episodeUserRankArray[multiplierTwoPool + m]).child("0").val();
           }
+        }
+      }
           numberName.push(userTotalScore)
           numberName.push(users[i])
           pointScoreArray.push(numberName);
           numberName = [];
           // Out ranking
+          for (var j = 1; j < episodeNumber+1; j++) {
+            var episodeUserRankArray = snapshot.child("users").child(users[i]).child(j).child("moveSubmit").val();
+            if (episodeUserRankArray){
+
           for (var n = 1; n < voteOffPool+1; n++) {
             var endPosition = episodeUserRankArray.length - n;
             if (votedOffContestants.indexOf(episodeUserRankArray[endPosition]) > -1){
               userOutScore += ((voteOffPool-n + 1)/voteOffPool) * 100;
             }
           }
+        }
+      }
           numberName.push(userOutScore)
           numberName.push(users[i])
           outScoreArray.push(numberName);
           numberName = [];
           // Bracket Ranking
+
+          for (var j = 1; j < episodeNumber+1; j++) {
+            var episodeUserRankArray = snapshot.child("users").child(users[i]).child(j).child("moveSubmit").val();
+            if (episodeUserRankArray){
+
           for (var p = 0; p < episodeUserRankArray.length; p++) {
             var outIndex = votedOffContestants.indexOf(episodeUserRankArray[p]);
             var userStockMultiplier = calculateYourStock(episodeUserRankArray[p], users[i])
@@ -430,13 +443,15 @@ database.ref().once("value", function(snapshot) {
               userBracketScore += ((validContestants.length/20)/2)* userStockMultiplier
             }
           }
+        }
+      }
           numberName.push(userBracketScore)
           numberName.push(users[i])
           bracketScoreArray.push(numberName);
           numberName = [];
         }
-      }
-    }
+
+
     pointScoreArray.sort(function(a, b){return b[0] - a[0]});
     outScoreArray.sort(function(a, b){return b[0] - a[0]});
     bracketScoreArray.sort(function(a, b){return b[0] - a[0]});

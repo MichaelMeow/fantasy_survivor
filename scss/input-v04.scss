@@ -176,9 +176,6 @@ body {
   & > div:nth-child(11) {
     width: 46px;
   }
-  .rankHeaderLines {
-    position: absolute;
-  }
 
   #playerRankingText {
     width: 160px;
@@ -188,6 +185,20 @@ body {
   }
 }
 
+.rankHeaderLines {
+  position: absolute;
+  top: 203px;
+  left: 50%;
+  -webkit-transform: translate(-50%);
+  transform: translate(-50%);
+}
+.rankingScoreboard{
+  position: relative;
+}
+.scoreboardRankHeaderLines {
+  position: absolute;
+  top:101px;
+}
 
 .contestantBarMain {
   margin-top: 10px;
