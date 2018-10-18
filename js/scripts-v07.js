@@ -142,9 +142,25 @@ database.ref().once("value", function(snapshot) {
         for (var j = 0; j < users.length; j++) {
           var stock = parseFloat(calculateYourStock(contestants[i], users[j]));
           contestantTotalStock += stock;
-          if (contestantTotalStock == 0){
-            contestantTotalStock = ".0000"
-          }
+          // if (contestantTotalStock == 0){
+          //   contestantTotalStock = ".0000"
+          // }
+        }
+        contestantTotalStock = contestantTotalStock.toFixed(1);
+        contestantTotalStock = contestantTotalStock*10;
+        contestantTotalStock = contestantTotalStock.toString();
+        var addZeroes = 5 - contestantTotalStock.length;
+        if (addZeroes == 1){
+          contestantTotalStock = "0" + contestantTotalStock;
+        }
+        if (addZeroes == 2){
+          contestantTotalStock = "00" + contestantTotalStock;
+        }
+        if (addZeroes == 3){
+          contestantTotalStock = "000" + contestantTotalStock;
+        }
+        if (addZeroes == 4){
+          contestantTotalStock = "0000" + contestantTotalStock;
         }
         stockArray.push(contestantTotalStock+contestants[i])
       }
@@ -157,6 +173,7 @@ database.ref().once("value", function(snapshot) {
           }
         }
       }
+      console.log(stockArray);
       return stockRank;
     } else {
       return []
@@ -327,7 +344,7 @@ database.ref().once("value", function(snapshot) {
       } else{
         newContestantBar.find(".previousRankHidden").html(" ");
       }
-
+      newContestantBar.find(".overallRank").html(ovrlRank);
       newContestantBar.find(".contestantPhoto").css('box-shadow', '0px 0px 1px 3px ' + 'gray')
 
       $(".deadZone").prepend(newContestantBar);
@@ -418,7 +435,10 @@ database.ref().once("value", function(snapshot) {
 
           for (var n = 1; n < voteOffPool+1; n++) {
             var endPosition = episodeUserRankArray.length - n;
-            if (votedOffContestants.indexOf(episodeUserRankArray[endPosition]) > -1){
+            // it's not voted off contestants, it's only the one voted off that episode
+            var currentContestantOut = [snapshot.child("episodes").child(j).child("votedOff").val()];
+            console.log(currentContestantOut);
+            if (currentContestantOut.indexOf(episodeUserRankArray[endPosition]) > -1){
               userOutScore += ((voteOffPool-n + 1)/voteOffPool) * 100;
             }
           }
@@ -1195,7 +1215,8 @@ database.ref().once("value", function(snapshot) {
           uiHeight = ui.item.outerHeight(true);
           ui.item.nextAll('#transitionFix:not(.marker)').css({
             transition: 'transform 0s',
-            transform: 'translateY(' +uiHeight+ 'px)'
+            transform: 'translateY(' +uiHeight+ 'px)',
+
           });
           $('#transitionFix:not(.marker)').delay(50)
           .queue(function (next) {
@@ -1208,11 +1229,15 @@ database.ref().once("value", function(snapshot) {
             height: 0,
             padding: 0
           });
+          $(".deadZone").addClass("marginTop45");
         },
         change: function(e, ui) {
           changeIndex = ui.placeholder.index();
           changeRed = changeIndex+2;
           changeGreen = changeIndex;
+          ui.item.nextAll('#transitionFix:not(.marker)').css({
+            transition: 'transform .2s'
+          });
           if (startIndex > changeIndex) {
             var slice = $('ul li').slice(changeIndex, $('ul li').length);
             slice.not('.ui-sortable-helper').each(function() {
@@ -1222,6 +1247,7 @@ database.ref().once("value", function(snapshot) {
               //   });
               // }
               item.css({
+                transition: 'transform .2s',
                 transform: 'translateY(' +uiHeight+ 'px)'
               });
             });
@@ -1248,6 +1274,7 @@ database.ref().once("value", function(snapshot) {
             background: 'none',
             transform: 'translateY(0)'
           })
+          $(".deadZone").removeClass("marginTop45");
         }
       });
 

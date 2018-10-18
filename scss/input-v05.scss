@@ -636,8 +636,10 @@ h3 {
     width:69px;
   }
   & > div:nth-child(7) {
-    width:55px;
+    width:155px;
+    text-align: right;
   }
+
 
     .contestantPhoto {
       padding: 0px;
@@ -804,4 +806,12 @@ h3 {
   .titlePhone {
     display: inline-block;
   }
+}
+
+.marginTop45 {
+  margin-top: 85px;
+}
+
+body {
+  min-height: 1300px;
 }
