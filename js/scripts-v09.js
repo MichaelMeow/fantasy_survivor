@@ -296,7 +296,7 @@ database.ref().once("value", function(snapshot) {
       newContestantBar.find(".contestantPhoto").html('<img src="' + photo + '" >');
       newContestantBar.find(".contestantName").html(first + " " + last);
       newContestantBar.find(".currentTribe").html(tribe);
-      newContestantBar.find(".originalTribe").html(tribe);
+      newContestantBar.find(".originalTribe").html(contestantObject.originalTribe);
       newContestantBar.find(".yourRank").html(j+1);
       var prvRankArray = snapshot.child("users").child(sessionUser).child(episodeNumber).child("moveSubmit").val();
       var prvRank = prvRankArray.indexOf(contestant) + 1
