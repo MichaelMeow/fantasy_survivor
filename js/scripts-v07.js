@@ -30,7 +30,20 @@ database.ref().once("value", function(snapshot) {
   var tribes = Object.keys(snapshot.child("tribes").val())
   var episodeNumber = Object.keys(snapshot.child("episodes").val()).length - 1;
   for (var i = 1; i < (episodeNumber+1); i++) {
-    votedOffContestants.push(snapshot.child("episodes").child(i).child("votedOff").val());
+    if(Array.isArray(snapshot.child("episodes").child(i).child("votedOff").val())){
+      var offArray = snapshot.child("episodes").child(i).child("votedOff").val();
+      if(offArray[0]){
+        votedOffContestants.push(offArray[0])
+      }
+      if(offArray[1]){
+        votedOffContestants.push(offArray[1])
+      }
+      if(offArray[2]){
+        votedOffContestants.push(offArray[2])
+      }
+    } else {
+      votedOffContestants.push(snapshot.child("episodes").child(i).child("votedOff").val());
+    }
   }
   for (var i = 0; i < contestants.length; i++) {
     if(votedOffContestants.indexOf(contestants[i])== -1){
@@ -40,15 +53,16 @@ database.ref().once("value", function(snapshot) {
   var voteOffPool = 0
   var multiplierTwoPool = 0
   var multiplierOnePool = 0
+  console.log(validContestants.length);
   if (validContestants.length > 15){
     voteOffPool = 4
     multiplierTwoPool = 4
     multiplierOnePool = 4
-  }else if (validContestants.length > 11 && validContestants < 16){
+  }else if (validContestants.length > 11 && validContestants.length < 16){
     voteOffPool = 3
     multiplierTwoPool = 3
     multiplierOnePool = 3
-  }else if (validContestants.length > 6  && validContestants < 12){
+  }else if (validContestants.length > 6  && validContestants.length < 12){
     voteOffPool = 2
     multiplierTwoPool = 2
     multiplierOnePool = 2
@@ -432,14 +446,67 @@ database.ref().once("value", function(snapshot) {
           for (var j = 1; j < episodeNumber+1; j++) {
             var episodeUserRankArray = snapshot.child("users").child(users[i]).child(j).child("moveSubmit").val();
             if (episodeUserRankArray){
+              var votedOffContestantsOutScore = [];
+              var validContestantsOutScore = [];
+              if(Array.isArray(snapshot.child("episodes").child(j).child("votedOff").val())){
+                var offArray = snapshot.child("episodes").child(j).child("votedOff").val();
+                if(offArray[0]){
+                  votedOffContestantsOutScore.push(offArray[0])
+                }
+                if(offArray[1]){
+                  votedOffContestantsOutScore.push(offArray[1])
+                }
+                if(offArray[2]){
+                  votedOffContestantsOutScore.push(offArray[2])
+                }
+              } else {
+                votedOffContestantsOutScore.push(snapshot.child("episodes").child(j).child("votedOff").val());
+              }
+            for (var z = 0; z < contestants.length; z++) {
+              if(votedOffContestantsOutScore.indexOf(contestants[z])== -1){
+                validContestantsOutScore.push(contestants[z]);
+              }
+            }
+            if (validContestantsOutScore.length > 15){
+              voteOffPoolOutScore = 4;
+            }else if (validContestantsOutScore.length > 11 && validContestantsOutScore.length < 16){
+              voteOffPoolOutScore = 3;
+            }else if (validContestantsOutScore.length > 6  && validContestantsOutScore.length < 12){
+              voteOffPoolOutScore = 2;
+            }else {
+              voteOffPoolOutScore = 3;
+            }
 
-          for (var n = 1; n < voteOffPool+1; n++) {
+          for (var n = 1; n < voteOffPoolOutScore+1; n++) {
             var endPosition = episodeUserRankArray.length - n;
             // it's not voted off contestants, it's only the one voted off that episode
             var currentContestantOut = [snapshot.child("episodes").child(j).child("votedOff").val()];
             console.log(currentContestantOut);
             if (currentContestantOut.indexOf(episodeUserRankArray[endPosition]) > -1){
-              userOutScore += ((voteOffPool-n + 1)/voteOffPool) * 100;
+              // change to vote off pool number at specific ep
+              userOutScore += ((voteOffPoolOutScore-n + 1)/voteOffPoolOutScore) * 100;
+
+            }
+            var currentContestantOut = [snapshot.child("episodes").child(j).child("votedOff").child("0").val()];
+            console.log(currentContestantOut);
+            if (currentContestantOut.indexOf(episodeUserRankArray[endPosition]) > -1){
+              // change to vote off pool number at specific ep
+              userOutScore += ((voteOffPoolOutScore-n + 1)/voteOffPoolOutScore) * 100;
+
+            }
+            var currentContestantOut = [snapshot.child("episodes").child(j).child("votedOff").child("1").val()];
+            console.log(currentContestantOut);
+            if (currentContestantOut.indexOf(episodeUserRankArray[endPosition]) > -1){
+              // change to vote off pool number at specific ep
+              userOutScore += ((voteOffPoolOutScore-n + 1)/voteOffPoolOutScore) * 100;
+
+            }
+            var currentContestantOut = [snapshot.child("episodes").child(j).child("votedOff").child("2").val()];
+            console.log(currentContestantOut);
+            if (currentContestantOut.indexOf(episodeUserRankArray[endPosition]) > -1){
+              // change to vote off pool number at specific ep
+              userOutScore += ((voteOffPoolOutScore-n + 1)/voteOffPoolOutScore) * 100;
+
             }
           }
         }
@@ -646,7 +713,7 @@ database.ref().once("value", function(snapshot) {
   // DOCUMENT READY
 
   $(document).ready(function(){
-
+    console.log(votedOffContestants);
     if(sessionUser == null && window.location.href.indexOf("index") == -1){
       window.location.href = "index.html";
     }
@@ -711,6 +778,8 @@ database.ref().once("value", function(snapshot) {
         var immunity = $("#immunityWinnerToDatabase").val();
         var airdate = $("#airdateToDatabase").val();
         var voted = $("#voteOffToDatabase").val().replace(/\s+/g, '-').toLowerCase();
+        var voted2 = $("#voteOffToDatabase2").val().replace(/\s+/g, '-').toLowerCase();
+        var voted3 = $("#voteOffToDatabase3").val().replace(/\s+/g, '-').toLowerCase();
         var message = $("#messageToDatabase").val();
 
         if (number == episodeNumber + 1){
