@@ -805,7 +805,7 @@ database.ref().once("value", function(snapshot) {
               name: title,
               rewardWinner: reward,
               immunityWinner: immunity,
-              votedOff: voted,
+              votedOff: [voted, voted2, voted3],
               message: message,
               airdate: airdate
             });
@@ -935,7 +935,9 @@ database.ref().once("value", function(snapshot) {
             $("#epTitleToDatabase").val(episodeName);
             $("#rewardWinnerToDatabase").val(rewardWinner);
             $("#immunityWinnerToDatabase").val(immunityWinner);
-            $("#voteOffToDatabase").val(votedOff);
+            $("#voteOffToDatabase").val(votedOff[0]);
+            $("#voteOffToDatabase2").val(votedOff[1]);
+            $("#voteOffToDatabase3").val(votedOff[2]);
             $("#airdateToDatabase").val(airdate);
 
             for (var j = 1; j < 21; j++) {
