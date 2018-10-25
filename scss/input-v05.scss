@@ -636,8 +636,9 @@ h3 {
     width:69px;
   }
   & > div:nth-child(7) {
-    width:155px;
+    width:151px;
     text-align: right;
+    padding-right: 43px;
   }
 
 
@@ -814,4 +815,11 @@ h3 {
 
 body {
   min-height: 1300px;
+}
+
+#messageToDatabase {
+  border: 1px solid lightgrey;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding: 5px;
 }

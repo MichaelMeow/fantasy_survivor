@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <meta name="viewport" content="width=device-width,initial-scale=.75">
   <link href="css/bootstrap.css" rel="stylesheet" type="text/css">
-  <link href="css/input-v05.css" rel="stylesheet" type="text/css">
+  <link href="css/input-v06.css" rel="stylesheet" type="text/css">
   <script
   src="https://code.jquery.com/jquery-3.3.1.js"
   integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
@@ -12,7 +13,7 @@
 
   <script src="https://www.gstatic.com/firebasejs/5.5.1/firebase.js"></script>
 
-  <script src="js/scripts-v10.js"></script>
+  <script src="js/scripts-v11.js"></script>
   <meta charset="utf-8">
   <title></title>
 </head>
@@ -90,9 +91,12 @@
 <div>
   Episode Message:
 </div>
-  <div>
+<div id="messageToDatabase" contentEditable="true">Type here. You can insert images too
+  <img src="http://t2.gstatic.com/images?q=tbn:ANd9GcQCze-mfukcuvzKk7Ilj2zQ0CS6PbOkq7ZhRInnNd1Yz3TQzU4e&t=1" />
+</div>
+  <!-- <div>
     <textarea id="messageToDatabase" class="messageInput" name="Text1" cols="40" rows="5"></textarea>
-  </div>
+  </div> -->
   <div class="nextEpisodeDate">
     Enter air date of next episode:
     <input id="airdateToDatabase" type="date" name="" value="">

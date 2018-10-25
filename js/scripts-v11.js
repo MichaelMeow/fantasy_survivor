@@ -359,6 +359,7 @@ database.ref().once("value", function(snapshot) {
         newContestantBar.find(".previousRankHidden").html(" ");
       }
       newContestantBar.find(".overallRank").html(ovrlRank);
+      newContestantBar.find(".yourStock").html(yourStock);
       newContestantBar.find(".contestantPhoto").css('box-shadow', '0px 0px 1px 3px ' + 'gray')
 
       $(".deadZone").prepend(newContestantBar);
@@ -511,7 +512,7 @@ database.ref().once("value", function(snapshot) {
           }
         }
       }
-          numberName.push(userOutScore)
+          numberName.push(Math.round(userOutScore))
           numberName.push(users[i])
           outScoreArray.push(numberName);
           numberName = [];
@@ -780,7 +781,7 @@ database.ref().once("value", function(snapshot) {
         var voted = $("#voteOffToDatabase").val().replace(/\s+/g, '-').toLowerCase();
         var voted2 = $("#voteOffToDatabase2").val().replace(/\s+/g, '-').toLowerCase();
         var voted3 = $("#voteOffToDatabase3").val().replace(/\s+/g, '-').toLowerCase();
-        var message = $("#messageToDatabase").val();
+        var message = $("#messageToDatabase").html();
 
         if (number == episodeNumber + 1){
           for (var i = 0; i < users.length; i++) {
@@ -935,6 +936,7 @@ database.ref().once("value", function(snapshot) {
             $("#epTitleToDatabase").val(episodeName);
             $("#rewardWinnerToDatabase").val(rewardWinner);
             $("#immunityWinnerToDatabase").val(immunityWinner);
+            $("#messageToDatabase").html(message);
             $("#voteOffToDatabase").val(votedOff[0]);
             $("#voteOffToDatabase2").val(votedOff[1]);
             $("#voteOffToDatabase3").val(votedOff[2]);
@@ -1379,7 +1381,7 @@ database.ref().once("value", function(snapshot) {
         newEpisodeCell.find("#rewardWinner").text(snapshot.child("episodes").child(i).child("rewardWinner").val());
         newEpisodeCell.find("#immunityWinner").text(snapshot.child("episodes").child(i).child("immunityWinner").val());
         newEpisodeCell.find("#votedOff").text(snapshot.child("episodes").child(i).child("votedOff").val());
-        newEpisodeCell.find("#message").text(snapshot.child("episodes").child(i).child("message").val());
+        newEpisodeCell.find("#message").html(snapshot.child("episodes").child(i).child("message").val());
         newEpisodeCell.css('display', 'block')
       }
     }

@@ -595,7 +595,7 @@ h3 {
 }
 
 .timer {
-  width: 500px;
+  max-width: 500px;
   text-align: center;
   height: 18px;
 }
@@ -659,8 +659,9 @@ h3 {
 }
 
 .contestantBarDead > div:nth-child(7) {
-  width: 155px;
+  width: 151px;
   text-align: right;
+  padding-right: 43px;
 }
 
 .contestantBarDead .contestantPhoto {
@@ -785,6 +786,13 @@ h3 {
 }
 
 @media only screen and (max-width: 830px) {
+  .rank{
+    max-width: 700px;
+  }
+  .scoreboardRankHeaderLines{
+    display: none;
+  }
+
   .rankHeader {
     visibility: hidden;
     width: 300px;
@@ -841,4 +849,11 @@ h3 {
 
 body {
   min-height: 1300px;
+}
+
+#messageToDatabase {
+  border: 1px solid lightgrey;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding: 5px;
 }
