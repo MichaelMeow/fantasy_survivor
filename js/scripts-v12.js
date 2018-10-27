@@ -53,7 +53,7 @@ database.ref().once("value", function(snapshot) {
   var voteOffPool = 0
   var multiplierTwoPool = 0
   var multiplierOnePool = 0
-  console.log(validContestants.length);
+
   if (validContestants.length > 15){
     voteOffPool = 4
     multiplierTwoPool = 4
@@ -187,7 +187,7 @@ database.ref().once("value", function(snapshot) {
           }
         }
       }
-      console.log(stockArray);
+
       return stockRank;
     } else {
       return []
@@ -444,10 +444,10 @@ database.ref().once("value", function(snapshot) {
           pointScoreArray.push(numberName);
           numberName = [];
           // Out ranking
+          var votedOffContestantsOutScore = [];
           for (var j = 1; j < episodeNumber+1; j++) {
             var episodeUserRankArray = snapshot.child("users").child(users[i]).child(j).child("moveSubmit").val();
             if (episodeUserRankArray){
-              var votedOffContestantsOutScore = [];
               var validContestantsOutScore = [];
               if(Array.isArray(snapshot.child("episodes").child(j).child("votedOff").val())){
                 var offArray = snapshot.child("episodes").child(j).child("votedOff").val();
@@ -482,28 +482,24 @@ database.ref().once("value", function(snapshot) {
             var endPosition = episodeUserRankArray.length - n;
             // it's not voted off contestants, it's only the one voted off that episode
             var currentContestantOut = [snapshot.child("episodes").child(j).child("votedOff").val()];
-            console.log(currentContestantOut);
             if (currentContestantOut.indexOf(episodeUserRankArray[endPosition]) > -1){
               // change to vote off pool number at specific ep
               userOutScore += ((voteOffPoolOutScore-n + 1)/voteOffPoolOutScore) * 100;
 
             }
             var currentContestantOut = [snapshot.child("episodes").child(j).child("votedOff").child("0").val()];
-            console.log(currentContestantOut);
             if (currentContestantOut.indexOf(episodeUserRankArray[endPosition]) > -1){
               // change to vote off pool number at specific ep
               userOutScore += ((voteOffPoolOutScore-n + 1)/voteOffPoolOutScore) * 100;
 
             }
             var currentContestantOut = [snapshot.child("episodes").child(j).child("votedOff").child("1").val()];
-            console.log(currentContestantOut);
             if (currentContestantOut.indexOf(episodeUserRankArray[endPosition]) > -1){
               // change to vote off pool number at specific ep
               userOutScore += ((voteOffPoolOutScore-n + 1)/voteOffPoolOutScore) * 100;
 
             }
             var currentContestantOut = [snapshot.child("episodes").child(j).child("votedOff").child("2").val()];
-            console.log(currentContestantOut);
             if (currentContestantOut.indexOf(episodeUserRankArray[endPosition]) > -1){
               // change to vote off pool number at specific ep
               userOutScore += ((voteOffPoolOutScore-n + 1)/voteOffPoolOutScore) * 100;
@@ -619,7 +615,6 @@ database.ref().once("value", function(snapshot) {
       var bracketRank = 0
       scoreUserName = snapshot.child("users").child(pointScoreArray[r][1]).child("userName").val();
       var pointRank = pointLeaderboardArray[r][0];
-      console.log(outLeaderboardArray.indexOf(scoreUserName));
       for (var s = 0; s < outLeaderboardArray.length; s++) {
         if (outLeaderboardArray[s][1] == scoreUserName){
           outRank = outLeaderboardArray[s][0]
@@ -635,7 +630,7 @@ database.ref().once("value", function(snapshot) {
       overallRankArray.push([overallRankTotal, scoreUserName])
       overallRankArray.sort(function(a, b){return a[0] - b[0]});
     }
-    console.log(overallRankArray);
+
     // overall Populate
     rank = 1;
     tie = 0
@@ -714,7 +709,7 @@ database.ref().once("value", function(snapshot) {
   // DOCUMENT READY
 
   $(document).ready(function(){
-    console.log(votedOffContestants);
+
     if(sessionUser == null && window.location.href.indexOf("index") == -1){
       window.location.href = "index.html";
     }
@@ -1085,7 +1080,9 @@ database.ref().once("value", function(snapshot) {
                 var compareStock = calculateYourStock(comparisonMoves[i], comparisonUserLower).toFixed(1);
                 $(".comparisonMoves:eq(0)").append('<div class="comparisonMovesDiv"><div><strong>' + rankDisplay + ': </strong>' + comparisonMoves[i] + '</div><div>' + compareStock + '</div></div>');
               }
+              //instead we have to go through the episodes to populate this so we can use the arrays if we have 'em
               for (var i = comparativeEpisode-2; i >= 0; i--) {
+
                 var compareStock = calculateYourStock(votedOffContestants[i], comparisonUserLower).toFixed(1);
                 $(".comparisonMoves:eq(0)").append('<div class="comparisonMovesDiv"><div><strong>Out: </strong>' + votedOffContestants[i] + '</div><div>' + compareStock + '</div></div>');
               }
@@ -1133,7 +1130,7 @@ database.ref().once("value", function(snapshot) {
               $(".comparisonMoves:eq(0)").append('<div>No Episode Data</div>');
             }
         })
-        console.log("test");
+
         $('.comparativeEpisode:nth-child(' + comparativeEpisode + ')').triggerHandler('click');
 
       })
