@@ -308,9 +308,10 @@ database.ref().once("value", function(snapshot) {
       newContestantBar.find(".idol>svg").hide();
       if (idol == 1){
         newContestantBar.find(".idol>svg").show();
-        if (idol > 1){
-          newContestantBar.find(".idol").html("x" + idol);
-        }
+      }
+      if (idol > 1){
+        newContestantBar.find(".idol>svg").show();
+        newContestantBar.find(".idol").append("x" + idol);
       }
       newContestantBar.find(".advantage").css("visibility", "hidden");
       if (advantage){
@@ -783,9 +784,27 @@ database.ref().once("value", function(snapshot) {
             if(snapshot.child("users").child(users[i]).child(number).val() == null){
               var prevMoveSubmit = snapshot.child("users").child(users[i]).child(number-1).child("moveSubmit").val();
               var outToSubtract = snapshot.child("episodes").child(number-1).child("votedOff").val();
+              outToSubtract = outToSubtract[0]
+
               var index = prevMoveSubmit.indexOf(outToSubtract);
               if (index !== -1) {
                 prevMoveSubmit.splice(index, 1);
+              }
+              if (outToSubtract[1]){
+                outToSubtract = outToSubtract[1]
+
+                var index = prevMoveSubmit.indexOf(outToSubtract);
+                if (index !== -1) {
+                  prevMoveSubmit.splice(index, 1);
+                }
+              }
+              if (outToSubtract[2]){
+                outToSubtract = outToSubtract[2]
+
+                var index = prevMoveSubmit.indexOf(outToSubtract);
+                if (index !== -1) {
+                  prevMoveSubmit.splice(index, 1);
+                }
               }
               var moveSubmit = prevMoveSubmit
               database.ref('users/' + users[i] + '/' + number + '/').set({
@@ -857,8 +876,8 @@ database.ref().once("value", function(snapshot) {
                 foundAdvantage = 1;
               }
               var heldIdol = 0;
-              if ($(".heldIdol." + i + " :input").prop('checked')){
-                heldIdol = 1;
+              if ($(".heldIdol." + i + " :input").val()){
+                heldIdol = parseInt($(".heldIdol." + i + " :input").val());
               }
               var heldAdvantage = 0;
               if ($(".heldAdvantage." + i + " :input").prop('checked')){
@@ -976,7 +995,7 @@ database.ref().once("value", function(snapshot) {
                 $(".foundAdvantage." + j +" :input").prop('checked', true);
               }
               if (snapshot.child("episodes").child(i).child(contestant).child(11).val()>0){
-                $(".heldIdol." + j +" :input").prop('checked', true);
+                $(".heldIdol." + j +" :input").val(snapshot.child("episodes").child(i).child(contestant).child(11).val());
               }
               if (snapshot.child("episodes").child(i).child(contestant).child(12).val()>0){
                 $(".heldAdvantage." + j +" :input").prop('checked', true);
@@ -1076,41 +1095,138 @@ database.ref().once("value", function(snapshot) {
             comparisonMoves = snapshot.child("users").child(comparisonUserLower).child(comparativeEpisode).child("moveSubmit").val();
             if (comparisonMoves != null){
               for (var i = 0; i < comparisonMoves.length; i++) {
+                var wasRed = false;
+                var redContestant = snapshot.child("episodes").child(comparativeEpisode).child("votedOff").val();
                 var rankDisplay = i + 1
                 var compareStock = calculateYourStock(comparisonMoves[i], comparisonUserLower).toFixed(1);
-                $(".comparisonMoves:eq(0)").append('<div class="comparisonMovesDiv"><div><strong>' + rankDisplay + ': </strong>' + comparisonMoves[i] + '</div><div>' + compareStock + '</div></div>');
+                if (Array.isArray(redContestant)){
+                  if (comparisonMoves[i] == redContestant[0]){
+                    $(".comparisonMoves:eq(0)").append('<div class="comparisonMovesDiv redName"><div><strong>' + rankDisplay + ': </strong>' + comparisonMoves[i] + '</div><div>' + compareStock + '</div></div>');
+                    wasRed = true;
+                  }
+                  if(redContestant[1]){
+                    if (comparisonMoves[i] == redContestant[1]){
+                      $(".comparisonMoves:eq(0)").append('<div class="comparisonMovesDiv redName"><div><strong>' + rankDisplay + ': </strong>' + comparisonMoves[i] + '</div><div>' + compareStock + '</div></div>');
+                      wasRed = true;
+                    }
+                  }
+                  if(redContestant[2]){
+                    if (comparisonMoves[i] == redContestant[2]){
+                      $(".comparisonMoves:eq(0)").append('<div class="comparisonMovesDiv redName"><div><strong>' + rankDisplay + ': </strong>' + comparisonMoves[i] + '</div><div>' + compareStock + '</div></div>');
+                      wasRed = true;
+                    }
+                  }
+                } else if (comparisonMoves[i] == redContestant){
+                  $(".comparisonMoves:eq(0)").append('<div class="comparisonMovesDiv redName"><div><strong>' + rankDisplay + ': </strong>' + comparisonMoves[i] + '</div><div>' + compareStock + '</div></div>');
+                  wasRed = true;
+                }
+                if (wasRed == false) {
+                  $(".comparisonMoves:eq(0)").append('<div class="comparisonMovesDiv"><div><strong>' + rankDisplay + ': </strong>' + comparisonMoves[i] + '</div><div>' + compareStock + '</div></div>');
+                }
               }
-              //instead we have to go through the episodes to populate this so we can use the arrays if we have 'em
-              for (var i = comparativeEpisode-2; i >= 0; i--) {
 
-                var compareStock = calculateYourStock(votedOffContestants[i], comparisonUserLower).toFixed(1);
-                $(".comparisonMoves:eq(0)").append('<div class="comparisonMovesDiv"><div><strong>Out: </strong>' + votedOffContestants[i] + '</div><div>' + compareStock + '</div></div>');
+              for (var i = comparativeEpisode-1; i > 0; i--) {
+                var outForBottom = snapshot.child("episodes").child(i).child("votedOff").val();
+                if (Array.isArray(outForBottom)) {
+                  var compareStock = calculateYourStock(outForBottom[0], comparisonUserLower).toFixed(1);
+                  $(".comparisonMoves:eq(0)").append('<div class="comparisonMovesDiv"><div><strong>Out: </strong>' + outForBottom[0] + '</div><div>' + compareStock + '</div></div>');
+                  if (outForBottom[1]){
+                    var compareStock = calculateYourStock(outForBottom[1], comparisonUserLower).toFixed(1);
+                    $(".comparisonMoves:eq(0)").append('<div class="comparisonMovesDiv"><div><strong>Out: </strong>' + outForBottom[1] + '</div><div>' + compareStock + '</div></div>');
+                  }
+                  if (outForBottom[2]){
+                    var compareStock = calculateYourStock(outForBottom[2], comparisonUserLower).toFixed(1);
+                    $(".comparisonMoves:eq(0)").append('<div class="comparisonMovesDiv"><div><strong>Out: </strong>' + outForBottom[2] + '</div><div>' + compareStock + '</div></div>');
+                  }
+                } else {
+                  var compareStock = calculateYourStock(outForBottom, comparisonUserLower).toFixed(1);
+                  $(".comparisonMoves:eq(0)").append('<div class="comparisonMovesDiv"><div><strong>Out: </strong>' + outForBottom + '</div><div>' + compareStock + '</div></div>');
+                }
               }
+
               // for session user
               comparisonMoves = snapshot.child("users").child(sessionUser).child(comparativeEpisode).child("moveSubmit").val();
               for (var i = 0; i < comparisonMoves.length; i++) {
+                var wasRed = false;
+                var redContestant = snapshot.child("episodes").child(comparativeEpisode).child("votedOff").val();
                 var rankDisplay = i + 1
                 var compareStock = calculateYourStock(comparisonMoves[i], sessionUser).toFixed(1);
-                $(".comparisonMoves:eq(1)").append('<div class="comparisonMovesDiv"><div><strong>' + rankDisplay + ': </strong>' + comparisonMoves[i] + '</div><div>' + compareStock + '</div></div>');
-              }
-              for (var i = comparativeEpisode-2; i >= 0; i--) {
-                var compareStock = calculateYourStock(votedOffContestants[i], sessionUser).toFixed(1);
-                $(".comparisonMoves:eq(1)").append('<div class="comparisonMovesDiv"><div><strong>Out: </strong>' + votedOffContestants[i] + '</div><div>' + compareStock + '</div></div>');
+                if (Array.isArray(redContestant)){
+                  if (comparisonMoves[i] == redContestant[0]){
+                    $(".comparisonMoves:eq(1)").append('<div class="comparisonMovesDiv redName"><div><strong>' + rankDisplay + ': </strong>' + comparisonMoves[i] + '</div><div>' + compareStock + '</div></div>');
+                    wasRed = true;
+                  }
+                  if(redContestant[1]){
+                    if (comparisonMoves[i] == redContestant[1]){
+                      $(".comparisonMoves:eq(1)").append('<div class="comparisonMovesDiv redName"><div><strong>' + rankDisplay + ': </strong>' + comparisonMoves[i] + '</div><div>' + compareStock + '</div></div>');
+                      wasRed = true;
+                    }
+                  }
+                  if(redContestant[2]){
+                    if (comparisonMoves[i] == redContestant[2]){
+                      $(".comparisonMoves:eq(1)").append('<div class="comparisonMovesDiv redName"><div><strong>' + rankDisplay + ': </strong>' + comparisonMoves[i] + '</div><div>' + compareStock + '</div></div>');
+                      wasRed = true;
+                    }
+                  }
+                } else if (comparisonMoves[i] == redContestant){
+                  $(".comparisonMoves:eq(1)").append('<div class="comparisonMovesDiv redName"><div><strong>' + rankDisplay + ': </strong>' + comparisonMoves[i] + '</div><div>' + compareStock + '</div></div>');
+                  wasRed = true;
+                }
+                if (wasRed == false) {
+                  $(".comparisonMoves:eq(1)").append('<div class="comparisonMovesDiv"><div><strong>' + rankDisplay + ': </strong>' + comparisonMoves[i] + '</div><div>' + compareStock + '</div></div>');
+                }
+
               }
 
-              if(comparativeEpisode < 5){
+              for (var i = comparativeEpisode-1; i > 0; i--) {
+                var outForBottom = snapshot.child("episodes").child(i).child("votedOff").val();
+                if (Array.isArray(outForBottom)) {
+                  var compareStock = calculateYourStock(outForBottom[0], sessionUser).toFixed(1);
+                  $(".comparisonMoves:eq(1)").append('<div class="comparisonMovesDiv"><div><strong>Out: </strong>' + outForBottom[0] + '</div><div>' + compareStock + '</div></div>');
+                  if (outForBottom[1]){
+                    var compareStock = calculateYourStock(outForBottom[1], sessionUser).toFixed(1);
+                    $(".comparisonMoves:eq(1)").append('<div class="comparisonMovesDiv"><div><strong>Out: </strong>' + outForBottom[1] + '</div><div>' + compareStock + '</div></div>');
+                  }
+                  if (outForBottom[2]){
+                    var compareStock = calculateYourStock(outForBottom[2], sessionUser).toFixed(1);
+                    $(".comparisonMoves:eq(1)").append('<div class="comparisonMovesDiv"><div><strong>Out: </strong>' + outForBottom[2] + '</div><div>' + compareStock + '</div></div>');
+                  }
+                } else {
+                  var compareStock = calculateYourStock(outForBottom, sessionUser).toFixed(1);
+                  $(".comparisonMoves:eq(1)").append('<div class="comparisonMovesDiv"><div><strong>Out: </strong>' + outForBottom + '</div><div>' + compareStock + '</div></div>');
+                }
+              }
+
+              //this whole chunk is wrong... We have to first calculate the outs by looping through episodes, then use that to determine contestants left
+              var outForColors = [];
+              for (var i = comparativeEpisode-1; i > 0; i--) {
+                var outTempValue = snapshot.child("episodes").child(i).child("votedOff").val();
+                if (Array.isArray(outTempValue)){
+                  outForColors.push(outTempValue[0]);
+                  if (outTempValue[1]){
+                    outForColors.push(outTempValue[1]);
+                  }
+                  if (outTempValue[2]){
+                    outForColors.push(outTempValue[2]);
+                  }
+                } else {
+                  outForColors.push(outTempValue);
+                }
+              }
+
+              if(outForColors.length < 5){
                 pool1 = 4
                 pool2 = 4
                 deadPool = 4
-              }else if(comparativeEpisode < 9){
+              }else if(outForColors.length < 9){
                 pool1 = 3
                 pool2 = 3
                 deadPool = 3
-              } else if(comparativeEpisode < 14){
+              } else if(outForColors.length < 14){
                 pool1 = 2
                 pool2 = 2
                 deadPool = 2
-              } else if(comparativeEpisode < 5){
+              } else if(outForColors.length < 5){
                 pool1 = 1
                 pool2 = 1
                 deadPool = 3
@@ -1121,8 +1237,20 @@ database.ref().once("value", function(snapshot) {
               for (var k = pool2+1; k <= pool2+pool1; k++) {
                 $(".comparisonMoves > div:nth-child("+ k +") > * > strong").addClass("lightgreen");
               }
+              // var redContestant = snapshot.child("episodes").child(comparativeEpisode).child("votedOff").val();
+              // if (Array.isArray(redContestant)){
+              //   $("div:contains(" + redContestant[0] + ")").addClass("red");
+              //   if ( redContestant[1] ){
+              //     $("div:contains(" + redContestant[1] + ")").addClass("red");
+              //   }
+              //   if ( redContestant[2] ){
+              //     $("div:contains(" + redContestant[2] + ")").addClass("red");
+              //   }
+              // } else {
+              //   $("div:contains(" + redContestant + ")").addClass("red");
+              // }
 
-              var plusOuts = comparativeEpisode - 1
+              var plusOuts = outForColors.length
               for (var l = plusOuts+1; l <= plusOuts + deadPool; l++) {
                 $(".comparisonMoves > div:nth-last-child("+ l +") > * > strong").addClass("red");
               }

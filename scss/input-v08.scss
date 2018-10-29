@@ -553,6 +553,12 @@ button:hover {
     transition: opacity 0.3s;
 }
 
+.heldIdol {
+  input{
+    width: 40px;
+  }
+}
+
 
 // .tooltipmeow .tooltiptext::after {
 //     content: "";
@@ -747,8 +753,17 @@ h3 {
 .lightgreen {
   color: darken(#EFFBEB,30%);
 }
-.red {
+.redName {
   color: lightcoral;
+  strong{
+    color: black;
+  }
+  .red {
+    color: lightcoral;
+  }
+}
+.red{
+    color: lightcoral;
 }
 
 .titlePhone{
