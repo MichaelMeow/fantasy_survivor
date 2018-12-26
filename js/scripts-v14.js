@@ -521,11 +521,11 @@ database.ref().once("value", function(snapshot) {
 
           for (var p = 0; p < episodeUserRankArray.length; p++) {
             var outIndex = votedOffContestants.indexOf(episodeUserRankArray[p]);
-            var userStockMultiplier = calculateYourStock(episodeUserRankArray[p], users[i])
+            var userStockMultiplier = calculateYourStock(episodeUserRankArray[p], users[i]);
             if (outIndex > -1){
-              userBracketScore += (outIndex/20)* userStockMultiplier
+              userBracketScore += (outIndex/20)* userStockMultiplier;
             } else {
-              userBracketScore += ((validContestants.length/20)/2)* userStockMultiplier
+              userBracketScore += ((20-validContestants.length)/20)* userStockMultiplier
             }
           }
         }
