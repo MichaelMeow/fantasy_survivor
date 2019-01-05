@@ -372,6 +372,9 @@ database.ref().once("value", function(snapshot) {
   function multiplierGraveyardStyling(){
     // timestwo
     var barPosition = 189;
+    if (validContestants.length == 1){
+      return
+    }
     $(".multiplierContainer").html('<div class="timesTwo"></div>');
     for (var i = 1; i <= multiplierTwoPool; i++) {
       barPosition += 55;
@@ -475,8 +478,10 @@ database.ref().once("value", function(snapshot) {
               voteOffPoolOutScore = 3;
             }else if (validContestantsOutScore.length > 6  && validContestantsOutScore.length < 12){
               voteOffPoolOutScore = 2;
-            }else {
+            }else if (validContestantsOutScore.length > 3  && validContestantsOutScore.length < 7) {
               voteOffPoolOutScore = 3;
+            }else if (validContestantsOutScore.length > 0  && validContestantsOutScore.length < 4) {
+              voteOffPoolOutScore = 0;
             }
 
           for (var n = 1; n < voteOffPoolOutScore+1; n++) {
@@ -515,27 +520,26 @@ database.ref().once("value", function(snapshot) {
           numberName = [];
           // Bracket Ranking
 
-          for (var j = 1; j < episodeNumber+1; j++) {
-            var episodeUserRankArray = snapshot.child("users").child(users[i]).child(j).child("moveSubmit").val();
-            if (episodeUserRankArray){
 
-          for (var p = 0; p < episodeUserRankArray.length; p++) {
-            var outIndex = votedOffContestants.indexOf(episodeUserRankArray[p]);
-            var userStockMultiplier = calculateYourStock(episodeUserRankArray[p], users[i]);
+
+          for (var j = 1; j < contestants.length+1; j++){
+            var userStockMultiplier = calculateYourStock(contestants[j], users[i]);
+            var outIndex = votedOffContestants.indexOf(contestants[j]);
             if (outIndex > -1){
+              console.log(" user: " + users[i] + " contestant: " + contestants[j] + " contestant out multiplier X Stock: " + (outIndex/20) + " x " + userStockMultiplier + " = " + ((outIndex/20)* userStockMultiplier));
               userBracketScore += (outIndex/20)* userStockMultiplier;
+              console.log(userBracketScore);
             } else {
+              console.log(" user: " + users[i] + " contestant: " + contestants[j] + " contestant out multiplier X Stock: " + ((20-validContestants.length)/20) + " x " + userStockMultiplier + " = " + (((20-validContestants.length)/20)* userStockMultiplier));
               userBracketScore += ((20-validContestants.length)/20)* userStockMultiplier
+              console.log(userBracketScore);
             }
           }
-        }
-      }
-          numberName.push(userBracketScore)
-          numberName.push(users[i])
+          numberName.push(userBracketScore);
+          numberName.push(users[i]);
           bracketScoreArray.push(numberName);
           numberName = [];
-        }
-
+      }
 
     pointScoreArray.sort(function(a, b){return b[0] - a[0]});
     outScoreArray.sort(function(a, b){return b[0] - a[0]});
@@ -1230,6 +1234,10 @@ database.ref().once("value", function(snapshot) {
                 pool1 = 1
                 pool2 = 1
                 deadPool = 3
+              } else {
+                pool1 = 0
+                pool2 = 0
+                deadPool = 0
               }
               for (var j = 1; j <= pool2; j++) {
                 $(".comparisonMoves > div:nth-child("+ j +") > * > strong").addClass("green");
