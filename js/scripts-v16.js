@@ -525,13 +525,49 @@ database.ref().once("value", function(snapshot) {
           for (var j = 1; j < contestants.length+1; j++){
             var userStockMultiplier = calculateYourStock(contestants[j], users[i]);
             var outIndex = votedOffContestants.indexOf(contestants[j]);
+            var stockOutMultiplier = 0;
+            if (outIndex == 2){
+              stockOutMultiplier = .05
+            } else if (outIndex == 4){
+              stockOutMultiplier = .10
+            } else if (outIndex == 5){
+              stockOutMultiplier = .15
+            } else if (outIndex == 6){
+              stockOutMultiplier = .20
+            } else if (outIndex == 7){
+              stockOutMultiplier = .25
+            } else if (outIndex == 8){
+              stockOutMultiplier = .30
+            } else if (outIndex == 9){
+              stockOutMultiplier = .35
+            } else if (outIndex == 10){
+              stockOutMultiplier = .40
+            } else if (outIndex == 11){
+              stockOutMultiplier = .45
+            } else if (outIndex == 12){
+              stockOutMultiplier = .50
+            } else if (outIndex == 13){
+              stockOutMultiplier = .55
+            } else if (outIndex == 14){
+              stockOutMultiplier = .60
+            } else if (outIndex == 15){
+              stockOutMultiplier = .65
+            } else if (outIndex == 16){
+              stockOutMultiplier = .70
+            } else if (outIndex == 17){
+              stockOutMultiplier = .80
+            } else if (outIndex == 18){
+              stockOutMultiplier = .90
+            } else if (outIndex == 19){
+              stockOutMultiplier = 1
+            }
             if (outIndex > -1){
-              console.log(" user: " + users[i] + " contestant: " + contestants[j] + " contestant out multiplier X Stock: " + (outIndex/20) + " x " + userStockMultiplier + " = " + ((outIndex/20)* userStockMultiplier));
-              userBracketScore += (outIndex/20)* userStockMultiplier;
+              console.log(" user: " + users[i] + " contestant: " + contestants[j] + " contestant out multiplier X Stock: " + stockOutMultiplier + " x " + userStockMultiplier + " = " + (stockOutMultiplier* userStockMultiplier));
+              userBracketScore += stockOutMultiplier* userStockMultiplier;
               console.log(userBracketScore);
             } else {
-              console.log(" user: " + users[i] + " contestant: " + contestants[j] + " contestant out multiplier X Stock: " + ((20-validContestants.length)/20) + " x " + userStockMultiplier + " = " + (((20-validContestants.length)/20)* userStockMultiplier));
-              userBracketScore += ((20-validContestants.length)/20)* userStockMultiplier
+              console.log(" user: " + users[i] + " contestant: " + contestants[j] + " contestant out multiplier X Stock: " + ((20-validContestants.length)/19) + " x " + userStockMultiplier + " = " + (((20-validContestants.length)/19)* userStockMultiplier));
+              userBracketScore += ((20-validContestants.length)/19)* userStockMultiplier
               console.log(userBracketScore);
             }
           }
