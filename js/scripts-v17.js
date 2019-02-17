@@ -1,12 +1,12 @@
 
 // Initialize Firebase
 var config = {
-  apiKey: "AIzaSyASafyCDojawq0tQ-9fb82F0gEFKfg-230",
-  authDomain: "fantasy-survivor-83532.firebaseapp.com",
-  databaseURL: "https://fantasy-survivor-83532.firebaseio.com",
-  projectId: "fantasy-survivor-83532",
-  storageBucket: "fantasy-survivor-83532.appspot.com",
-  messagingSenderId: "730360439609"
+  apiKey: "AIzaSyCn389K6hwAGzywvIHGB1iPHdEumJ1BlD0",
+  authDomain: "fantasy-survivor-38.firebaseapp.com",
+  databaseURL: "https://fantasy-survivor-38.firebaseio.com",
+  projectId: "fantasy-survivor-38",
+  storageBucket: "fantasy-survivor-38.appspot.com",
+  messagingSenderId: "136891701114"
 };
 firebase.initializeApp(config);
 const database = firebase.database()
@@ -261,7 +261,7 @@ database.ref().once("value", function(snapshot) {
     var nextEpisode = episodeNumber + 1;
     if (snapshot.child("users").child(sessionUser).child(nextEpisode).child(moveSubmitData).val()){
       previousRank = snapshot.child("users").child(sessionUser).child(nextEpisode).child(moveSubmitData).val();
-    } else if (episodeNumber == 1){
+    } else if (episodeNumber == 0){
       previousRank = validContestants;
     } else {
       previousRank = snapshot.child("users").child(sessionUser).child(episodeNumber).child(moveSubmitData).val();
@@ -299,6 +299,9 @@ database.ref().once("value", function(snapshot) {
       newContestantBar.find(".originalTribe").html(contestantObject.originalTribe);
       newContestantBar.find(".yourRank").html(j+1);
       var prvRankArray = snapshot.child("users").child(sessionUser).child(episodeNumber).child("moveSubmit").val();
+      if(prvRankArray == null){
+        prvRankArray = validContestants;
+      }
       var prvRank = prvRankArray.indexOf(contestant) + 1
       newContestantBar.find(".previousRankHidden").html(prvRank);
       newContestantBar.find(".epPoints").html(epPoints);
@@ -526,6 +529,7 @@ database.ref().once("value", function(snapshot) {
             var userStockMultiplier = calculateYourStock(contestants[j], users[i]);
             var outIndex = votedOffContestants.indexOf(contestants[j]);
             var stockOutMultiplier = 0;
+            // we may need to change these for when there are 18 players instead of 20.
             if (outIndex == 2){
               stockOutMultiplier = .05
             } else if (outIndex == 4){
@@ -566,8 +570,9 @@ database.ref().once("value", function(snapshot) {
               userBracketScore += stockOutMultiplier* userStockMultiplier;
               console.log(userBracketScore);
             } else {
-              console.log(" user: " + users[i] + " contestant: " + contestants[j] + " contestant out multiplier X Stock: " + ((20-validContestants.length)/19) + " x " + userStockMultiplier + " = " + (((20-validContestants.length)/19)* userStockMultiplier));
-              userBracketScore += ((20-validContestants.length)/19)* userStockMultiplier
+              // this has been changed to 18 and 17, change back to 20 and 19 when there are 20 players, or write custom script to do this automatically.
+              console.log(" user: " + users[i] + " contestant: " + contestants[j] + " contestant out multiplier X Stock: " + ((18-validContestants.length)/17) + " x " + userStockMultiplier + " = " + (((18-validContestants.length)/17)* userStockMultiplier));
+              userBracketScore += ((18-validContestants.length)/17)* userStockMultiplier
               console.log(userBracketScore);
             }
           }
@@ -787,7 +792,7 @@ database.ref().once("value", function(snapshot) {
               m++
             }
           } else if ($('.scoringTable div').text().indexOf(contestants[k]) == -1){
-            var votedOffContestantNumber = 20 - j;
+            var votedOffContestantNumber = 18 - j;
             var votedOffClassName = ".contestant" + votedOffContestantNumber;
             $(votedOffClassName).html(contestants[k] + "(Out)");
             j ++;

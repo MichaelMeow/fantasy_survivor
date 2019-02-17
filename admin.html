@@ -13,7 +13,7 @@
 
   <script src="https://www.gstatic.com/firebasejs/5.5.1/firebase.js"></script>
 
-  <script src="js/scripts-v16.js"></script>
+  <script src="js/scripts-v17.js"></script>
   <meta charset="utf-8">
   <title></title>
 </head>
@@ -1311,7 +1311,7 @@
 </h3>
   <div>
   <input class="numberToLoad" type="text" name="" value="">
-  <button id="loadEpisode" type="button" name="button">Load Episode Information</button> (bug warning: page may freeze if you load and submit too many times, try refreshing the page before making multiple submits)
+  <button id="loadEpisode" type="button" name="button">Load Episode Information</button>
 </div>
 
 <form class="addTribe" action="index.html" method="post">
@@ -1379,7 +1379,109 @@
   <button id="deleteUserButton" type="button" name="button">Delete User</button>
 </div>
 <div class="clearData">
-  Instructions to clear database before new season:  I will add this later.
+  <h3>Instructions to clear database before new season:</h3>
+  <p>
+These are here for reference if Michael is not available to start the season.  It takes some very basic knowledge of GitHub and a code editor to perform.
+</p>
+<p>
+Create new realtime database with name fantasy-survivor-(season number)
+</p>
+<p>
+Set read-write rules to true (insecure test mode)
+</p>
+<p>
+Click on “Project Overview.”  Under “Get started by adding Firebase to your app” click on the button with “< / >” on it.  Copy the entire “var config” object.  Example:
+</p>
+<p>
+var config = {
+</p>
+<p>
+    apiKey: "AIzaSyCn389K6hwAGzywvIHGB1iPHdEumJ1BlD0",
+</p>
+<p>
+    authDomain: "fantasy-survivor-38.firebaseapp.com",
+</p>
+<p>
+    databaseURL: "https://fantasy-survivor-38.firebaseio.com",
+</p>
+<p>
+    projectId: "fantasy-survivor-38",
+</p>
+<p>
+    storageBucket: "fantasy-survivor-38.appspot.com",
+</p>
+<p>
+    messagingSenderId: "136891701114"
+</p>
+<p>
+  };
+</p>
+<p>
+Open the codebase and find the scripts file.  Example “scripts-v16.js”. It will be a higher version number.  Paste the config object into the code to replace the previous config object.  This changes which database the code will use.  You must now change the name of the scripts file to the next version number.  Example “scripts-v16.js” becomes “scripts-v17.js.”  Now you must replace every occurrence of the name of this file with the new one.  This will prevent the user’s cached version of the site from loading.  Push these changes to GitHub: https://github.com/MichaelMeow/fantasy_survivor.  (Instructions not included.)
+</p>
+<p>
+Create nodes(note, must be exact, case sensitivity in Key field is important):
+</p>
+<p>
+-contestants:
+</p>
+<p>
+	- - fake:
+</p>
+<p>
+		- - - key: fake,  value: fake
+  </p>
+  <p>
+-episodes:
+</p>
+<p>
+	- -0:
+</p>
+<p>
+		- - - airdate: (enter premiere airdate) example “2019-2-20”
+  </p>
+  <p>
+-tribes:
+</p>
+<p>
+	- -fake:
+</p>
+<p>
+		- - - key: fake,  value: fake
+  </p>
+  <p>
+-users:
+</p>
+<p>
+	- -utopiancomplex:
+</p>
+<p>
+		- - -username: UtopianComplex
+  </p>
+  <p>
+		- - -paid: Yes
+  </p>
+  <p>
+		- - -email: claypete@gmail.com
+</p>
+<p>
+Now sign in as utopian complex and go to admin page.  Create the two tribes and create all of the contestants.  Be exact when entering info, spelling and uppercase are very important in this step.  If you mess up you can delete contestants or tribes from the firebase console.  Users, contestants, and tribes can all be added or removed from the firebase console safely if you prefer.
+</p>
+<p>
+Now use the console to delete the fake nodes in the database under contestants and tribes.
+</p>
+<p>
+Navigate to the Moves page on the website to see if your contestants have been created properly.
+</p>
+<p>
+Look at the time until next episode and verify it is working.
+</p>
+<p>
+Open the console in the browser to make sure you are not receiving any errors.
+</p>
+<p>
+Submit your move and go to firebase console under your user to verify your move has been submitted for episode 1.
+</p>
 </div>
 </div>
 
