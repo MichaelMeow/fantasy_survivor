@@ -829,26 +829,28 @@ database.ref().once("value", function(snapshot) {
             if(snapshot.child("users").child(users[i]).child(number).val() == null){
               var prevMoveSubmit = snapshot.child("users").child(users[i]).child(number-1).child("moveSubmit").val();
               var outToSubtract = snapshot.child("episodes").child(number-1).child("votedOff").val();
-              outToSubtract = outToSubtract[0]
-
-              var index = prevMoveSubmit.indexOf(outToSubtract);
-              if (index !== -1) {
-                prevMoveSubmit.splice(index, 1);
-              }
-              if (outToSubtract[1]){
-                outToSubtract = outToSubtract[1]
+              if(outToSubtract){
+                outToSubtract = outToSubtract[0]
 
                 var index = prevMoveSubmit.indexOf(outToSubtract);
                 if (index !== -1) {
                   prevMoveSubmit.splice(index, 1);
                 }
-              }
-              if (outToSubtract[2]){
-                outToSubtract = outToSubtract[2]
+                if (outToSubtract[1]){
+                  outToSubtract = outToSubtract[1]
 
-                var index = prevMoveSubmit.indexOf(outToSubtract);
-                if (index !== -1) {
-                  prevMoveSubmit.splice(index, 1);
+                  var index = prevMoveSubmit.indexOf(outToSubtract);
+                  if (index !== -1) {
+                    prevMoveSubmit.splice(index, 1);
+                  }
+                }
+                if (outToSubtract[2]){
+                  outToSubtract = outToSubtract[2]
+
+                  var index = prevMoveSubmit.indexOf(outToSubtract);
+                  if (index !== -1) {
+                    prevMoveSubmit.splice(index, 1);
+                  }
                 }
               }
               var moveSubmit = prevMoveSubmit
