@@ -116,7 +116,7 @@ database.ref().once("value", function(snapshot) {
 
   function calculateYourStock(contestant, user){
 
-    if (snapshot.child("users").child(user).child(2).child("moveSubmit").val()){
+    if (snapshot.child("users").child(user).child(1).child("moveSubmit").val()){
       var yourStock = 0;
       for (var i = 0; i < episodeNumber; i++) {
         var rankArray = snapshot.child("users").child(user).child(i+1).child("moveSubmit").val();
@@ -525,7 +525,7 @@ database.ref().once("value", function(snapshot) {
 
 
 
-          for (var j = 1; j < contestants.length+1; j++){
+          for (var j = 0; j < contestants.length+1; j++){
             var userStockMultiplier = calculateYourStock(contestants[j], users[i]);
             var outIndex = votedOffContestants.indexOf(contestants[j]);
             var stockOutMultiplier = 0;
@@ -566,14 +566,14 @@ database.ref().once("value", function(snapshot) {
               stockOutMultiplier = 1
             }
             if (outIndex > -1){
-              console.log(" user: " + users[i] + " contestant: " + contestants[j] + " contestant out multiplier X Stock: " + stockOutMultiplier + " x " + userStockMultiplier + " = " + (stockOutMultiplier* userStockMultiplier));
+              // console.log(" user: " + users[i] + " contestant: " + contestants[j] + " contestant out multiplier X Stock: " + stockOutMultiplier + " x " + userStockMultiplier + " = " + (stockOutMultiplier* userStockMultiplier));
               userBracketScore += stockOutMultiplier* userStockMultiplier;
-              console.log(userBracketScore);
+              // console.log(userBracketScore);
             } else {
               // this has been changed to 18 and 17, change back to 20 and 19 when there are 20 players, or write custom script to do this automatically.
-              console.log(" user: " + users[i] + " contestant: " + contestants[j] + " contestant out multiplier X Stock: " + ((18-validContestants.length)/17) + " x " + userStockMultiplier + " = " + (((18-validContestants.length)/17)* userStockMultiplier));
+              // console.log(" user: " + users[i] + " contestant: " + contestants[j] + " contestant out multiplier X Stock: " + ((18-validContestants.length)/17) + " x " + userStockMultiplier + " = " + (((18-validContestants.length)/17)* userStockMultiplier));
               userBracketScore += ((18-validContestants.length)/17)* userStockMultiplier
-              console.log(userBracketScore);
+              // console.log(userBracketScore);
             }
           }
           numberName.push(userBracketScore);
@@ -736,7 +736,7 @@ database.ref().once("value", function(snapshot) {
   function movesNotTaken(user){
     for (var j = 1; j < episodeNumber+1; j++) {
 
-      if(j>1 && snapshot.child("users").child(user).child(j).val() == null){
+      if(j>0 && snapshot.child("users").child(user).child(j).val() == null){
         var moveSubmit = randomMove(j);
         database.ref('users/' + user + '/' + j + "/").update({
           moveSubmit
@@ -1384,31 +1384,31 @@ database.ref().once("value", function(snapshot) {
       var timeOut = 0;
       // Set the date we're counting down to
       var nextAirdate = snapshot.child("episodes").child(episodeNumber).child("airdate").val().split("-");
-      if (nextAirdate[1] == "1"){
+      if (nextAirdate[1] == ("1" || "01")){
         nextAirdate[1] = "Jan";
       }
-      if (nextAirdate[1] == "2"){
+      if (nextAirdate[1] == ("2" || "02")){
         nextAirdate[1] = "Feb";
       }
-      if (nextAirdate[1] == "3"){
+      if (nextAirdate[1] == ("3" || "03")){
         nextAirdate[1] = "Mar";
       }
-      if (nextAirdate[1] == "4"){
+      if (nextAirdate[1] == ("4" || "04")){
         nextAirdate[1] = "Apr";
       }
-      if (nextAirdate[1] == "5"){
+      if (nextAirdate[1] == ("5" || "05")){
         nextAirdate[1] = "May";
       }
-      if (nextAirdate[1] == "6"){
+      if (nextAirdate[1] == ("6" || "06")){
         nextAirdate[1] = "Jun";
       }
-      if (nextAirdate[1] == "7"){
+      if (nextAirdate[1] == ("7" || "07")){
         nextAirdate[1] = "Jul";
       }
-      if (nextAirdate[1] == "8"){
+      if (nextAirdate[1] == ("8" || "08")){
         nextAirdate[1] = "Aug";
       }
-      if (nextAirdate[1] == "9"){
+      if (nextAirdate[1] == ("9" || "09")){
         nextAirdate[1] = "Sep";
       }
       if (nextAirdate[1] == "10"){
