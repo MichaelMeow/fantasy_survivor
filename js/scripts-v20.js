@@ -1384,31 +1384,31 @@ database.ref().once("value", function(snapshot) {
       var timeOut = 0;
       // Set the date we're counting down to
       var nextAirdate = snapshot.child("episodes").child(episodeNumber).child("airdate").val().split("-");
-      if (nextAirdate[1] == ("1" || "01")){
+      if (nextAirdate[1] == "1" || nextAirdate[1] == "01"){
         nextAirdate[1] = "Jan";
       }
-      if (nextAirdate[1] == ("2" || "02")){
+      if (nextAirdate[1] == "2" || nextAirdate[1] == "02"){
         nextAirdate[1] = "Feb";
       }
-      if (nextAirdate[1] == ("3" || "03")){
+      if (nextAirdate[1] == "3" || nextAirdate[1] == "03"){
         nextAirdate[1] = "Mar";
       }
-      if (nextAirdate[1] == ("4" || "04")){
+      if (nextAirdate[1] == "4" || nextAirdate[1] == "04"){
         nextAirdate[1] = "Apr";
       }
-      if (nextAirdate[1] == ("5" || "05")){
+      if (nextAirdate[1] == "5" || nextAirdate[1] == "05"){
         nextAirdate[1] = "May";
       }
-      if (nextAirdate[1] == ("6" || "06")){
+      if (nextAirdate[1] == "6" || nextAirdate[1] == "06"){
         nextAirdate[1] = "Jun";
       }
-      if (nextAirdate[1] == ("7" || "07")){
+      if (nextAirdate[1] == "7" || nextAirdate[1] == "07"){
         nextAirdate[1] = "Jul";
       }
-      if (nextAirdate[1] == ("8" || "08")){
+      if (nextAirdate[1] == "8" || nextAirdate[1] == "08"){
         nextAirdate[1] = "Aug";
       }
-      if (nextAirdate[1] == ("9" || "09")){
+      if (nextAirdate[1] == "9" || nextAirdate[1] == "09"){
         nextAirdate[1] = "Sep";
       }
       if (nextAirdate[1] == "10"){
@@ -1420,6 +1420,7 @@ database.ref().once("value", function(snapshot) {
       if (nextAirdate[1] == "12"){
         nextAirdate[1] = "Dec";
       }
+      console.log(nextAirdate[1])
       var nextAirdateString = nextAirdate[1] + nextAirdate[2] + "," + nextAirdate[0];
 
       var countDownDate = new Date(nextAirdateString + " 17:10:00").getTime();
